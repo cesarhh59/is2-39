@@ -6,6 +6,7 @@ const newLocal = 'full';
 const pagesRoutes: Routes = [
         { path: 'login', component: LoginComponent, data: { titulo: 'Dashboard' }  },
         { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' }  },
+        { path: 'registro', component: DashboardComponent, data: { titulo: 'Dashboard' }  },
         { path: '', redirectTo: '/dashboard', pathMatch: newLocal}
 ];
 
