@@ -2,9 +2,6 @@ import { RouterModule, Routes} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-
-
-
 const newLocal = 'full';
 const pagesRoutes: Routes = [
         { path: 'login', component: LoginComponent, data: { titulo: 'Dashboard' }  },

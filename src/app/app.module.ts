@@ -6,13 +6,15 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { PAGES_ROUTES } from './app.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
