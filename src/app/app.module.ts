@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { PAGES_ROUTES } from './app.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { IncremenatadorComponent } from './controls/incremenatador/incremenatador.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { FooterComponent } from './shared/footer/footer.component';
     NavbarComponent,
     LoginComponent,
     DashboardComponent,
-    FooterComponent
+    FooterComponent,
+    SidebarComponent,
+    IncremenatadorComponent
   ],
   imports: [
     BrowserModule,
