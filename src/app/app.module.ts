@@ -12,6 +12,9 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { IncremenatadorComponent } from './controls/incremenatador/incremenatador.component';
 import { CommonModule } from '@angular/common';
+import { CardComponent } from './shared/card/card.component';
+import { GestorComponent } from './gestor/gestor.component';
+import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { CommonModule } from '@angular/common';
     DashboardComponent,
     FooterComponent,
     SidebarComponent,
-    IncremenatadorComponent
+    IncremenatadorComponent,
+    CardComponent,
+    GestorComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,

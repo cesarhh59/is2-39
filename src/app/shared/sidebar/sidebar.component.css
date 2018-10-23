@@ -3,7 +3,6 @@
         width: 240px;
         bottom: auto;
         background-color: #f1f1f1;
-        position: fixed;
     }
     
     .sidenav a {
@@ -15,5 +14,5 @@
     }
     
     .sidenav a:hover {
-        color: #f1f1f1;
+        color: black;
     }
