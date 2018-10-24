@@ -9,11 +9,8 @@ const pagesRoutes: Routes = [
         { path: 'login', component: LoginComponent, data: { titulo: 'Dashboard' }  },
         { path: 'registro', component: DashboardComponent, data: { titulo: 'Dashboard' }  },
         { path: 'gestor', component: GestorComponent, data: { titulo: 'Gestor' }  },
-        { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' },
-        children: [
-                { path: 'pages', component: PagesComponent, data: { titulo: 'Pagina' }  },
-                { path: '', redirectTo: '/dashboard', pathMatch: newLocal}
-        ]},
+        { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' }},
+        { path: 'pages', component: PagesComponent, data: { titulo: 'Pagina' }  },
         { path: '', redirectTo: '/dashboard', pathMatch: newLocal}
 ];
 
