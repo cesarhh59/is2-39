@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { CardComponent } from './shared/card/card.component';
 import { GestorComponent } from './gestor/gestor.component';
 import { PagesComponent } from './pages/pages.component';
+import { ChatsComponent } from './chats/chats.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PagesComponent } from './pages/pages.component';
     IncremenatadorComponent,
     CardComponent,
     GestorComponent,
-    PagesComponent
+    PagesComponent,
+    ChatsComponent
   ],
   imports: [
     BrowserModule,
