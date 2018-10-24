@@ -1,8 +1,4 @@
 <div class="sidenav">
-    <h1>Filtro(s)</h1>
-    <a href="#about">Valoración
-      
-    </a>
-    <a href="#about">Ubicación</a>
-    <app-incremenatador></app-incremenatador>
+    <h1>{{title}}</h1>
+    <a *ngFor="let item of items" [routerLink]="item">{{item}}</a>
 </div>
