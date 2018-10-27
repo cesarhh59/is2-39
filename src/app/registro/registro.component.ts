@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistroComponent implements OnInit {
 
-  constructor() { }
+  public alergenos: string [] = [];
 
   ngOnInit() {
+    this.alergenos.push('Lactosa');
+    this.alergenos.push('Celiaco');
   }
 
 }

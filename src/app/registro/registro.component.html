@@ -1,28 +1,48 @@
 <div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Formulario de registro</h1>
+            <p class="lead">Para volver al login entra en el siguiente enlace!
+                <a routerLinkActive="active" routerLink="/login">Login</a>
+            </p>
+        </div>
+    </div>
     <form>
         <div class="row">
             <div class="col-md-6">
-                <input class="form-control" type="text" placeholder="Nombre">
-                <input class="form-control" type="password" placeholder="Contraseña">
-                <input class="form-control" type="email" placeholder="Email">
-                <input class="form-control" type="text" placeholder="Ciudad">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" type="text" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input class="form-control" type="password" placeholder="Contraseña">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" type="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <input class="form-control" type="text" placeholder="Ciudad">
+                </div>
             </div>
             <div class="col-md-6">
-                <input class="form-control" type="number" placeholder="Contacto">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect2">Example multiple select</label>
+                    <label>Email address</label>
+                    <input class="form-control" type="number" placeholder="Contacto">
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Seleccione los alergenos</label>
                     <select multiple class="form-control" id="exampleFormControlSelect2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option *ngFor="let alergeno of alergenos" >{{alergeno}}</option>
           </select>
                 </div>
             </div>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-success">Registrar</button>
+            <button type="button" style="margin-right: 50%;  margin-left: 50%;" class="btn btn-success">Registrar</button>
         </div>
     </form>
 </div>
