@@ -1,0 +1,10 @@
+.message {
+    background-color: white;
+    border-radius: 40px;
+    width: inherit;
+}
+
+.box {
+    border-color: hsl(90, 45, ightness);
+    height: 570px;
+}

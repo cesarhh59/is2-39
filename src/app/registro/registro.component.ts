@@ -38,7 +38,7 @@ export class RegistroComponent implements OnInit {
 }
 
 // tslint:disable-next-line:no-empty-interface
-export interface ReigstroModel {
+interface ReigstroModel {
   nombre: string;
   contraseña: string;
   email: string;
