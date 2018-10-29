@@ -1,0 +1,9 @@
+<div class="alert" [ngClass]="{
+  'alert-primary':mode === 'primary',
+  'alert-success': mode === 'success',
+  'alert-danger': mode === 'danger',
+  'alert-warning': mode === 'warning',
+  'alert-info': mode === 'info',
+  'alert-light': mode === 'light'}" role="alert">
+    {{message}}
+</div>

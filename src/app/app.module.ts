@@ -17,6 +17,7 @@ import { GestorComponent } from './gestor/gestor.component';
 import { PagesComponent } from './pages/pages.component';
 import { ChatsComponent } from './chats/chats.component';
 import { RegistroComponent } from './registro/registro.component';
+import { MessagesComponent } from './controls/messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RegistroComponent } from './registro/registro.component';
     GestorComponent,
     PagesComponent,
     ChatsComponent,
-    RegistroComponent
+    RegistroComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
