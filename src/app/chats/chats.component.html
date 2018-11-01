@@ -4,78 +4,19 @@
     </div>
     <div class="col-md-9" style="background-color: beige">
         <div class="row  box">
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-me">
-                <label> Me:</label>
-                <app-messages message="Tienes la mercancia bro" mode="light"> </app-messages>
-            </div>
-            <div class="col-md-offset-12 msg-you">
-                <label> Raul:</label>
-                <app-messages message="Negativo :)" mode="danger"> </app-messages>
-            </div>
+            <div *ngFor="let message of messages" class="col-md-offset-12 " [ngClass]="{'msg-me': message.user == 'me', 'msg-you': message.user != 'me' }">
+                <label> {{message.user}}:</label>
+                <app-messages *ngIf="message.user === 'me'" [message]="message.msg" mode="light"> </app-messages>
+                <app-messages *ngIf="message.user !== 'me'" [message]="message.msg" mode="danger"> </app-messages>
 
+            </div>
         </div>
         <div class="row">
             <div class="col-md-11">
-                <input class="text message" placeholder="Escribir mensaje..." />
+                <input class="text message" placeholder="Escribir mensaje..." (keyup.enter)="send()" [(ngModel)]="msgSend" />
             </div>
             <div class="col-md-1">
-                <button class="btn btn-group btn-success" style="margin-bottom: 9px;"><i class="fas fa-caret-right"></i></button>
+                <button class="btn btn-group btn-success" (click)="send()" style="margin-bottom: 9px;"><i class="fas fa-caret-right"></i></button>
             </div>
 
         </div>
