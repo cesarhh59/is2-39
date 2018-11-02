@@ -9,7 +9,7 @@ export class RegistroComponent implements OnInit {
 
   public alergenos: string [] = [];
 
-  private registro: Reigstro;
+  public registro;
   private message: string [] = [];
   ngOnInit() {
     this.alergenos.push('Lactosa');
@@ -37,11 +37,3 @@ export class RegistroComponent implements OnInit {
       }
 }
 
-export interface Reigstro {
-  nombre: string;
-  contraseña: string;
-  email: string;
-  ciudad: string;
-  contacto: number;
-  alergenos: string[];
-}

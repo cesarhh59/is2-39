@@ -3,7 +3,7 @@
         <div class="container">
             <h1 class="display-4">¿Eres nuevo en la página?</h1>
             <p class="lead">Para registrarse entra en el siguiente enlace!
-                <a routerLinkActive="active" routerLink="/registro">Registro</a>
+                <a routerLink="/registro">Registro</a>
             </p>
         </div>
     </div>
@@ -13,13 +13,13 @@
         </div>
         <label for="inputEmail">Correo</label>
         <div class="form-label-group">
-            <input type="email" id="inputEmail" class="form-control" placeholder="correo electronico" autofocus>
+            <input #email type="email" id="inputEmail" class="form-control" placeholder="correo electronico" autofocus>
         </div>
         <label for="inputPassword">Contraseña</label>
         <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña">
+            <input #password type="password" id="inputPassword" class="form-control" placeholder="Contraseña">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="doLogin()">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="doLogin(email.value, password.value)">Sign in</button>
     </form>
     <app-footer></app-footer>
 </div>
