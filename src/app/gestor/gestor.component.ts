@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gestor.component.css']
 })
 export class GestorComponent implements OnInit {
-
+  public options: string[] = [];
+  public activo: Boolean = false;
   constructor() { }
 
   ngOnInit() {
   }
-
 }

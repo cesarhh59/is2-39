@@ -5,6 +5,7 @@ import { GestorComponent } from './gestor/gestor.component';
 import { PagesComponent } from './pages/pages.component';
 import { ChatsComponent } from './chats/chats.component';
 import { RegistroComponent } from './registro/registro.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 const newLocal = 'full';
 const pagesRoutes: Routes = [
@@ -14,6 +15,7 @@ const pagesRoutes: Routes = [
         { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' }},
         { path: 'pages', component: PagesComponent, data: { titulo: 'Pagina' }  },
         { path: 'chats', component: ChatsComponent, data: { titulo: 'Pagina' }  },
+        { path: 'perfil', component: PerfilComponent, data: { titulo: 'Pagina' }  },
         { path: '', redirectTo: '/dashboard', pathMatch: newLocal}
 ];
 

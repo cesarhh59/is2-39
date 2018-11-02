@@ -18,6 +18,7 @@ import { PagesComponent } from './pages/pages.component';
 import { ChatsComponent } from './chats/chats.component';
 import { RegistroComponent } from './registro/registro.component';
 import { MessagesComponent } from './controls/messages/messages.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MessagesComponent } from './controls/messages/messages.component';
     PagesComponent,
     ChatsComponent,
     RegistroComponent,
-    MessagesComponent
+    MessagesComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

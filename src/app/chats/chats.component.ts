@@ -34,7 +34,7 @@ constructor() {
      });
 
   }
-  send(): void {  
+  send(): void {
   this.messages.push({
     user: 'me',
     msg: this.msgSend

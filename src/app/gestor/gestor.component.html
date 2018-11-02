@@ -1,1 +1,8 @@
-<h1>sdasdas</h1>
+<div class="row container-fluid">
+    <div class="col-md-3">
+        <app-sidebar title="Gestor" [items]="options"></app-sidebar>
+    </div>
+    <div class="col-md-9" style="background-color: beige">
+        <app-card isGestor="true" [activate]="activo"></app-card>
+    </div>
+</div>
