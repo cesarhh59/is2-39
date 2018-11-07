@@ -6,8 +6,8 @@ var lista_usuarios = new HashMap();
 
 let array_vacio = [];
 // Meto dos para hacer pruebas
-lista_usuarios.set('felix',{username:'felix', password:'felixpass', mail:'felix.arri@gmail.com', city:'Navalcarnero', contact:'', photo:'', preferences: array_vacio, link:'', validado:false});
-lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.herre@gmail.com', city:'Madrid', contact:'', photo:'', preferences: array_vacio, link:'', validado:true});
+lista_usuarios.set('felix',{username:'felix', password:'felixpass', mail:'felix.arri@gmail.com', city:'Navalcarnero', contact:'', photo:'', preferences: array_vacio, link:'', validado:false, logueado:false});
+lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.herre@gmail.com', city:'Madrid', contact:'', photo:'', preferences: array_vacio, link:'', validado:true, logueado:false});
 
 /**
  * 
@@ -16,7 +16,11 @@ lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.
  * @return true si es correcto username y password, false e.o.c.
  */
 function login(username, password){
-    return lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
+    const resultado = lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
+    if(resultado){
+        lista_usuarios.get(username).logueado = true;
+    }
+    return resultado;
 }
 
 /**
@@ -31,16 +35,27 @@ function signup(username, password, mail, city){
         return (lista_usuarios.search(password) == username);
     }
     else{
-        var user =  {username:username, password:password, mail:mail, city:city};
+        var user =  {username:username, password:password, mail:mail, city:city, logueado:true};
         lista_usuarios.set(username,user);
         enviarLink(username,mail);
         return true;
     }
 }
 
+/**
+ * 
+ * @param {String} username 
+ * @param {String} password 
+ * @param {String} mail 
+ * @param {String} city 
+ * @param {String} contact 
+ * @param {String} photo 
+ * @param {String} preferences 
+ */
 function editProfile(username, password, mail, city, contact, photo, preferences){
     var existe = lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
-    if(existe){
+    var existe_y_logueado = existe && lista_usuarios.get(username).logueado == true;
+    if(existe_y_logueado){
         var perfil = lista_usuarios.get(username);
         perfil.username = username;
         perfil.password = password;
@@ -51,11 +66,16 @@ function editProfile(username, password, mail, city, contact, photo, preferences
         perfil.preferences = preferences;
         lista_usuarios.set(username, perfil);
     }
-   return existe;
+   return existe_y_logueado;
 }
 
+/**
+ * 
+ * @param {String} username 
+ * @param {String} mail 
+ */
 function enviarLink(username, mail){
-    var enlace_aleatorio = "http://practicaComidasISII/123456789";
+    var enlace_aleatorio = "http://practicaComidasISII/" + username + Math.random().toString(36).substring(7);;
     var mensaje = "Te has dado de alta en la plataforma de compra-venta de comidas caseras, con el nombre de usuario: " 
     + username + "\n\nPara confirmar que eres tú, por favor, haga click en el siguiente enlace:\n\n" + enlace_aleatorio;
     console.log("Se envia un correo a " + mail);
@@ -74,6 +94,11 @@ function validar(username, link){
     return esLink;
 }
 
+/**
+ * 
+ * @param {String} mensaje 
+ * @param {String} mail 
+ */
 function sendEmail(mensaje, mail){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
