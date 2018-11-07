@@ -1,9 +1,18 @@
-<div class="card mb-5">
+<div *ngIf="!isGestor" class="card mb-5">
     <img class="card-img-top" alt="Comentario de la imagen">
     <div class="card-body">
-        <h5 class="card-title">TItulo</h5>
+        <h5 class="card-title">Titulo</h5>
         <p class="card-text">Resumen</p>
         <a routerLink="/pages" class="btn btn-info">Comprar</a>
 
+    </div>
+</div>
+
+<div *ngIf="isGestor" class="card mb-5">
+    <img class="card-img-top" alt="Comentario de la imagen">
+    <div class="card-body">
+        <h5 class="card-title">Titulo</h5>
+        <p class="card-text">Resumen</p>
+        <button type="button" class="btn" (click)="onClick($event)" [ngClass]="{'btn-info': activate, 'btn-danger': !activate}">{{lblActivo}}</button>
     </div>
 </div>

@@ -16,6 +16,9 @@ import { CardComponent } from './shared/card/card.component';
 import { GestorComponent } from './gestor/gestor.component';
 import { PagesComponent } from './pages/pages.component';
 import { ChatsComponent } from './chats/chats.component';
+import { RegistroComponent } from './registro/registro.component';
+import { MessagesComponent } from './controls/messages/messages.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { ChatsComponent } from './chats/chats.component';
     CardComponent,
     GestorComponent,
     PagesComponent,
-    ChatsComponent
+    ChatsComponent,
+    RegistroComponent,
+    MessagesComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

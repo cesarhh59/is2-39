@@ -1,6 +1,24 @@
-<div class="container-fluid">
+<div class="row container-fluid">
     <div class="col-md-3">
-        <app-sidebar title="Chat(s)"></app-sidebar>
+        <app-sidebar title="Chat(s)" [items]="chats"></app-sidebar>
     </div>
-    <div class="col-9"></div>
+    <div class="col-md-9" style="background-color: beige">
+        <div class="row  box">
+            <div *ngFor="let message of messages" class="col-md-offset-12 " [ngClass]="{'msg-me': message.user == 'me', 'msg-you': message.user != 'me' }">
+                <label> {{message.user}}:</label>
+                <app-messages *ngIf="message.user === 'me'" [message]="message.msg" mode="light"> </app-messages>
+                <app-messages *ngIf="message.user !== 'me'" [message]="message.msg" mode="danger"> </app-messages>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <input class="text message" placeholder="Escribir mensaje..." (keyup.enter)="send()" [(ngModel)]="msgSend" />
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-group btn-success" (click)="send()" style="margin-bottom: 9px;"><i class="fas fa-caret-right"></i></button>
+            </div>
+
+        </div>
+    </div>
 </div>
