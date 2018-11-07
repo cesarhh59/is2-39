@@ -9,6 +9,7 @@ styleUrls: ['./login.component.css']
 export class LoginComponent implements OnInit {
 
 public login: Login;
+public errores: String[] = [];
 constructor(private _router: Router) {
 
 }
@@ -32,15 +33,17 @@ doLogin(mail: string, pass: string): void {
     }
 }
 public validate(): boolean {
+    this.errores = [];
     let error = true;
     if (this.login.email === '') {
         error = false;
+        this.errores.push('El campo email no puede estar vacío');
     }
     if (this.login.password === '') {
         error = false;
+        this.errores.push('El campo password no puede estar vacío');
     }
-    console.log(error);
-    
+
     // TODO comprobar que el usuario existe y que la contraseña es correcta
     return error;
 }

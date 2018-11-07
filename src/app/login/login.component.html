@@ -13,13 +13,13 @@
         </div>
         <label for="inputEmail">Correo</label>
         <div class="form-label-group">
-            <input #email type="email" id="inputEmail" class="form-control" placeholder="correo electronico" autofocus>
+            <input #email type="email" id="inputEmail" class="form-control" placeholder="correo electronico" autofocus required>
         </div>
         <label for="inputPassword">Contraseña</label>
         <div class="form-label-group">
-            <input #password type="password" id="inputPassword" class="form-control" placeholder="Contraseña">
+            <input #password type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="doLogin(email.value, password.value)">Sign in</button>
     </form>
-    <app-footer></app-footer>
+    <app-messages *ngFor="let error of errores" [message]="error" mode="danger"></app-messages>
 </div>

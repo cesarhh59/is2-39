@@ -12,25 +12,25 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input class="form-control" type="text" placeholder="Nombre" required>
+                    <input #nombre class="form-control" type="text" placeholder="Nombre" required>
                 </div>
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <input class="form-control" type="password" placeholder="Contraseña">
+                    <input #password class="form-control" type="password" placeholder="Contraseña">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input class="form-control" type="email" placeholder="Email">
+                    <input #email class="form-control" type="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <label>Ciudad</label>
-                    <input class="form-control" type="text" placeholder="Ciudad">
+                    <input #ciudad class="form-control" type="text" placeholder="Ciudad">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Contacto</label>
-                    <input class="form-control" type="number" placeholder="Contacto">
+                    <input #contacto class="form-control" type="number" placeholder="Contacto">
 
                 </div>
                 <div class="form-group">
@@ -42,7 +42,8 @@
             </div>
         </div>
         <div class="form-row">
-            <button type="submit" style="margin-right: 50%;  margin-left: 50%;" class="btn btn-success" (click)="validate()">Registrar</button>
+            <button type="submit" style="margin-right: 50%;  margin-left: 50%;" class="btn btn-success" (click)="save(nombre.value, password.value, email.value , contacto.value, ciudad.value)">Registrar</button>
         </div>
     </form>
+    <app-messages *ngFor="let error of errores" [message]="error" mode="danger"></app-messages>
 </div>
