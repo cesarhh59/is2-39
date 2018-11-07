@@ -1,5 +1,4 @@
 var HashMap = require('hashmap');
-const util = require('util');
 var nodemailer = require('nodemailer');
 
 var lista_usuarios = new HashMap();
@@ -50,7 +49,7 @@ function signup(username, password, mail, city){
  * @param {String} city 
  * @param {String} contact 
  * @param {String} photo 
- * @param {String} preferences 
+ * @param {String[]} preferences 
  */
 function editProfile(username, password, mail, city, contact, photo, preferences){
     var existe = lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
@@ -75,7 +74,7 @@ function editProfile(username, password, mail, city, contact, photo, preferences
  * @param {String} mail 
  */
 function enviarLink(username, mail){
-    var enlace_aleatorio = "http://practicaComidasISII/" + username + Math.random().toString(36).substring(7);;
+    var enlace_aleatorio = "http://localhost/" + username + "/" + Math.random().toString(36).substring(7);;
     var mensaje = "Te has dado de alta en la plataforma de compra-venta de comidas caseras, con el nombre de usuario: " 
     + username + "\n\nPara confirmar que eres tú, por favor, haga click en el siguiente enlace:\n\n" + enlace_aleatorio;
     console.log("Se envia un correo a " + mail);
@@ -124,14 +123,44 @@ function sendEmail(mensaje, mail){
       });
 }
 
+/**
+ * 
+ * @param {String} username 
+ */
+function logout(username){
+    const resultado = lista_usuarios.has(username) && lista_usuarios.get(username).logueado == true;
+    if(lista_usuarios.has(username)){
+        lista_usuarios.get(username).logueado = false;
+    }
+    return resultado;
+}
+
+/**
+ * 
+ * @param {String} username 
+ * @param {String} password 
+ */
+function darDeBaja(username, password){
+    const resultado = lista_usuarios.has(username) && lista_usuarios.get(username).password == password && lista_usuarios.get(username).logueado == true;
+    if(resultado){
+        lista_usuarios.remove(username);
+    }
+    return resultado;
+}
+
 /*
+const util = require('util');
+
 console.log(
     "\n\n login('felix','felixpass') -> " + login('felix','felixpass') + 
-    "\n\n lista_usuarios -> " + util.inspect(lista_usuarios) + 
+    "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null}) + 
     "\n\n login('noexiste','felixpass') -> " + login('noexiste','felixpass') + 
     "\n\n signup('pedro', 'pedropass','pedro123@gmail.com','Madrid') -> " + signup('pedro', 'pedropass','pedro123@gmail.com','Madrid')  + 
     "\n\n signup('cesar', 'cesarpass','cesitar@gmail.com','Barcelona') -> " + signup('cesar', 'cesarpass','cesitar@gmail.com','Barcelona') +
-    "\n\n lista_usuarios -> " + util.inspect(lista_usuarios)
+    "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null}) +
+    "\n\n logout('felix','felixpass') -> " + logout('felix','felixpass') +
+    "\n\n darDeBaja('pedro','pedropass') -> " + darDeBaja('pedro','pedropass') +
+    "\n\n darDeBaja('felix','felixpass') -> " + darDeBaja('felix','felixpass') + 
+    "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null})
 )
 */
-// enviarLink("cesar", "cesarherrero252@gmail.com");
