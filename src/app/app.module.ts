@@ -19,6 +19,7 @@ import { ChatsComponent } from './chats/chats.component';
 import { RegistroComponent } from './registro/registro.component';
 import { MessagesComponent } from './controls/messages/messages.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     FormsModule,
     PAGES_ROUTES
   ],
-  providers: [],
+  providers: [
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
