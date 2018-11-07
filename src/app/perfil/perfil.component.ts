@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-
+  public errores: string [] = [];
   constructor() { }
 
   ngOnInit() {
   }
-
+  darBaja() {
+    //TODO llamada a servicio para dar de baja
+  }
 }
