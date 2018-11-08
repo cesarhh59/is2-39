@@ -13,3 +13,15 @@ export class GestorComponent implements OnInit {
   ngOnInit() {
   }
 }
+
+export interface IAnuncio {
+  título: String;
+  valoración: number;
+  propietario: string;
+  porciones: number;
+  disponibles: boolean;
+  alergenos?: string [];
+  localización: string;
+  hiloMensajes?: string[];
+  estado: boolean;
+}
