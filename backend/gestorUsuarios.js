@@ -8,6 +8,13 @@ let array_vacio = [];
 lista_usuarios.set('felix',{username:'felix', password:'felixpass', mail:'felix.arri@gmail.com', city:'Navalcarnero', contact:'', photo:'', preferences: array_vacio, link:'', validado:false, logueado:false});
 lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.herre@gmail.com', city:'Madrid', contact:'', photo:'', preferences: array_vacio, link:'', validado:true, logueado:false});
 
+function getUsuarios(){
+    return lista_usuarios;
+}
+
+function existe_y_logueado(username){
+    return lista_usuarios.has(username) && lista_usuarios.get(username).logueado == true;
+}
 /**
  * 
  * @param {String} username
@@ -164,3 +171,6 @@ console.log(
     "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null})
 )
 */
+
+module.exports.getUsuarios = getUsuarios;
+module.exports.existe_y_logueado = existe_y_logueado;
