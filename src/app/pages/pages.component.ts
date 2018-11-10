@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IAnuncio } from '../gestor/gestor.component';
 
 @Component({
@@ -19,7 +19,9 @@ export class PagesComponent implements OnInit {
   };
 
   public showValoracion: Boolean = false;
-  constructor(private route: ActivatedRoute) {
+  public valoracion: Number = 0;
+  public porcionesSeleccionadas = 0;
+  constructor(private route: ActivatedRoute, private routes: Router) {
     console.log(this.anuncio);
   }
 
@@ -43,6 +45,12 @@ export class PagesComponent implements OnInit {
   comprar(): void {
     //TODO llamar a back con porciones seleccionadas y producto
 
+    this.showValoracion = !this.showValoracion;
+  }
+  enviar() {
+    this.showValoracion = !this.showValoracion;
+    //TODO llamar a back con porciones seleccionadas y producto
+    this.routes.navigate(['dashboard']);
   }
 
 }
