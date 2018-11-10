@@ -6,6 +6,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./card.component.css']
 })
 export class CardComponent implements OnInit {
+  @Input() title = 'titulo';
+  @Input() porciones = 1;
   @Input() isGestor = false;
   @Input() activate: Boolean = false;
 

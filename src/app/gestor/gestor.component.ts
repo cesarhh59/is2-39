@@ -23,13 +23,13 @@ saveAlergeno(alergeno: any) {
 }
 
 export interface IAnuncio {
-  título: String;
-  valoración: number;
+  titulo: String;
+  valoracion: number;
   propietario: string;
   porciones: number;
   disponibles: boolean;
   alergenos?: string [];
-  localización: string;
+  localizacion: string;
   hiloMensajes?: string[];
   estado: boolean;
 }
