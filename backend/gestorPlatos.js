@@ -15,11 +15,19 @@ usuarios_platos.set('felix', auxiliar_arraylist);
 function getUsuPlatos(){
     return usuarios_platos;
 }
+/**
+ * 
+ * @param {HashMap} listaNueva 
+ */
 function setUsuPlatos(listaNueva){
     usuarios_platos = listaNueva;
 }
-//add plato a usuarios_platos
-function addPlato(usuario, plato){
+/**
+ * 
+ * @param {String} usuario 
+ * @param {String} plato 
+ */
+function addPlato(usuario, plato){ //add plato a usuarios_platos
     lista = getUsuPlatos();
     if(lista.has(usuario)){
         var platos_de_usuario = lista.get(usuario);
@@ -31,9 +39,18 @@ function addPlato(usuario, plato){
 function getPlatos(){
     return lista_platos;
 }
+/**
+ * 
+ * @param {HashMap} nuevaListaPlatos 
+ */
 function setPlatos(nuevaListaPlatos){
     lista_platos = nuevaListaPlatos;
 }
+/**
+ * 
+ * @param {String} propietario 
+ * @param {String} plato 
+ */
 function esPropietarioDePlato(propietario, plato){
     var lista = getUsuPlatos();
     if(lista.has(propietario)){ //Usuario tiene algun plato
@@ -41,6 +58,19 @@ function esPropietarioDePlato(propietario, plato){
     }
     return false;
 }
+/**
+ * 
+ * @param {String} propietario 
+ * @param {String} titulo 
+ * @param {String} descripcion 
+ * @param {String[]} ingredientes 
+ * @param {boolean} vegetariano 
+ * @param {boolean} gluten 
+ * @param {boolean} lactosa 
+ * @param {int} porciones 
+ * @param {double} latitud 
+ * @param {double} longitud 
+ */
 function publicarPlato(propietario, titulo, descripcion, ingredientes, vegetariano, gluten, lactosa, porciones, latitud, longitud){
     if(existe_y_logueado.existe_y_logueado(propietario) || true){
         var platos = getPlatos();
@@ -58,11 +88,17 @@ function publicarPlato(propietario, titulo, descripcion, ingredientes, vegetaria
         return "No se ha encontrado una sesión activa del usuario reconocido"
     }
 }
-function concluirPlato(propietario, plato){
+/**
+ * 
+ * @param {String} propietario 
+ * @param {String} plato 
+ * @param {bool} activar  
+ */
+function activadoPlato(propietario, plato, activar){
     if(esPropietarioDePlato(propietario,plato)){
         var platos = getPlatos();
         var objetoPlato = platos.get(plato);
-        objetoPlato.activo = false;
+        objetoPlato.activo = activar;
         platos.set(plato, objetoPlato);
         setPlatos(platos);
         return "La oferta ha sido desactivada";
@@ -71,18 +107,51 @@ function concluirPlato(propietario, plato){
         return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
     }
 }
+/**
+ * 
+ * @param {String} propietario 
+ * @param {String} plato 
+ */
+function concluirPlato(propietario, plato){
+    return activadoPlato(propietario, plato, false);
+}
+/**
+ * 
+ * @param {String} propietario 
+ * @param {String} plato 
+ */
 function reactivarPlato(propietario, plato){
-    if(esPropietarioDePlato(propietario,plato)){
-        var platos = getPlatos();
-        var objetoPlato = platos.get(plato);
-        objetoPlato.activo = true;
-        platos.set(plato, objetoPlato);
-        setPlatos(platos);
-        return "La oferta ha sido activada";
+    return activadoPlato(propietario, plato, true);
+}
+/**
+ * 
+ * @param {String} plato 
+ */
+function buscarPlato(plato){
+    var platos = getPlatos();
+    if(platos.has(plato)){
+        return "El plato que buscas es el siguiente:\n" + imprimirPlato(platos.get(plato));
     }
     else{
-        return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
+        return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
+}
+/**
+ * 
+ * @param {Plato} plato 
+ */
+function imprimirPlato(plato){
+    return "Título: " + plato.titulo +
+            "\nPropietario: " + plato.propietario +
+            "\nDescripción: " + plato.descripcion +
+            "\nIngredientes: " + plato.ingredientes +
+            "\nValoración: " + plato.valoracion +
+            "\nVegetariano: " + plato.vegetariano +
+            "\nContiene gluten: " + plato.gluten + 
+            "\nContiene lactosa: " + plato.lactosa +
+            "\nVendidos: " + plato.vendidos +
+            "\nPorciones disponibles: " + plato.porciones_disponibles +
+            "\nLocalización: " + plato.localizacion;
 }
 
 /*
