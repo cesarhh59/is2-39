@@ -1,0 +1,7 @@
+.box {
+    height: 600px;
+    display: grid;
+    overflow: auto;
+    border-left: 0.1in black;
+    margin-bottom: 10px;
+}
