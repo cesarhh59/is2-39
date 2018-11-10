@@ -4,7 +4,7 @@
             <app-sidebar title="Filtro(s)"></app-sidebar>
         </div>
         <div class="col-md-9">
-            <app-card></app-card>
+            <app-card *ngFor="let anuncio of anuncios" [title]="anuncio.titulo" [porciones]="anuncio.porciones"></app-card>
         </div>
     </div>
 </div>
