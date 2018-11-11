@@ -12,7 +12,6 @@ auxiliar_arraylist.add('macarrones');
 usuarios_platos.set('felix', auxiliar_arraylist);
 //////////////////////////////////////////// DATOS USUARIOS ////////////////////////////////////////////
 var lista_usuarios = new HashMap();
-let array_vacio = [];
 lista_usuarios.set('felix',{username:'felix', password:'felixpass', mail:'felix.arri@gmail.com', city:'Navalcarnero', link:'', validado:false, logueado:false});
 lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.herre@gmail.com', city:'Madrid', link:'', validado:true, logueado:false});
 
@@ -172,7 +171,40 @@ function verListaOfertas(){
     }
     return resultado;
 }
+function valorarPlato(nombrePlato, valoracion){
+    var platos = getPlatos();
+    if(platos.has(nombrePlato)){
+        var plato = platos.get(nombrePlato);
+        var oldValoracion = plato.valoracion;
+        var vendidos = plato.vendidos;
+        var dividendo = (oldValoracion*vendidos) + valoracion;
+        vendidos++;
+        var media = dividendo / vendidos;
+        plato.vendidos = vendidos;
+        plato.valoracion = media;
+        platos.set(nombrePlato, plato);
+        setPlatos(platos);
+        return "Usted ha valorado el plato \"" + nombrePlato + "\" con " + valoracion + " puntos.\nLa valoración actual del palto es " + media;
+    }
+    else{
+        return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
+    }
+}
+function comprarPlato(nombrePlato, porciones){
+    var platos = getPlatos();
+    if(platos.has(nombrePlato)){
+        if(platos.get(nombrePlato).porciones_disponibles >= porciones){
+            platos.get(nombrePlato).porciones_disponibles -= porciones;
+            setPlatos(platos);
+            return "Ha comprado con éxito " + porciones + " porciones de " + nombrePlato;
+        }
+        return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones_disponibles + "), por favor reformule la propuesta con menos porciones."
+    }
+    else{
+        return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
 
+    }
+}
 ////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
 
@@ -187,7 +219,11 @@ console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
     "\n\n reactivarPlato('felix', 'macarrones') -> " + reactivarPlato('felix', 'macarrones') +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
-    "\n\n verListaOfertas -> " + verListaOfertas()
+    "\n\n verListaOfertas -> " + verListaOfertas() +
+    "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
+    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3) +
+    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2) +
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
 
     /// Hasta aqui todo funciona ///
 )
