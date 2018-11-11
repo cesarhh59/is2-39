@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { AuthGuard } from '../auth.guard';
 
 @Component({
   selector: 'app-perfil',
@@ -7,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilComponent implements OnInit {
   public errores: string [] = [];
-  constructor() { }
+  constructor(private _authService: AuthService) { }
 
   ngOnInit() {
   }
   darBaja() {
     //TODO llamada a servicio para dar de baja
+   const idUser: string = localStorage.getItem('token');
+   console.log(idUser);
+    this._authService.logout();
+
   }
 }

@@ -12,16 +12,24 @@ export class GestorComponent implements OnInit {
 
   ngOnInit() {
   }
+
+saveAlergeno(alergeno: any) {
+    console.log(alergeno);
+
+  }
+  saveAnuncio(titulo: string, porciones: number, localizacion: string) {
+
+  }
 }
 
 export interface IAnuncio {
-  título: String;
-  valoración: number;
+  titulo: String;
+  valoracion: number;
   propietario: string;
   porciones: number;
   disponibles: boolean;
   alergenos?: string [];
-  localización: string;
+  localizacion: string;
   hiloMensajes?: string[];
   estado: boolean;
 }

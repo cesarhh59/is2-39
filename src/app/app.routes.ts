@@ -14,7 +14,7 @@ const pagesRoutes: Routes = [
         { path: 'registro', component: RegistroComponent, data: { titulo: 'Dashboard' } },
         { path: 'gestor', component: GestorComponent, data: { titulo: 'Gestor' }        , canActivate: [AuthGuard]},
         { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard'}, canActivate: [AuthGuard]},
-        { path: 'pages', component: PagesComponent, data: { titulo: 'Pagina' }          , canActivate: [AuthGuard]},
+        { path: 'pages/:id', component: PagesComponent, data: { titulo: 'Pagina' }          , canActivate: [AuthGuard]},
         { path: 'chats', component: ChatsComponent, data: { titulo: 'Pagina' }          , canActivate: [AuthGuard]},
         { path: 'perfil', component: PerfilComponent, data: { titulo: 'Pagina' }        , canActivate: [AuthGuard]},
         { path: '', redirectTo: '/dashboard', pathMatch: newLocal}

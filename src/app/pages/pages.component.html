@@ -1,3 +1,35 @@
-<p>
-  pages works!
-</p>
+<div class="container-fluid box" *ngIf="!showValoracion">
+    <h2>{{anuncio.titulo}}</h2>
+    <div class="row">
+        <div class="col-12">
+            <h3><strong>Alergenos</strong></h3>
+            <ul>
+                <li *ngIf="anuncio.alergenos?.length !== 0">No tiene productos que produzcan alergias</li>
+                <li *ngFor="let alergeno of anuncio.alergenos">{{alergeno}}</li>
+            </ul>
+            <h3><strong>Valoraci&oacute;n:</strong> {{anuncio.valoracion}}</h3>
+            <h3><strong>Ciudad:</strong> {{anuncio.localizacion}}</h3>
+            <div class="input-group col-md-4">&nbsp;</div>
+        </div>
+    </div>
+    <div class="input-group col-md-4">
+        <label class="form-label-group">Seleccione las porciones:</label>
+
+        <input class="form-control" type="number" [(ngModel)]="porcionesSeleccionadas" placeholder="0" /> El número máximo de porciones es: {{anuncio.porciones}}, si indicas una cantidad más grande se mandará el máixmo.
+    </div>
+    <div class="form-signin">
+        <button type="submit" class=" btn btn-outline-success " (click)="comprar() ">Comprar</button>
+    </div>
+</div>
+
+<div class="container-fluid box" *ngIf="showValoracion">
+    <h3>Deja una valoracion del anuncio</h3>
+    <div class="input-group col-md-4">
+        <label class="form-label-group">Valoracion:</label>
+
+        <input class="form-control" type="number" [(ngModel)]="valoracion" placeholder="0" />
+    </div>
+    <div class="form-signin">
+        <button type="submit" class=" btn btn-outline-success " (click)="enviar() ">Enviar valoración</button>
+    </div>
+</div>

@@ -1,8 +1,9 @@
 <div class="row container-fluid">
     <div class="col-md-5">
+        <h3>Anuncios publicados</h3>
         <app-card isGestor="true" [activate]="activo"></app-card>
     </div>
-    <div class="col-md-7" style="border-left: 0.1in black">
+    <div class="col-md-7 box">
         <form class="needs-validation" novalidate>
             <div class="form-row">
                 <div class="col-md-6">
@@ -11,21 +12,26 @@
                         <input #titulo class="form-control" type="text" placeholder="titulo" required>
                     </div>
                     <div class="form-group">
-                        <label>porciones</label>
-                        <input #porciones class="form-control" type="number" placeholder="porciones">
+                        <label>Porciones</label>
+                        <input #porciones class="form-control" type="number" step="1" placeholder="porciones">
                     </div>
                     <div class="form-group">
-                        <label>Alergenos</label>
-                        <input #celiaco class="form-control" type="checkbox" placeholder="">
+                        <label>Alergenos</label><br>
+                        <label>Celiaco: 
+                            <input  #e class="form-control" type="checkbox" (change)="saveAlergeno($event)" >
+                        </label><br>
+                        <label>Lactosa: 
+                                <input #lactosa class="form-control" type="checkbox" >
+                        </label>
                     </div>
                     <div class="form-group">
-                        <label>Localizacion</label>
-                        <input #celiaco class="form-control" type="text" placeholder="Ciudad">
+                        <label>localizacion</label>
+                        <input #ciudad class="form-control" type="text" placeholder="Ciudad">
                     </div>
                 </div>
             </div>
             <div class="form-row">
-                <button type="submit" class="btn btn-success"><i class="fas fa-plus"> Añadir nuevo anuncio</i></button>
+                <button type="submit" class="btn btn-success" (click)="saveAnuncio(titulo.value, porciones.value, ciudad.value)"><i class="fas fa-plus"> Añadir nuevo anuncio</i></button>
             </div>
         </form>
     </div>

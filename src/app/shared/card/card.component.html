@@ -1,10 +1,9 @@
 <div *ngIf="!isGestor" class="card mb-5">
     <img class="card-img-top" alt="Comentario de la imagen">
     <div class="card-body">
-        <h5 class="card-title">Titulo</h5>
-        <p class="card-text">Resumen</p>
-        <a routerLink="/pages" class="btn btn-info">Comprar</a>
-
+        <h5 class="card-title">Titulo: {{title}}</h5>
+        <p class="card-text">porciones: {{porciones}}</p>
+        <a [routerLink]="['/pages', title ]" class="btn btn-info">Comprar</a>
     </div>
 </div>
 
@@ -12,7 +11,9 @@
     <img class="card-img-top" alt="Comentario de la imagen">
     <div class="card-body">
         <h5 class="card-title">Titulo</h5>
-        <p class="card-text">Resumen</p>
+        <p class="card-text">Resumen <br> ¿Quieres activar/descativar el anuncio?
+        </p>
+
         <button type="button" class="btn" (click)="onClick($event)" [ngClass]="{'btn-info': activate, 'btn-danger': !activate}">{{lblActivo}}</button>
     </div>
 </div>
