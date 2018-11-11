@@ -1,8 +1,24 @@
 var HashMap = require('hashmap');
 var ArrayList = require('arraylist');
 var nodemailer = require('nodemailer');
-
-
+const bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+/*
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+*/
+app.get('/', function (req, res) {
+    res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
+});
+app.get('/listaPlatos', function (req, res) {
+    res.send(verListaOfertas());
+})
+app.listen(3000, function() {
+    console.log('App listening on port 3000!')
+})
 //////////////////////////////////////////// DATOS PLATOS ////////////////////////////////////////////
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
@@ -14,8 +30,11 @@ usuarios_platos.set('felix', auxiliar_arraylist);
 var lista_usuarios = new HashMap();
 lista_usuarios.set('felix',{username:'felix', password:'felixpass', mail:'felix.arri@gmail.com', city:'Navalcarnero', link:'', validado:false, logueado:false});
 lista_usuarios.set('cesar',{username:'cesar', password:'cesarpass', mail:'cesar.herre@gmail.com', city:'Madrid', link:'', validado:true, logueado:false});
-
-
+/*
+app.post('/', function(request, response) {
+    
+})
+*/
 //////////////////////////////////////////// FUNCIONES PLATOS ////////////////////////////////////////////
 function getUsuPlatos(){
     return usuarios_platos;
@@ -205,6 +224,7 @@ function comprarPlato(nombrePlato, porciones){
 
     }
 }
+/*
 ////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
 
@@ -227,7 +247,7 @@ console.log(
 
     /// Hasta aqui todo funciona ///
 )
-
+*/
 //////////////////////////////////////////// FUNCIONES USUARIOS ////////////////////////////////////////////
 function getUsuarios(){
     return lista_usuarios;
