@@ -43,13 +43,13 @@ export class PagesComponent implements OnInit {
   }
 
   comprar(): void {
-    //TODO llamar a back con porciones seleccionadas y producto
+    // TODO llamar a back con porciones seleccionadas y producto
 
     this.showValoracion = !this.showValoracion;
   }
   enviar() {
     this.showValoracion = !this.showValoracion;
-    //TODO llamar a back con porciones seleccionadas y producto
+    // TODO llamar a back con porciones seleccionadas y producto
     this.routes.navigate(['dashboard']);
   }
 

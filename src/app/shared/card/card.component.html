@@ -11,7 +11,9 @@
     <img class="card-img-top" alt="Comentario de la imagen">
     <div class="card-body">
         <h5 class="card-title">Titulo</h5>
-        <p class="card-text">Resumen</p>
+        <p class="card-text">Resumen <br> ¿Quieres activar/descativar el anuncio?
+        </p>
+
         <button type="button" class="btn" (click)="onClick($event)" [ngClass]="{'btn-info': activate, 'btn-danger': !activate}">{{lblActivo}}</button>
     </div>
 </div>

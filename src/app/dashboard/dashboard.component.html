@@ -1,9 +1,14 @@
 <div class="main container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <app-sidebar title="Filtro(s)"></app-sidebar>
+            <app-sidebar title="Filtro(s)">
+            </app-sidebar>
         </div>
         <div class="col-md-9">
+            <form class="search">
+                <input #busc class="form-control mr-sm-2" type="search" (keyup)="buscar(busc.value)" placeholder="Buscar plato" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" (click)="buscar(busc.value)" type="submit">Buscar</button>
+            </form>
             <app-card *ngFor="let anuncio of anuncios" [title]="anuncio.titulo" [porciones]="anuncio.porciones"></app-card>
         </div>
     </div>

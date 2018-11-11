@@ -11,7 +11,7 @@ export class CardComponent implements OnInit {
   @Input() isGestor = false;
   @Input() activate: Boolean = false;
 
-  public lblActivo: String = 'Desactivar';
+  public lblActivo: String = 'Desactivado';
   constructor() { }
 
   ngOnInit() {
@@ -25,9 +25,9 @@ export class CardComponent implements OnInit {
 
   changelblActivo(): void {
     if (this.activate) {
-      this.lblActivo = 'Activar';
+      this.lblActivo = 'Activo';
       } else {
-      this.lblActivo = 'Desactivar';
+      this.lblActivo = 'Desactivado';
       }
   }
 }
