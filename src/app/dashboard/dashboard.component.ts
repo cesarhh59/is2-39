@@ -52,7 +52,6 @@ export class DashboardComponent implements OnInit {
   if (bOferta !== '') {
     this.anuncios.forEach(anuncio => {
       if (anuncio.titulo.includes(bOferta)) {
-        console.log(anuncio);
         auxAnuncios.push(anuncio);
       }
     });
