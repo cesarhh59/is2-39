@@ -4,11 +4,20 @@ var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
 var existe_y_logueado = require('./gestorUsuarios.js');
 
-
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
 
-lista_platos.set('macarrones', { titulo: 'macarrones', propietario: 'felix', descripcion: 'A la boloñesa', ingredientes: ['macarrones', 'tomate', 'carne'], valoracion: 5.0, activo: true, vegetariano: false, lactosa: false, gluten: true, vendidos: 1, porciones_disponibles: 2, localizacion: [45.6785, -3.4336] });
+lista_platos.set('macarrones', {
+    titulo: 'macarrones',
+    propietario: 'felix',
+    valoracion: 5.0,
+    activo: true,
+    alergeno: [],
+    porciones_disponibles: 2,
+    localizacion: '',
+    hiloMensajes: [],
+    estado: true
+});
 
 var app = express()
 var auxiliar_arraylist = new ArrayList();
@@ -77,16 +86,28 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {double} latitud 
  * @param {double} longitud 
  */
-function publicarPlato(propietario, titulo, descripcion, ingredientes, vegetariano, gluten, lactosa, porciones, latitud, longitud) {
+function publicarPlato(propietario, titulo, descripcion, alergeno, porciones, localizacion, estado, hiloMensajes) {
     if (existe_y_logueado.existe_y_logueado(propietario) || true) {
         var platos = getPlatos();
         if (platos.has(titulo)) {
             return "El titulo introducido ya está en uso, por favor escriba uno distinto";
         } else {
-            platos.set(titulo, { titulo: titulo, propietario: propietario, descripcion: descripcion, ingredientes: ingredientes, valoracion: 0.0, activo: true, vegetariano: vegetariano, gluten: gluten, lactosa: lactosa, vendidos: 0, porciones_disponibles: porciones, localizacion: [latitud, longitud] });
+
+            platos.set(titulo, {
+                titulo: titulo,
+                propietario: propietario,
+                valoracion: 0.0,
+                activo: true,
+                alergeno: alergeno,
+                vendidos: 0,
+                porciones_disponibles: porciones,
+                localizacion: localizacion,
+                hiloMensajes: hiloMensajes,
+                estado: estado
+            });
             setPlatos(platos);
             addPlato(propietario, titulo);
-            return "El plato \"" + titulo + "\" ha sido incluido"
+            return "OK"
         }
     } else {
         return "No se ha encontrado una sesión activa del usuario reconocido"
@@ -185,7 +206,7 @@ console.log(
 )
 */
 
-
+// Rutas de gestor platos
 
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
@@ -193,5 +214,24 @@ app.get('/', function(req, res) {
 app.get('/listaPlatos', function(req, res) {
     res.send(verListaOfertas());
 })
+app.post('/listaPlatos', (req, res) => {
+    var body = req.body;
+
+
+    var error = publicarPlato(body.propietario, body.titulo,
+        body.alergeno, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la creacion de usuarios',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
 
 module.exports = app;
