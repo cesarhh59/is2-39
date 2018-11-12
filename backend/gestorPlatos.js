@@ -121,10 +121,7 @@ function activadoPlato(propietario, plato, activar){
         objetoPlato.estado = activar;
         platos.set(plato, objetoPlato);
         setPlatos(platos);
-        if(activar){
-            return "La oferta de \"" + plato + "\" ha sido reactivada."
-        }
-        return "La oferta de \"" + plato + "\" ha sido desactivada."
+        return "OK"
     }
     else{
         return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
@@ -177,7 +174,7 @@ function verListaOfertas(){
     var lista = getPlatos();
     var indice = 1;
     for(var valor of lista.values()){
-        if(valor.activo == true){
+        if(valor.estado == true){
             resultado += "\n" + indice + ". " + valor.titulo;
             indice++;
         }
@@ -197,7 +194,7 @@ function valorarPlato(nombrePlato, valoracion){
         plato.valoracion = media;
         platos.set(nombrePlato, plato);
         setPlatos(platos);
-        return "Usted ha valorado el plato \"" + nombrePlato + "\" con " + valoracion + " puntos.\nLa valoración actual del palto es " + media;
+        return "OK";
     }
     else{
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
@@ -209,7 +206,7 @@ function comprarPlato(nombrePlato, porciones){
         if(platos.get(nombrePlato).porciones_disponibles >= porciones){
             platos.get(nombrePlato).porciones_disponibles -= porciones;
             setPlatos(platos);
-            return "Ha comprado con éxito " + porciones + " porciones de " + nombrePlato;
+            return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones_disponibles + "), por favor reformule la propuesta con menos porciones."
     }
@@ -278,7 +275,7 @@ app.post('/compraPlato', (req, res) => {
     if (error != 'OK') {
         return res.status(500).json({
             ok: false,
-            mensaje: 'Se han producido errores en la creacion de usuarios',
+            mensaje: 'Se han producido errores en la compra de un plato',
             errors: error
         });
     }

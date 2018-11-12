@@ -23,11 +23,11 @@ function existe_y_logueado(username){
  * @return true si es correcto username y password, false e.o.c.
  */
 function login(username, password){
-    const resultado = lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
-    if(resultado){
+    if(lista_usuarios.has(username) && (lista_usuarios.get(username).password == password)){
         lista_usuarios.get(username).logueado = true;
+        return "OK"
     }
-    return resultado;
+    return "El usuario o la contraseña es incorrecta";
 }
 /**
  * 
@@ -38,13 +38,16 @@ function login(username, password){
 function signup(username, password, mail, city, contact, alergenos){
     if(lista_usuarios.has(username)){//Ya existe
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
-        return (lista_usuarios.search(password) == username);
+        if(lista_usuarios.search(password) == username){
+            return "OK";
+        }
+        return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
     }
     else{
         var user =  {username:username, password:password, mail:mail, city:city, contact: contact, preferences: alergenos, logueado:true};
         lista_usuarios.set(username,user);
         enviarLink(username,mail);
-        return true;
+        return "OK";
     }
 }
 /**
@@ -68,8 +71,9 @@ function editProfile(username, password, mail, city, contact, alergenos){
         perfil.contact = contact;
         perfil.preferences = alergenos;
         lista_usuarios.set(username, perfil);
+        return "OK";
     }
-   return existe_y_logueado;
+   return "El usuario no existe o no está logueado";
 }
 /**
  * 
@@ -77,7 +81,7 @@ function editProfile(username, password, mail, city, contact, alergenos){
  * @param {String} mail 
  */
 function enviarLink(username, mail){
-    var enlace_aleatorio = "http://localhost/" + username + "/" + Math.random().toString(36).substring(7);;
+    var enlace_aleatorio = "http://localhost:3000/usuarios/validar/" + Math.random().toString(36).substring(7);;
     var mensaje = "Te has dado de alta en la plataforma de compra-venta de comidas caseras, con el nombre de usuario: " 
     + username + "\n\nPara confirmar que eres tú, por favor, haga click en el siguiente enlace:\n\n" + enlace_aleatorio;
     console.log("Se envia un correo a " + mail);
@@ -88,11 +92,13 @@ function enviarLink(username, mail){
 }
 //Cuando el usuario hace click en el link
 function validar(username, link){
+    console.log("entro en validar!!! USUARIO: " + username+ ", LINK: " + link)
     var esLink = lista_usuarios.has(username) && lista_usuarios.get(username).link == link;
     if(esLink){
         lista_usuarios.get(username).validado = true;
+        return "OK";
     }
-    return esLink;
+    return "El link no coincide con el esperado";
 }
 /**
  * 
@@ -128,11 +134,11 @@ function sendEmail(mensaje, mail){
  * @param {String} username 
  */
 function logout(username){
-    const resultado = lista_usuarios.has(username) && lista_usuarios.get(username).logueado == true;
     if(lista_usuarios.has(username)){
         lista_usuarios.get(username).logueado = false;
+        return "OK";
     }
-    return resultado;
+    return "El usuario no existe";
 }
 /**
  * 
@@ -140,11 +146,11 @@ function logout(username){
  * @param {String} password 
  */
 function darDeBaja(username, password){
-    const resultado = lista_usuarios.has(username) && lista_usuarios.get(username).password == password && lista_usuarios.get(username).logueado == true;
-    if(resultado){
+    if(lista_usuarios.has(username) && lista_usuarios.get(username).password == password && lista_usuarios.get(username).logueado == true){
         lista_usuarios.remove(username);
+        return "OK"
     }
-    return resultado;
+    return "El usuario no existe o su contraseña no es correcta o no está logueado";
 }
 
 
