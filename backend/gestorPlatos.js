@@ -11,7 +11,7 @@ lista_platos.set('macarrones', {
     titulo: 'macarrones',
     propietario: 'felix',
     valoracion: 5.0,
-    activo: true,
+    vendidos: 1,
     alergeno: [],
     porciones_disponibles: 2,
     localizacion: '',
@@ -19,56 +19,54 @@ lista_platos.set('macarrones', {
     estado: true
 });
 
-var app = express()
+var app = express();
 var auxiliar_arraylist = new ArrayList();
 
 auxiliar_arraylist.add('macarrones');
 usuarios_platos.set('felix', auxiliar_arraylist);
 
-
-function getUsuPlatos() {
+function getUsuPlatos(){
     return usuarios_platos;
 }
 /**
  * 
  * @param {HashMap} listaNueva 
  */
-function setUsuPlatos(listaNueva) {
+function setUsuPlatos(listaNueva){
     usuarios_platos = listaNueva;
 }
-/**
- * 
- * @param {String} usuario 
- * @param {String} plato 
- */
-function addPlato(usuario, plato) { //add plato a usuarios_platos
-    lista = getUsuPlatos();
-    if (lista.has(usuario)) {
-        var platos_de_usuario = lista.get(usuario);
-        platos_de_usuario.add(plato);
-        lista.set(usuario, platos_de_usuario);
-        setUsuPlatos(lista);
-    }
-}
-
-function getPlatos() {
+function getPlatos(){
     return lista_platos;
 }
 /**
  * 
  * @param {HashMap} nuevaListaPlatos 
  */
-function setPlatos(nuevaListaPlatos) {
+function setPlatos(nuevaListaPlatos){
     lista_platos = nuevaListaPlatos;
+}
+/**
+ * 
+ * @param {String} usuario 
+ * @param {String} plato 
+ */
+function addPlato(usuario, plato){ //add plato a usuarios_platos
+    lista = getUsuPlatos();
+    if(lista.has(usuario)){
+        var platos_de_usuario = lista.get(usuario);
+        platos_de_usuario.add(plato);
+        lista.set(usuario, platos_de_usuario);
+        setUsuPlatos(lista);
+    }
 }
 /**
  * 
  * @param {String} propietario 
  * @param {String} plato 
  */
-function esPropietarioDePlato(propietario, plato) {
+function esPropietarioDePlato(propietario, plato){
     var lista = getUsuPlatos();
-    if (lista.has(propietario)) { //Usuario tiene algun plato
+    if(lista.has(propietario)){ //Usuario tiene algun plato
         return lista.get(propietario).contains(plato);
     }
     return false;
@@ -77,17 +75,14 @@ function esPropietarioDePlato(propietario, plato) {
  * 
  * @param {String} propietario 
  * @param {String} titulo 
- * @param {String} descripcion 
- * @param {String[]} ingredientes 
- * @param {boolean} vegetariano 
- * @param {boolean} gluten 
- * @param {boolean} lactosa 
- * @param {int} porciones 
- * @param {double} latitud 
- * @param {double} longitud 
+ * @param {String[]} alergeno 
+ * @param {String} porciones 
+ * @param {String} localizacion 
+ * @param {String} estado 
+ * @param {String[]} hiloMensajes 
  */
-function publicarPlato(propietario, titulo, descripcion, alergeno, porciones, localizacion, estado, hiloMensajes) {
-    if (existe_y_logueado.existe_y_logueado(propietario) || true) {
+function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
+    if (existe_y_logueado.existe_y_logueado(propietario)) {
         var platos = getPlatos();
         if (platos.has(titulo)) {
             return "El titulo introducido ya está en uso, por favor escriba uno distinto";
@@ -97,7 +92,7 @@ function publicarPlato(propietario, titulo, descripcion, alergeno, porciones, lo
                 titulo: titulo,
                 propietario: propietario,
                 valoracion: 0.0,
-                activo: true,
+                vendidos: 0,
                 alergeno: alergeno,
                 vendidos: 0,
                 porciones_disponibles: porciones,
@@ -119,15 +114,19 @@ function publicarPlato(propietario, titulo, descripcion, alergeno, porciones, lo
  * @param {String} plato 
  * @param {bool} activar  
  */
-function activadoPlato(propietario, plato, activar) {
-    if (esPropietarioDePlato(propietario, plato)) {
+function activadoPlato(propietario, plato, activar){
+    if(esPropietarioDePlato(propietario,plato)){
         var platos = getPlatos();
         var objetoPlato = platos.get(plato);
-        objetoPlato.activo = activar;
+        objetoPlato.estado = activar;
         platos.set(plato, objetoPlato);
         setPlatos(platos);
-        return "La oferta ha sido desactivada";
-    } else {
+        if(activar){
+            return "La oferta de \"" + plato + "\" ha sido reactivada."
+        }
+        return "La oferta de \"" + plato + "\" ha sido desactivada."
+    }
+    else{
         return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
     }
 }
@@ -136,7 +135,7 @@ function activadoPlato(propietario, plato, activar) {
  * @param {String} propietario 
  * @param {String} plato 
  */
-function concluirPlato(propietario, plato) {
+function concluirPlato(propietario, plato){
     return activadoPlato(propietario, plato, false);
 }
 /**
@@ -144,18 +143,19 @@ function concluirPlato(propietario, plato) {
  * @param {String} propietario 
  * @param {String} plato 
  */
-function reactivarPlato(propietario, plato) {
+function reactivarPlato(propietario, plato){
     return activadoPlato(propietario, plato, true);
 }
 /**
  * 
  * @param {String} plato 
  */
-function buscarPlato(plato) {
+function buscarPlato(plato){
     var platos = getPlatos();
-    if (platos.has(plato)) {
+    if(platos.has(plato)){
         return "El plato que buscas es el siguiente:\n" + imprimirPlato(platos.get(plato));
-    } else {
+    }
+    else{
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
@@ -163,49 +163,85 @@ function buscarPlato(plato) {
  * 
  * @param {Plato} plato 
  */
-function imprimirPlato(plato) {
+function imprimirPlato(plato){
     return "Título: " + plato.titulo +
-        "\nPropietario: " + plato.propietario +
-        "\nDescripción: " + plato.descripcion +
-        "\nIngredientes: " + plato.ingredientes +
-        "\nValoración: " + plato.valoracion +
-        "\nVegetariano: " + plato.vegetariano +
-        "\nContiene gluten: " + plato.gluten +
-        "\nContiene lactosa: " + plato.lactosa +
-        "\nVendidos: " + plato.vendidos +
-        "\nPorciones disponibles: " + plato.porciones_disponibles +
-        "\nLocalización: " + plato.localizacion;
+            "\nPropietario: " + plato.propietario +
+            "\nValoración: " + plato.valoracion +
+            "\nVendidos: " + plato.vendidos +
+            "\nAlergenos: " + plato.alergeno +
+            "\nPorciones disponibles: " + plato.porciones_disponibles +
+            "\nLocalización: " + plato.localizacion;
 }
-
-function verListaOfertas() {
+function verListaOfertas(){
     var resultado = "Los platos disponibles son los siguientes:";
     var lista = getPlatos();
     var indice = 1;
-    for (var valor of lista.values()) {
-        if (valor.activo == true) {
+    for(var valor of lista.values()){
+        if(valor.activo == true){
             resultado += "\n" + indice + ". " + valor.titulo;
             indice++;
         }
     }
     return resultado;
 }
+function valorarPlato(nombrePlato, valoracion){
+    var platos = getPlatos();
+    if(platos.has(nombrePlato)){
+        var plato = platos.get(nombrePlato);
+        var oldValoracion = plato.valoracion;
+        var vendidos = plato.vendidos;
+        var dividendo = (oldValoracion*vendidos) + valoracion;
+        vendidos++;
+        var media = dividendo / vendidos;
+        plato.vendidos = vendidos;
+        plato.valoracion = media;
+        platos.set(nombrePlato, plato);
+        setPlatos(platos);
+        return "Usted ha valorado el plato \"" + nombrePlato + "\" con " + valoracion + " puntos.\nLa valoración actual del palto es " + media;
+    }
+    else{
+        return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
+    }
+}
+function comprarPlato(nombrePlato, porciones){
+    var platos = getPlatos();
+    if(platos.has(nombrePlato)){
+        if(platos.get(nombrePlato).porciones_disponibles >= porciones){
+            platos.get(nombrePlato).porciones_disponibles -= porciones;
+            setPlatos(platos);
+            return "Ha comprado con éxito " + porciones + " porciones de " + nombrePlato;
+        }
+        return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones_disponibles + "), por favor reformule la propuesta con menos porciones."
+    }
+    else{
+        return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
+
+    }
+}
 /*
-////////////////////// PRUEBAS //////////////////////
+////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
 
 console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
     "\n\n publicarPlato(propietario, titulo, descripcion, ingredientes, vegetariano, gluten, lactosa, porciones, latitud, longitud) -> " 
-    + publicarPlato('felix', 'filete de ternera', 'filete de cadera', ['ternera', 'pimienta', 'sal'], false, false, false, 4, 45.6785, -3.4336) + 
+    + publicarPlato('felix', 'filete de ternera', false, false, false, 4, 45.6785, -3.4336) + 
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
+    "\n\n verListaOfertas -> " + verListaOfertas() +
     "\n\n concluirPlato('felix', 'macarrones')-> " + concluirPlato('felix', 'macarrones') +
+    "\n\n verListaOfertas -> " + verListaOfertas() +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
     "\n\n reactivarPlato('felix', 'macarrones') -> " + reactivarPlato('felix', 'macarrones') +
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
+    "\n\n verListaOfertas -> " + verListaOfertas() +
+    "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
+    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3) +
+    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2) +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
+
     /// Hasta aqui todo funciona ///
 )
 */
-
 // Rutas de gestor platos
 
 app.get('/', function(req, res) {
@@ -224,6 +260,101 @@ app.post('/listaPlatos', (req, res) => {
         return res.status(500).json({
             ok: false,
             mensaje: 'Se han producido errores en la creacion de usuarios',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
+
+app.post('/compraPlato', (req, res) => {
+    var body = req.body;
+
+
+    var error = comprarPlato(body.plato, body.porciones)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la creacion de usuarios',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
+
+app.post('/valorarPlato', (req, res) => {
+    var body = req.body;
+
+
+    var error = valorarPlato(body.plato, body.valoracion)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la valoracion de un plato',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
+
+app.post('/activarPlato', (req, res) => {
+    var body = req.body;
+
+
+    var error = reactivarPlato(body.propietario, body.plato)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la activacion del anuncio de un plato',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
+
+app.post('/desactivarPlato', (req, res) => {
+    var body = req.body;
+
+
+    var error = concluirPlato(body.propietario, body.plato)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la desactivacion del anuncio de un plato',
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
+    });
+
+});
+
+app.post('/buscaPlato', (req, res) => {
+    var body = req.body;
+
+
+    var error = buscarPlato(body.plato)
+    if (error != 'OK') {
+        return res.status(500).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la busqueda de un plato',
             errors: error
         });
     }
