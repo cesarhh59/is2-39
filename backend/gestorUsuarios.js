@@ -7,7 +7,7 @@ var lista_usuarios = new HashMap();
 
 let array_vacio = [];
 // Meto dos para hacer pruebas
-lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', preferences: ['Celiaco'], link: '', validado: false, logueado: false });
+lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', preferences: ['Celiaco'], link: '1234', validado: false, logueado: false });
 lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contact: '622115544', preferences: array_vacio, link: '', validado: true, logueado: false });
 
 function getUsuarios(){
@@ -81,12 +81,13 @@ function editProfile(username, password, mail, city, contact, alergenos){
  * @param {String} mail 
  */
 function enviarLink(username, mail){
-    var enlace_aleatorio = "http://localhost:3000/usuarios/validar/" + Math.random().toString(36).substring(7);;
+    var key = Math.random().toString(36).substring(7);
+    var enlace_aleatorio = "http://localhost:3000/usuarios/validar/" + username + "/" + key;
     var mensaje = "Te has dado de alta en la plataforma de compra-venta de comidas caseras, con el nombre de usuario: " 
     + username + "\n\nPara confirmar que eres tú, por favor, haga click en el siguiente enlace:\n\n" + enlace_aleatorio;
     console.log("Se envia un correo a " + mail);
     var usuario = lista_usuarios.get(username);
-    usuario.link = enlace_aleatorio;
+    usuario.link = key;
     lista_usuarios.set(username, usuario);
     sendEmail(mensaje, mail);
 }
@@ -96,7 +97,7 @@ function validar(username, link){
     var esLink = lista_usuarios.has(username) && lista_usuarios.get(username).link == link;
     if(esLink){
         lista_usuarios.get(username).validado = true;
-        return "OK";
+        return "Te has validado correctamente";
     }
     return "El link no coincide con el esperado";
 }
@@ -273,22 +274,8 @@ app.post('/logout', (req, res) => {
 
 });
 // acceder enlace validacion
-app.post('/validar', (req, res) => {
-    var body = req.body;
-
-
-    var error = validar(body.username, body.link)
-    if (error != 'OK') {
-        return res.status(500).json({
-            ok: false,
-            mensaje: 'Se han producido errores en la validacion de usuarios',
-            errors: error
-        });
-    }
-    res.status(201).json({
-        ok: true,
-        body: error
-    });
+app.get('/validar/:id/:key', (req, res) => {
+    res.send(validar(req.params.id, req.params.key))
 
 });
 module.exports = app;

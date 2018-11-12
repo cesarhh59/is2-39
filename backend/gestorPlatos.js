@@ -343,23 +343,10 @@ app.post('/desactivarPlato', (req, res) => {
 
 });
 
-app.post('/buscaPlato', (req, res) => {
-    var body = req.body;
+app.get('/buscaPlato/:id', (req, res) => {
 
-
-    var error = buscarPlato(body.plato)
-    if (error != 'OK') {
-        return res.status(500).json({
-            ok: false,
-            mensaje: 'Se han producido errores en la busqueda de un plato',
-            errors: error
-        });
-    }
-    res.status(201).json({
-        ok: true,
-        body: error
-    });
-
+    res.send(buscarPlato(req.params.id));
+   
 });
 
 module.exports = app;
