@@ -34,10 +34,11 @@ app.listen(3000, () => {
 });
 
 //Rutas 
+var routesPlatos = require('./gestorPlatos');
+
+app.use('/', routesPlatos);
 /*
-var appRoutes = require('./routes/app');
 var usuarioRoutes = require('./routes/usuario');
 
-app.use('/usuario', usuarioRoutes);
 app.use('/', appRoutes);
 */

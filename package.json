@@ -26,7 +26,6 @@
         "hashmap": "^2.3.0",
         "nodemailer": "^4.6.8",
         "primeicons": "^1.0.0-beta.9",
-        "primeng": "^6.1.5",
         "rxjs": "~6.2.0",
         "zone.js": "~0.8.26"
     },
