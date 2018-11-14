@@ -14,44 +14,12 @@ export class DashboardComponent implements OnInit {
   public oAnuncios: IAnuncio [] = [];
   constructor(private platosService: AnunciosService) { }
   ngOnInit() {
-    const anuncio = {
-      titulo: 'Magdalenas',
-      porciones: 4,
-      localizacion: 'Madrid',
-      disponibles: true,
-      propietario: 'Jose',
-      estado: true,
-      valoracion: 4.1
-    };
-    const anuncio1 = {
-      titulo: 'Perritos',
-      porciones: 4,
-      localizacion: 'Madrid',
-      disponibles: true,
-      propietario: 'Jose',
-      estado: true,
-      valoracion: 4.1
-    };
-    const anuncio2 = {
-      titulo: 'Azulejos',
-      porciones: 4,
-      localizacion: 'Madrid',
-      disponibles: true,
-      propietario: 'Jose',
-      estado: true,
-      valoracion: 4.1
-    };
-    this.anuncios.push(anuncio);
-    this.anuncios.push(anuncio);
-    this.anuncios.push(anuncio1);
-    this.anuncios.push(anuncio2);
-    this.oAnuncios = this.anuncios;
     // TODO llamada a servicios que devuelve los anuncios
     this.platosService.getPlatos().subscribe((data: IResponse) => {
-    console.log(data);
     data.platos.forEach((e: IAnuncio) => {
       this.anuncios.push(e);
     });
+    this.oAnuncios = this.anuncios;
     });
   }
 

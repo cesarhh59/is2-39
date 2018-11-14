@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AnunciosService } from '../services/anuncios.service';
+import { IResponse } from '../registro/registro.component';
 
 @Component({
   selector: 'app-gestor',
@@ -8,17 +10,27 @@ import { Component, OnInit } from '@angular/core';
 export class GestorComponent implements OnInit {
   public options: string[] = [];
   public activo: Boolean = false;
-  constructor() { }
+  constructor(private platosService: AnunciosService) { }
 
   ngOnInit() {
   }
 
 saveAlergeno(alergeno: any) {
-    console.log(alergeno);
 
   }
   saveAnuncio(titulo: string, porciones: number, localizacion: string) {
-
+    const anuncio: IAnuncio = {
+      titulo: titulo,
+      porciones: porciones,
+      localizacion: localizacion,
+      disponibles: true,
+      propietario: localStorage.getItem('token'),
+      estado: false,
+      valoracion: 0
+    };
+    this.platosService.addPlato(anuncio).subscribe((res: IResponse)=>{
+      console.log(res);
+    });
   }
 }
 

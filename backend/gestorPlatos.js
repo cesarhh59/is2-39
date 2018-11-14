@@ -20,7 +20,7 @@ lista_platos.set('macarrones', {
 });
 
 lista_platos.set('Champiñones', {
-    titulo: 'macarrones',
+    titulo: 'Champiñones',
     propietario: 'felix',
     valoracion: 5.0,
     vendidos: 1,
@@ -94,31 +94,28 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String[]} hiloMensajes 
  */
 function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
-    if (existe_y_logueado.existe_y_logueado(propietario)) {
-        var platos = getPlatos();
-        if (platos.has(titulo)) {
-            return "El titulo introducido ya está en uso, por favor escriba uno distinto";
-        } else {
-
-            platos.set(titulo, {
-                titulo: titulo,
-                propietario: propietario,
-                valoracion: 0.0,
-                vendidos: 0,
-                alergeno: alergeno,
-                vendidos: 0,
-                porciones_disponibles: porciones,
-                localizacion: localizacion,
-                hiloMensajes: hiloMensajes,
-                estado: estado
-            });
-            setPlatos(platos);
-            addPlato(propietario, titulo);
-            return "OK"
-        }
+    var platos = getPlatos();
+    if (platos.has(titulo)) {
+        return "El titulo introducido ya está en uso, por favor escriba uno distinto";
     } else {
-        return "No se ha encontrado una sesión activa del usuario reconocido"
+
+        platos.set(titulo, {
+            titulo: titulo,
+            propietario: propietario,
+            valoracion: 0.0,
+            vendidos: 0,
+            alergeno: alergeno,
+            vendidos: 0,
+            porciones_disponibles: porciones,
+            localizacion: localizacion,
+            hiloMensajes: hiloMensajes,
+            estado: estado
+        });
+        setPlatos(platos);
+        addPlato(propietario, titulo);
+        return "OK"
     }
+
 }
 /**
  * 
@@ -166,32 +163,8 @@ function buscarPlato(plato) {
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
-/**
- * 
- * @param {Plato} plato 
- */
-function imprimirPlato(plato) {
-    return "Título: " + plato.titulo +
-        "\nPropietario: " + plato.propietario +
-        "\nValoración: " + plato.valoracion +
-        "\nVendidos: " + plato.vendidos +
-        "\nAlergenos: " + plato.alergeno +
-        "\nPorciones disponibles: " + plato.porciones_disponibles +
-        "\nLocalización: " + plato.localizacion;
-}
 
-function verListaOfertas() {
-    var resultado = "Los platos disponibles son los siguientes:";
-    var lista = getPlatos();
-    var indice = 1;
-    for (var valor of lista.values()) {
-        if (valor.estado == true) {
-            resultado += "\n" + indice + ". " + valor.titulo;
-            indice++;
-        }
-    }
-    return resultado;
-}
+
 
 function valorarPlato(nombrePlato, valoracion) {
     var platos = getPlatos();
@@ -264,8 +237,6 @@ app.get('/listaPlatos', function(req, res) {
 })
 app.post('/listaPlatos', (req, res) => {
     var body = req.body;
-
-
     var error = publicarPlato(body.propietario, body.titulo,
         body.alergeno, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
     if (error != 'OK') {
@@ -282,11 +253,11 @@ app.post('/listaPlatos', (req, res) => {
 
 });
 
-app.post('/compraPlato', (req, res) => {
+app.post('/listaPlatos', (req, res) => {
     var body = req.body;
 
-
-    var error = comprarPlato(body.plato, body.porciones)
+    console.log(body);
+    lista_platos.set(req.body.titulo)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
