@@ -254,7 +254,7 @@ app.post('/listaPlatos', (req, res) => {
     var error = publicarPlato(body.propietario, body.titulo,
         body.alergeno, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la creacion de usuarios',
             errors: error
@@ -273,7 +273,7 @@ app.post('/compraPlato', (req, res) => {
 
     var error = comprarPlato(body.plato, body.porciones)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la compra de un plato',
             errors: error
@@ -292,7 +292,7 @@ app.post('/valorarPlato', (req, res) => {
 
     var error = valorarPlato(body.plato, body.valoracion)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la valoracion de un plato',
             errors: error
@@ -311,7 +311,7 @@ app.post('/activarPlato', (req, res) => {
 
     var error = reactivarPlato(body.propietario, body.plato)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la activacion del anuncio de un plato',
             errors: error
@@ -330,7 +330,7 @@ app.post('/desactivarPlato', (req, res) => {
 
     var error = concluirPlato(body.propietario, body.plato)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la desactivacion del anuncio de un plato',
             errors: error

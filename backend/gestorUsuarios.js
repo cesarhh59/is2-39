@@ -185,7 +185,7 @@ app.post('/signup', (req, res) => {
     var error = signup(body.username, body.password,
         body.mail, body.city, body.contact, body.alergenos)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la creacion de usuarios',
             errors: error
@@ -204,7 +204,7 @@ app.post('/editProfile', (req, res) => {
 
     var error = editProfile(body.username, body.password, body.mail, body.city, body.contact, body.alergenos)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la edicion de usuarios',
             errors: error
@@ -223,7 +223,7 @@ app.post('/darDeBaja', (req, res) => {
 
     var error = darDeBaja(body.username, body.password)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en la eliminacion de usuarios',
             errors: error
@@ -242,7 +242,7 @@ app.post('/login', (req, res) => {
 
     var error = login(body.username, body.password)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en login de usuarios',
             errors: error
@@ -261,7 +261,7 @@ app.post('/logout', (req, res) => {
 
     var error = logout(body.username)
     if (error != 'OK') {
-        return res.status(500).json({
+        return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores en logout de usuarios',
             errors: error
