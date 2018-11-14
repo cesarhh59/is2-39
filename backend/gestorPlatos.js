@@ -268,11 +268,11 @@ app.post('/listaPlatos', (req, res) => {
 });
 
 
-app.post('/valorarPlato', (req, res) => {
+app.get('/listaPlatos/:id/valorar/:valoracion', (req, res) => {
     var body = req.body;
 
 
-    var error = valorarPlato(body.plato, body.valoracion)
+    var error = valorarPlato(req.params.id, req.params.valoracion)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,

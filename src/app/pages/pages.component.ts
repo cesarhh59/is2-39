@@ -21,7 +21,7 @@ export class PagesComponent implements OnInit {
   };
 
   public showValoracion: Boolean = false;
-  public valoracion: Number = 0;
+  public valoracion = 0;
   public porcionesSeleccionadas = 0;
   constructor(private route: ActivatedRoute, private routes: Router, private platosService: AnunciosService) {
   }
@@ -50,14 +50,16 @@ export class PagesComponent implements OnInit {
 
   comprar(): void {
     // TODO llamar a back con porciones seleccionadas y producto
-    this.platosService.comprarPlato(this.anuncio.titulo, this.porcionesSeleccionadas).subscribe((respuesta: IResponse) => {
-      console.log(respuesta);
+    this.platosService.comprarPlato(this.anuncio.titulo, this.porcionesSeleccionadas).subscribe(() => {
     });
     this.showValoracion = !this.showValoracion;
   }
   enviar() {
     this.showValoracion = !this.showValoracion;
     // TODO llamar a back con porciones seleccionadas y producto
+    this.platosService.valorarPlato(this.anuncio.titulo, this.valoracion).subscribe((respuesta: IResponse) => {
+      console.log(respuesta);
+    });
     this.routes.navigate(['dashboard']);
   }
 

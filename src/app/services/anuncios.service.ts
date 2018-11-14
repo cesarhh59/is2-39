@@ -34,4 +34,9 @@ export class AnunciosService {
       const url = this.usersUrl + '/listaPlatos/' + titulo + '/comprar/' + porciones;
       return this.http.get(url);
     }
+      // Comprar plato
+      valorarPlato(titulo: string, valoracion: number) {
+        const url = this.usersUrl + '/listaPlatos/' + titulo + '/valorar/' + valoracion;
+        return this.http.get(url);
+      }
 }
