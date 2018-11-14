@@ -77,5 +77,5 @@ export interface IUsuario {
 export interface IResponse {
   ok: boolean;
   boody: string;
-  platos?: IAnuncio[];
+  platos?;
 }

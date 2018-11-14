@@ -183,12 +183,12 @@ function valorarPlato(nombrePlato, valoracion) {
 function comprarPlato(nombrePlato, porciones) {
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
-        if (platos.get(nombrePlato).porciones_disponibles >= porciones) {
-            platos.get(nombrePlato).porciones_disponibles -= porciones;
+        if (platos.get(nombrePlato).porciones >= porciones) {
+            platos.get(nombrePlato).porciones -= porciones;
             setPlatos(platos);
             return "OK";
         }
-        return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones_disponibles + "), por favor reformule la propuesta con menos porciones."
+        return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
     } else {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
 
@@ -267,6 +267,7 @@ app.post('/listaPlatos', (req, res) => {
 
 });
 
+
 app.post('/valorarPlato', (req, res) => {
     var body = req.body;
 
@@ -330,6 +331,22 @@ app.get('/listaPlatos/:id', (req, res) => {
     return res.status(200).json({
         ok: true,
         platos: lista_platos.get(req.params.id)
+    });
+
+});
+app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
+    //    res.send(buscarPlato(req.params.id));
+    var error = comprarPlato(req.params.id, req.params.porciones)
+    if (error != 'OK') {
+        return res.status(200).json({
+            ok: false,
+            mensaje: error,
+            errors: error
+        });
+    }
+    res.status(201).json({
+        ok: true,
+        body: error
     });
 
 });

@@ -17,7 +17,7 @@ export class AnunciosService {
      return this.http.get(url);
     }
 
-    // Comprar plato
+    // Crear plato
     addPlato(anuncio: IAnuncio) {
       const anuncioParse = JSON.stringify( anuncio);
       const url = this.usersUrl + '/listaPlatos';
@@ -25,10 +25,13 @@ export class AnunciosService {
     }
 
     getPlato(titulo: string) {
-      // Initialize Params Object
-
-      // Begin assigning parameters
       const url = this.usersUrl + '/listaPlatos/' + titulo;
+      return this.http.get(url);
+    }
+
+    // Comprar plato
+    comprarPlato(titulo: string, porciones: number) {
+      const url = this.usersUrl + '/listaPlatos/' + titulo + '/comprar/' + porciones;
       return this.http.get(url);
     }
 }

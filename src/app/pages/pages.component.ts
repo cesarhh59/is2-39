@@ -31,9 +31,8 @@ export class PagesComponent implements OnInit {
 
     // TODO llamar servicio para recuperar datos de anuncio
     this.route.params.subscribe(params => {
-    console.log(params['id']);
     this.platosService.getPlato(params['id']).subscribe((respuesta: IResponse) => {
-      const auxAnuncio: IAnuncio[] = respuesta.platos;
+      const auxAnuncio = respuesta.platos;
         this.anuncio = {
         titulo: auxAnuncio.titulo,
         porciones: auxAnuncio.porciones,
@@ -43,8 +42,6 @@ export class PagesComponent implements OnInit {
         estado: auxAnuncio.disponibles,
         valoracion: auxAnuncio.valoracion
       };
-     console.log(auxAnuncio);
-
     });
 
     });
@@ -53,7 +50,9 @@ export class PagesComponent implements OnInit {
 
   comprar(): void {
     // TODO llamar a back con porciones seleccionadas y producto
-
+    this.platosService.comprarPlato(this.anuncio.titulo, this.porcionesSeleccionadas).subscribe((respuesta: IResponse) => {
+      console.log(respuesta);
+    });
     this.showValoracion = !this.showValoracion;
   }
   enviar() {
