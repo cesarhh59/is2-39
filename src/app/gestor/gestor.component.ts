@@ -13,6 +13,9 @@ export class GestorComponent implements OnInit {
   constructor(private platosService: AnunciosService) { }
 
   ngOnInit() {
+    this.platosService.getPlatosPropietario(localStorage.getItem('token')).subscribe((res: IResponse) => {
+    this.options.push(res.platos);
+    });
   }
 
 saveAlergeno(alergeno: any) {

@@ -16,7 +16,10 @@ export class AnunciosService {
      const url = this.usersUrl + '/listaPlatos';
      return this.http.get(url);
     }
-
+    getPlatosPropietario(propietario: string) {
+      const url = this.usersUrl + '/listaPlatos/' + propietario + '/propietario';
+      return this.http.get(url);
+    }
     // Crear plato
     addPlato(anuncio: IAnuncio) {
       const anuncioParse = JSON.stringify( anuncio);
@@ -37,6 +40,15 @@ export class AnunciosService {
       // Comprar plato
       valorarPlato(titulo: string, valoracion: number) {
         const url = this.usersUrl + '/listaPlatos/' + titulo + '/valorar/' + valoracion;
+        return this.http.get(url);
+      }
+
+      activarAnuncio(titulo: string) {
+        const url = this.usersUrl + '/listaPlatos/' + titulo + '/activar/';
+        return this.http.get(url);
+      }
+      desactivarAnuncio(titulo: string) {
+        const url = this.usersUrl + '/listaPlatos/' + titulo + '/desactivar/';
         return this.http.get(url);
       }
 }

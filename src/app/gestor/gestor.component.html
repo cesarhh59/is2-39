@@ -1,7 +1,7 @@
 <div class="row container-fluid">
     <div class="col-md-5">
         <h3>Anuncios publicados</h3>
-        <app-card isGestor="true" [activate]="activo"></app-card>
+        <app-card isGestor="true" *ngFor="let option of options" [title]="option" [activate]="activo"></app-card>
     </div>
     <div class="col-md-7 box">
         <form class="needs-validation" novalidate>

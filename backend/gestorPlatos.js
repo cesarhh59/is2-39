@@ -13,7 +13,7 @@ lista_platos.set('macarrones', {
     porciones: 4,
     localizacion: 'Soria',
     disponibles: true,
-    propietario: 'Cesar',
+    propietario: 'cesar',
     estado: true,
     valoracion: 4
 });
@@ -32,7 +32,7 @@ var app = express();
 var auxiliar_arraylist = new ArrayList();
 
 auxiliar_arraylist.add('macarrones');
-usuarios_platos.set('felix', auxiliar_arraylist);
+usuarios_platos.set('cesar', auxiliar_arraylist);
 
 function getUsuPlatos() {
     return usuarios_platos;
@@ -114,37 +114,30 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
 }
 /**
  * 
- * @param {String} propietario 
  * @param {String} plato 
  * @param {bool} activar  
  */
-function activadoPlato(propietario, plato, activar) {
-    if (esPropietarioDePlato(propietario, plato)) {
-        var platos = getPlatos();
-        var objetoPlato = platos.get(plato);
-        objetoPlato.estado = activar;
-        platos.set(plato, objetoPlato);
-        setPlatos(platos);
-        return "OK"
-    } else {
-        return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
-    }
+function activadoPlato(plato, activar) {
+    var platos = getPlatos();
+    var objetoPlato = platos.get(plato);
+    objetoPlato.estado = activar;
+    platos.set(plato, objetoPlato);
+    setPlatos(platos);
+    return "OK"
 }
 /**
  * 
- * @param {String} propietario 
  * @param {String} plato 
  */
-function concluirPlato(propietario, plato) {
-    return activadoPlato(propietario, plato, false);
+function concluirPlato(plato) {
+    return activadoPlato(plato, false);
 }
 /**
  * 
- * @param {String} propietario 
  * @param {String} plato 
  */
-function reactivarPlato(propietario, plato) {
-    return activadoPlato(propietario, plato, true);
+function reactivarPlato(plato) {
+    return activadoPlato(plato, true);
 }
 /**
  * 
@@ -269,9 +262,6 @@ app.post('/listaPlatos', (req, res) => {
 
 
 app.get('/listaPlatos/:id/valorar/:valoracion', (req, res) => {
-    var body = req.body;
-
-
     var error = valorarPlato(req.params.id, req.params.valoracion)
     if (error != 'OK') {
         return res.status(200).json({
@@ -287,11 +277,8 @@ app.get('/listaPlatos/:id/valorar/:valoracion', (req, res) => {
 
 });
 
-app.post('/activarPlato', (req, res) => {
-    var body = req.body;
-
-
-    var error = reactivarPlato(body.propietario, body.plato)
+app.get('/listaPlatos/:id/activar/', (req, res) => {
+    var error = reactivarPlato(req.params.id)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
@@ -306,11 +293,8 @@ app.post('/activarPlato', (req, res) => {
 
 });
 
-app.post('/desactivarPlato', (req, res) => {
-    var body = req.body;
-
-
-    var error = concluirPlato(body.propietario, body.plato)
+app.get('/listaPlatos/:id/desactivar/', (req, res) => {
+    var error = concluirPlato(req.params.id)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
@@ -331,6 +315,15 @@ app.get('/listaPlatos/:id', (req, res) => {
     return res.status(200).json({
         ok: true,
         platos: lista_platos.get(req.params.id)
+    });
+
+});
+app.get('/listaPlatos/:id/propietario', (req, res) => {
+    //    res.send(buscarPlato(req.params.id));
+
+    return res.status(200).json({
+        ok: true,
+        platos: usuarios_platos.get(req.params.id)
     });
 
 });
