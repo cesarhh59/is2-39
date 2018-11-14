@@ -8,27 +8,25 @@ var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
 
 lista_platos.set('macarrones', {
+
     titulo: 'macarrones',
-    propietario: 'felix',
-    valoracion: 5.0,
-    vendidos: 1,
-    alergeno: [],
-    porciones_disponibles: 2,
-    localizacion: '',
-    hiloMensajes: [],
-    estado: true
+    porciones: 4,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Cesar',
+    estado: true,
+    valoracion: 4
 });
+
 
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
-    propietario: 'felix',
-    valoracion: 5.0,
-    vendidos: 1,
-    alergeno: [],
-    porciones_disponibles: 2,
-    localizacion: '',
-    hiloMensajes: [],
-    estado: true
+    porciones: 4,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Cesar',
+    estado: true,
+    valoracion: 4
 });
 var app = express();
 var auxiliar_arraylist = new ArrayList();
@@ -101,15 +99,12 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
 
         platos.set(titulo, {
             titulo: titulo,
-            propietario: propietario,
-            valoracion: 0.0,
-            vendidos: 0,
-            alergeno: alergeno,
-            vendidos: 0,
-            porciones_disponibles: porciones,
+            porciones: porciones,
             localizacion: localizacion,
-            hiloMensajes: hiloMensajes,
-            estado: estado
+            disponibles: estado,
+            propietario: propietario,
+            estado: estado,
+            valoracion: valoracion
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
@@ -329,9 +324,13 @@ app.post('/desactivarPlato', (req, res) => {
 
 });
 
-app.get('/buscaPlato/:id', (req, res) => {
+app.get('/listaPlatos/:id', (req, res) => {
+    //    res.send(buscarPlato(req.params.id));
 
-    res.send(buscarPlato(req.params.id));
+    return res.status(200).json({
+        ok: true,
+        platos: lista_platos.get(req.params.id)
+    });
 
 });
 

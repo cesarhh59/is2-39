@@ -28,7 +28,7 @@ saveAlergeno(alergeno: any) {
       estado: false,
       valoracion: 0
     };
-    this.platosService.addPlato(anuncio).subscribe((res: IResponse)=>{
+    this.platosService.addPlato(anuncio).subscribe((res: IResponse) => {
       console.log(res);
     });
   }

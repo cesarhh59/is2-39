@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAnuncio } from '../gestor/gestor.component';
+import { AnunciosService } from '../services/anuncios.service';
+import { IResponse } from '../registro/registro.component';
 
 @Component({
   selector: 'app-pages',
@@ -8,7 +10,7 @@ import { IAnuncio } from '../gestor/gestor.component';
   styleUrls: ['./pages.component.css']
 })
 export class PagesComponent implements OnInit {
-  public anuncio: IAnuncio = {
+  public anuncio = {
     titulo: '',
     porciones: 0,
     localizacion: '',
@@ -21,25 +23,32 @@ export class PagesComponent implements OnInit {
   public showValoracion: Boolean = false;
   public valoracion: Number = 0;
   public porcionesSeleccionadas = 0;
-  constructor(private route: ActivatedRoute, private routes: Router) {
-    console.log(this.anuncio);
+  constructor(private route: ActivatedRoute, private routes: Router, private platosService: AnunciosService) {
   }
 
   ngOnInit() {
+
+
+    // TODO llamar servicio para recuperar datos de anuncio
     this.route.params.subscribe(params => {
     console.log(params['id']);
-    });
-    // TODO llamar servicio para recuperar datos de anuncio
+    this.platosService.getPlato(params['id']).subscribe((respuesta: IResponse) => {
+      const auxAnuncio: IAnuncio[] = respuesta.platos;
+        this.anuncio = {
+        titulo: auxAnuncio.titulo,
+        porciones: auxAnuncio.porciones,
+        localizacion: auxAnuncio.localizacion,
+        disponibles: auxAnuncio.disponibles,
+        propietario: auxAnuncio.propietario,
+        estado: auxAnuncio.disponibles,
+        valoracion: auxAnuncio.valoracion
+      };
+     console.log(auxAnuncio);
 
-    this.anuncio = {
-      titulo: 'Magdalenas',
-      porciones: 4,
-      localizacion: 'Madrid',
-      disponibles: true,
-      propietario: 'Jose',
-      estado: true,
-      valoracion: 4.1
-    };
+    });
+
+    });
+
   }
 
   comprar(): void {

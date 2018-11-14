@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IAnuncio } from '../gestor/gestor.component';
 
 @Injectable({
@@ -22,5 +22,13 @@ export class AnunciosService {
       const anuncioParse = JSON.stringify( anuncio);
       const url = this.usersUrl + '/listaPlatos';
       return this.http.post( url, anuncioParse, this.httpOptions);
+    }
+
+    getPlato(titulo: string) {
+      // Initialize Params Object
+
+      // Begin assigning parameters
+      const url = this.usersUrl + '/listaPlatos/' + titulo;
+      return this.http.get(url);
     }
 }
