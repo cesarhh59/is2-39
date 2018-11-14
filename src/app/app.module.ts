@@ -20,6 +20,9 @@ import { RegistroComponent } from './registro/registro.component';
 import { MessagesComponent } from './controls/messages/messages.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { AuthGuard } from './auth.guard';
+import { UsuariosService } from './services/usuarios.service';
+import { AnunciosService } from './services/anuncios.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,10 +45,13 @@ import { AuthGuard } from './auth.guard';
     BrowserModule,
     CommonModule,
     FormsModule,
+    HttpClientModule,
     PAGES_ROUTES
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    UsuariosService,
+    AnunciosService
   ],
   bootstrap: [AppComponent]
 })

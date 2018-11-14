@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatsComponent implements OnInit {
 public chats: String [] = [];
-public messages: Messages [] = [];
+public messages: IMessages [] = [];
 public msgSend: String = '';
 constructor() {
   }
@@ -43,7 +43,7 @@ constructor() {
   }
 
 }
-export interface Messages {
+export interface IMessages {
   user: String;
   msg: String;
 }

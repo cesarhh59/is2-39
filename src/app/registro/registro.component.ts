@@ -10,7 +10,7 @@ export class RegistroComponent implements OnInit {
 
   public alergenos: string [] = [];
 
-  public registro: Registro;
+  public registro: IUsuario;
   public errores: string [] = [];
   ngOnInit() {
     this.alergenos.push('Lactosa');
@@ -62,13 +62,18 @@ export class RegistroComponent implements OnInit {
         this.errores.push('El registro se ha realizado correctamente, por favor vaya a su correo para validar el usuario');
       }
   }
+
 }
 
-export interface Registro {
+export interface IUsuario {
   nombre: string;
   password: string;
   email: string;
   contacto: number;
   ciudad: string;
   alergenos?: string[];
+}
+export interface IResponse {
+  ok: boolean;
+  boody: string;
 }
