@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IAnuncio } from '../gestor/gestor.component';
+import { AnunciosService } from '../services/anuncios.service';
+import { IResponse } from '../registro/registro.component';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +12,7 @@ import { IAnuncio } from '../gestor/gestor.component';
 export class DashboardComponent implements OnInit {
   public anuncios: IAnuncio [] = [];
   public oAnuncios: IAnuncio [] = [];
-  constructor() { }
+  constructor(private platosService: AnunciosService) { }
   ngOnInit() {
     const anuncio = {
       titulo: 'Magdalenas',
@@ -44,6 +47,12 @@ export class DashboardComponent implements OnInit {
     this.anuncios.push(anuncio2);
     this.oAnuncios = this.anuncios;
     // TODO llamada a servicios que devuelve los anuncios
+    this.platosService.getPlatos().subscribe((data: IResponse) => {
+    console.log(data);
+    data.platos.forEach((e: IAnuncio) => {
+      this.anuncios.push(e);
+    });
+    });
   }
 
   public  buscar(bOferta: string): void {

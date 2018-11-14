@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
+import { IAnuncio } from '../gestor/gestor.component';
 
 @Component({
   selector: 'app-registro',
@@ -76,4 +77,5 @@ export interface IUsuario {
 export interface IResponse {
   ok: boolean;
   boody: string;
+  platos?: IAnuncio[];
 }

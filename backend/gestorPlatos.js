@@ -19,30 +19,42 @@ lista_platos.set('macarrones', {
     estado: true
 });
 
+lista_platos.set('Champiñones', {
+    titulo: 'macarrones',
+    propietario: 'felix',
+    valoracion: 5.0,
+    vendidos: 1,
+    alergeno: [],
+    porciones_disponibles: 2,
+    localizacion: '',
+    hiloMensajes: [],
+    estado: true
+});
 var app = express();
 var auxiliar_arraylist = new ArrayList();
 
 auxiliar_arraylist.add('macarrones');
 usuarios_platos.set('felix', auxiliar_arraylist);
 
-function getUsuPlatos(){
+function getUsuPlatos() {
     return usuarios_platos;
 }
 /**
  * 
  * @param {HashMap} listaNueva 
  */
-function setUsuPlatos(listaNueva){
+function setUsuPlatos(listaNueva) {
     usuarios_platos = listaNueva;
 }
-function getPlatos(){
+
+function getPlatos() {
     return lista_platos;
 }
 /**
  * 
  * @param {HashMap} nuevaListaPlatos 
  */
-function setPlatos(nuevaListaPlatos){
+function setPlatos(nuevaListaPlatos) {
     lista_platos = nuevaListaPlatos;
 }
 /**
@@ -50,9 +62,9 @@ function setPlatos(nuevaListaPlatos){
  * @param {String} usuario 
  * @param {String} plato 
  */
-function addPlato(usuario, plato){ //add plato a usuarios_platos
+function addPlato(usuario, plato) { //add plato a usuarios_platos
     lista = getUsuPlatos();
-    if(lista.has(usuario)){
+    if (lista.has(usuario)) {
         var platos_de_usuario = lista.get(usuario);
         platos_de_usuario.add(plato);
         lista.set(usuario, platos_de_usuario);
@@ -64,9 +76,9 @@ function addPlato(usuario, plato){ //add plato a usuarios_platos
  * @param {String} propietario 
  * @param {String} plato 
  */
-function esPropietarioDePlato(propietario, plato){
+function esPropietarioDePlato(propietario, plato) {
     var lista = getUsuPlatos();
-    if(lista.has(propietario)){ //Usuario tiene algun plato
+    if (lista.has(propietario)) { //Usuario tiene algun plato
         return lista.get(propietario).contains(plato);
     }
     return false;
@@ -114,16 +126,15 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
  * @param {String} plato 
  * @param {bool} activar  
  */
-function activadoPlato(propietario, plato, activar){
-    if(esPropietarioDePlato(propietario,plato)){
+function activadoPlato(propietario, plato, activar) {
+    if (esPropietarioDePlato(propietario, plato)) {
         var platos = getPlatos();
         var objetoPlato = platos.get(plato);
         objetoPlato.estado = activar;
         platos.set(plato, objetoPlato);
         setPlatos(platos);
         return "OK"
-    }
-    else{
+    } else {
         return "No se ha encontrado que el usuario \"" + propietario + "\" sea propietarios del plato \"" + plato + "\"";
     }
 }
@@ -132,7 +143,7 @@ function activadoPlato(propietario, plato, activar){
  * @param {String} propietario 
  * @param {String} plato 
  */
-function concluirPlato(propietario, plato){
+function concluirPlato(propietario, plato) {
     return activadoPlato(propietario, plato, false);
 }
 /**
@@ -140,19 +151,18 @@ function concluirPlato(propietario, plato){
  * @param {String} propietario 
  * @param {String} plato 
  */
-function reactivarPlato(propietario, plato){
+function reactivarPlato(propietario, plato) {
     return activadoPlato(propietario, plato, true);
 }
 /**
  * 
  * @param {String} plato 
  */
-function buscarPlato(plato){
+function buscarPlato(plato) {
     var platos = getPlatos();
-    if(platos.has(plato)){
+    if (platos.has(plato)) {
         return "El plato que buscas es el siguiente:\n" + imprimirPlato(platos.get(plato));
-    }
-    else{
+    } else {
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
@@ -160,34 +170,36 @@ function buscarPlato(plato){
  * 
  * @param {Plato} plato 
  */
-function imprimirPlato(plato){
+function imprimirPlato(plato) {
     return "Título: " + plato.titulo +
-            "\nPropietario: " + plato.propietario +
-            "\nValoración: " + plato.valoracion +
-            "\nVendidos: " + plato.vendidos +
-            "\nAlergenos: " + plato.alergeno +
-            "\nPorciones disponibles: " + plato.porciones_disponibles +
-            "\nLocalización: " + plato.localizacion;
+        "\nPropietario: " + plato.propietario +
+        "\nValoración: " + plato.valoracion +
+        "\nVendidos: " + plato.vendidos +
+        "\nAlergenos: " + plato.alergeno +
+        "\nPorciones disponibles: " + plato.porciones_disponibles +
+        "\nLocalización: " + plato.localizacion;
 }
-function verListaOfertas(){
+
+function verListaOfertas() {
     var resultado = "Los platos disponibles son los siguientes:";
     var lista = getPlatos();
     var indice = 1;
-    for(var valor of lista.values()){
-        if(valor.estado == true){
+    for (var valor of lista.values()) {
+        if (valor.estado == true) {
             resultado += "\n" + indice + ". " + valor.titulo;
             indice++;
         }
     }
     return resultado;
 }
-function valorarPlato(nombrePlato, valoracion){
+
+function valorarPlato(nombrePlato, valoracion) {
     var platos = getPlatos();
-    if(platos.has(nombrePlato)){
+    if (platos.has(nombrePlato)) {
         var plato = platos.get(nombrePlato);
         var oldValoracion = plato.valoracion;
         var vendidos = plato.vendidos;
-        var dividendo = (oldValoracion*vendidos) + valoracion;
+        var dividendo = (oldValoracion * vendidos) + valoracion;
         vendidos++;
         var media = dividendo / vendidos;
         plato.vendidos = vendidos;
@@ -195,22 +207,21 @@ function valorarPlato(nombrePlato, valoracion){
         platos.set(nombrePlato, plato);
         setPlatos(platos);
         return "OK";
-    }
-    else{
+    } else {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
     }
 }
-function comprarPlato(nombrePlato, porciones){
+
+function comprarPlato(nombrePlato, porciones) {
     var platos = getPlatos();
-    if(platos.has(nombrePlato)){
-        if(platos.get(nombrePlato).porciones_disponibles >= porciones){
+    if (platos.has(nombrePlato)) {
+        if (platos.get(nombrePlato).porciones_disponibles >= porciones) {
             platos.get(nombrePlato).porciones_disponibles -= porciones;
             setPlatos(platos);
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones_disponibles + "), por favor reformule la propuesta con menos porciones."
-    }
-    else{
+    } else {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
 
     }
@@ -245,7 +256,11 @@ app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
 app.get('/listaPlatos', function(req, res) {
-    res.send(verListaOfertas());
+    return res.status(200).json({
+        ok: true,
+        platos: lista_platos.values()
+    });
+
 })
 app.post('/listaPlatos', (req, res) => {
     var body = req.body;
@@ -346,7 +361,7 @@ app.post('/desactivarPlato', (req, res) => {
 app.get('/buscaPlato/:id', (req, res) => {
 
     res.send(buscarPlato(req.params.id));
-   
+
 });
 
 module.exports = app;
