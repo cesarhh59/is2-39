@@ -153,17 +153,20 @@ function buscarPlato(plato) {
 }
 
 
+const util = require('util');
 
 function valorarPlato(nombrePlato, valoracion) {
+    valoracion = parseInt(valoracion,10);
+    console.log("valora el plato " + nombrePlato + " con una valoracion de " + valoracion);
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
         var plato = platos.get(nombrePlato);
         var oldValoracion = plato.valoracion;
-        var vendidos = plato.vendidos;
+        var vendidos = 4;/*plato.vendidos; // NECESITO SABER CUANTOS SE HAN VENDIDO*/
         var dividendo = (oldValoracion * vendidos) + valoracion;
         vendidos++;
         var media = dividendo / vendidos;
-        plato.vendidos = vendidos;
+        // plato.vendidos = vendidos;
         plato.valoracion = media;
         platos.set(nombrePlato, plato);
         setPlatos(platos);
