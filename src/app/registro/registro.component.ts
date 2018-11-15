@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
 import { IAnuncio } from '../gestor/gestor.component';
+import { UsuariosService } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-registro',
@@ -13,6 +14,7 @@ export class RegistroComponent implements OnInit {
 
   public registro: IUsuario;
   public errores: string [] = [];
+  constructor (private usuarioService: UsuariosService) { }
   ngOnInit() {
     this.alergenos.push('Lactosa');
     this.alergenos.push('Celiaco');
@@ -39,8 +41,16 @@ export class RegistroComponent implements OnInit {
       ciudad: ciudad,
       alergenos: [],
     };
-    console.log(this.registro);
     this.validate();
+    
+    if (this.errores.length === 0) {
+      this.usuarioService.addUsuario(this.registro).subscribe((res: IResponse) => {
+        console.log(res);
+
+      });
+        this.errores.push('El registro se ha realizado correctamente, por favor vaya a su correo para validar el usuario');
+
+    }
   }
   validate(): void {
     this.errores = [];
@@ -58,9 +68,6 @@ export class RegistroComponent implements OnInit {
       }
       if (this.registro.ciudad  === '') {
         this.errores.push('El campo ciudad no puede estar vacío');
-      }
-      if (this.errores.length === 0) {
-        this.errores.push('El registro se ha realizado correctamente, por favor vaya a su correo para validar el usuario');
       }
   }
 

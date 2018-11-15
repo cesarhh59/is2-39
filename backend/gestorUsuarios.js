@@ -180,10 +180,8 @@ app.get('/', function(req, res) {
 });
 app.post('/signup', (req, res) => {
     var body = req.body;
-
-
-    var error = signup(body.username, body.password,
-        body.mail, body.city, body.contact, body.alergenos)
+    var error = signup(body.nombre, body.password,
+        body.email, body.ciudad, body.contacto, body.alergenos)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IUsuario } from '../registro/registro.component';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,12 @@ export class UsuariosService {
      });
      return this.http.post(url, user, this.httpOptions);
     }
+
+    // Alta usuario
+    addUsuario(usuario: IUsuario) {
+      const url = this.usersUrl + '/signup';
+      const usuarioParse = JSON.stringify(usuario);
+      return this.http.post(url, usuarioParse, this.httpOptions);
+    }
 }
+
