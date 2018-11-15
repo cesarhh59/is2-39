@@ -2,8 +2,8 @@ import {Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } 
 
 @Component( {
 selector: 'app-incremenatador',
-templateUrl: './incremenatador.component.html',
-styleUrls: ['./incremenatador.component.css']
+templateUrl: './incrementador.component.html',
+styleUrls: ['./incrementador.component.css']
 })
 export class IncremenatadorComponent implements OnInit {
 @ViewChild ('txtProgress')txtProgress: ElementRef;
