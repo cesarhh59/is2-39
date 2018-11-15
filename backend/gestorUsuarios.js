@@ -60,7 +60,6 @@ function signup(username, password, mail, city, contact, alergenos) {
  * @param {String[]} alergenos 
  */
 function editProfile(user, username, password, mail, city, contact, alergenos) {
-    console.log(user);
 
     var perfil = lista_usuarios.get(user);
     perfil.nombre = username;
@@ -195,9 +194,6 @@ app.post('/signup', (req, res) => {
 
 app.post('/editProfile/:id', (req, res) => {
     var body = req.body;
-
-    console.log(body);
-
     var error = editProfile(req.params.id, body.nombre, body.password,
         body.email, body.ciudad, body.contacto, body.alergenos)
     if (error != 'OK') {

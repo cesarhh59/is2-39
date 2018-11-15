@@ -25,7 +25,7 @@ export class PerfilComponent implements OnInit {
       ciudad: ciudad,
       alergenos: [],
     };
-    this.usuarioService.editUsuario(localStorage.getItem('token'),this.usuario).subscribe((res: IResponse) => {
+    this.usuarioService.editUsuario(localStorage.getItem('token'), this.usuario).subscribe((res: IResponse) => {
     console.log(res);
     });
   }
