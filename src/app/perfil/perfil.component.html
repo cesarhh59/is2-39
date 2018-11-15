@@ -23,6 +23,8 @@
                 <div class="form-group">
                     <label>Contacto</label>
                     <input #contacto class="form-control" type="number" placeholder="Contacto">
+                    <button class="btn btn-outline-success my-2 my-sm-0" (click)="editProfile(nombre.value, password.value, email.value, ciudad.value, contacto.value)" type="submit">Guardar Cambios</button>
+
                 </div>
             </div>
         </div>

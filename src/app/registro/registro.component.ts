@@ -42,7 +42,6 @@ export class RegistroComponent implements OnInit {
       alergenos: [],
     };
     this.validate();
-    
     if (this.errores.length === 0) {
       this.usuarioService.addUsuario(this.registro).subscribe((res: IResponse) => {
         console.log(res);

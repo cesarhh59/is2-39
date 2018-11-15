@@ -28,5 +28,11 @@ export class UsuariosService {
       const usuarioParse = JSON.stringify(usuario);
       return this.http.post(url, usuarioParse, this.httpOptions);
     }
+    // Alta usuario
+    editUsuario(user: string, usuario: IUsuario) {
+      const url = this.usersUrl + '/editProfile/' + user;
+      const usuarioParse = JSON.stringify(usuario);
+      return this.http.post(url, usuarioParse, this.httpOptions);
+    }
 }
 

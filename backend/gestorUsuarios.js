@@ -8,7 +8,7 @@ var lista_usuarios = new HashMap();
 let array_vacio = [];
 // Meto dos para hacer pruebas
 lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', preferences: ['Celiaco'], link: '1234', validado: false, logueado: false });
-lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contact: '622115544', preferences: array_vacio, link: '', validado: true, logueado: false });
+lista_usuarios.set('cesar', { nombre: 'cesar', password: 'cesarpass', email: 'cesar.herre@gmail.com', ciudad: 'Madrid', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false });
 
 function getUsuarios() {
     return lista_usuarios;
@@ -59,21 +59,18 @@ function signup(username, password, mail, city, contact, alergenos) {
  * @param {String} contact 
  * @param {String[]} alergenos 
  */
-function editProfile(username, password, mail, city, contact, alergenos) {
-    var existe = lista_usuarios.has(username) && (lista_usuarios.get(username).password == password);
-    var existe_y_logueado = existe && lista_usuarios.get(username).logueado == true;
-    if (existe_y_logueado) {
-        var perfil = lista_usuarios.get(username);
-        perfil.username = username;
-        perfil.password = password;
-        perfil.mail = mail;
-        perfil.city = city;
-        perfil.contact = contact;
-        perfil.preferences = alergenos;
-        lista_usuarios.set(username, perfil);
-        return "OK";
-    }
-    return "El usuario no existe o no está logueado";
+function editProfile(user, username, password, mail, city, contact, alergenos) {
+    console.log(user);
+
+    var perfil = lista_usuarios.get(user);
+    perfil.nombre = username;
+    perfil.password = password;
+    perfil.email = mail;
+    perfil.ciudad = city;
+    perfil.contact = contact;
+    perfil.alergenos = alergenos;
+    lista_usuarios.set(username, perfil);
+    return "OK";
 }
 /**
  * 
@@ -196,11 +193,13 @@ app.post('/signup', (req, res) => {
 
 });
 
-app.post('/editProfile', (req, res) => {
+app.post('/editProfile/:id', (req, res) => {
     var body = req.body;
 
+    console.log(body);
 
-    var error = editProfile(body.username, body.password, body.mail, body.city, body.contact, body.alergenos)
+    var error = editProfile(req.params.id, body.nombre, body.password,
+        body.email, body.ciudad, body.contacto, body.alergenos)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
