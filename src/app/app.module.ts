@@ -10,7 +10,6 @@ import { PAGES_ROUTES } from './app.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { IncremenatadorComponent } from './controls/incrementador/incremenatador.component';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from './shared/card/card.component';
 import { GestorComponent } from './gestor/gestor.component';
@@ -32,7 +31,6 @@ import { HttpClientModule } from '@angular/common/http';
     DashboardComponent,
     FooterComponent,
     SidebarComponent,
-    IncremenatadorComponent,
     CardComponent,
     GestorComponent,
     PagesComponent,
