@@ -8,7 +8,7 @@ var lista_usuarios = new HashMap();
 let array_vacio = [];
 // Meto dos para hacer pruebas
 lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', preferences: ['Celiaco'], link: '1234', validado: false, logueado: false });
-lista_usuarios.set('cesar', { nombre: 'cesar', password: 'cesarpass', email: 'cesar.herre@gmail.com', ciudad: 'Madrid', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false });
+lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contacto: '622115544', preferences: array_vacio, link: '', validado: true, logueado: false });
 
 function getUsuarios() {
     return lista_usuarios;
