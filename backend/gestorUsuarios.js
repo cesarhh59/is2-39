@@ -1,19 +1,20 @@
 var express = require('express');
 var HashMap = require('hashmap');
 var nodemailer = require('nodemailer');
+var getUsuPlatos = require('./gestorPlatos.js');
+var calcularPuntos = require('./gestorPlatos.js');
 
 var app = express();
 var lista_usuarios = new HashMap();
 
 let array_vacio = [];
 // Meto dos para hacer pruebas
-lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', preferences: ['Celiaco'], link: '1234', validado: false, logueado: false });
-lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contacto: '622115544', preferences: array_vacio, link: '', validado: true, logueado: false });
+lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', alergenos: ['Celiaco'], link: '1234', validado: false, logueado: false, preferences: [] });
+lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false, preferences: [] });
 
 function getUsuarios() {
     return lista_usuarios;
 }
-
 function existe_y_logueado(username) {
     return lista_usuarios.has(username) && lista_usuarios.get(username).logueado == true;
 }
@@ -44,7 +45,7 @@ function signup(username, password, mail, city, contact, alergenos) {
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
     } else {
-        var user = { username: username, password: password, mail: mail, city: city, contact: contact, preferences: alergenos, logueado: true };
+        var user = { username: username, password: password, mail: mail, city: city, contact: contact, alergenos: alergenos, logueado: true, preferences: [] };
         lista_usuarios.set(username, user);
         enviarLink(username, mail);
         return "OK";
@@ -60,14 +61,14 @@ function signup(username, password, mail, city, contact, alergenos) {
  * @param {String[]} alergenos 
  */
 function editProfile(user, username, password, mail, city, contact, alergenos) {
-
     var perfil = lista_usuarios.get(user);
-    perfil.nombre = username;
-    perfil.password = password;
-    perfil.email = mail;
-    perfil.ciudad = city;
-    perfil.contact = contact;
-    perfil.alergenos = alergenos;
+    perfil.nombre = username == "" ? perfil.nombre : username;
+    perfil.password = password == "" ? perfil.password : password;
+    perfil.email = mail == "" ? perfil.email : mail;
+    perfil.ciudad = city == "" ? perfil.ciudad : city;
+    perfil.contact = contact == "" ? perfil.contact : contact;
+    perfil.alergenos = alergenos == "" ? perfil.alergenos : alergenos;
+    perfil.preferences = perfil.preferences;
     lista_usuarios.set(username, perfil);
     return "OK";
 }
@@ -149,12 +150,25 @@ function darDeBaja(username, password) {
     }
     return "El usuario no existe o su contraseña no es correcta o no está logueado";
 }
-
-
+function delimitarPreferencias(user, preferencias){
+    var perfil = lista_usuarios.get(user);
+    perfil.preferences = preferencias;
+    return "OK";
+}
+function verRanking(){
+    usu_platos = getUsuPlatos.getUsuPlatos;
+    usuario_puntos = new HashMap();
+    usuarios = usu_platos.keys();
+    for(var i = 0; i<usuarios.length; i++){
+        var platos = usu_platos.get(usuarios[i]);
+        usuario_puntos.set(usuarios[i], calcularPuntos.calcularPuntos(platos));
+    }
+    //ORDENAR DE MAYOR A MENOR PUNTOS -> ORDENAR DE MAYOR A MENOR VALUES
+    return usuario_puntos;
+}
 ////////////////////// PRUEBAS Usuarios //////////////////////
 /*
 const util = require('util');
-
 console.log(
     "\n\n login('felix','felixpass') -> " + login('felix','felixpass') + 
     "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null}) + 
@@ -168,9 +182,7 @@ console.log(
     "\n\n lista_usuarios -> " + util.inspect(lista_usuarios,{showHidden: false, depth: null})
 )
 */
-
-// Rutas de gestor platos
-
+// Rutas de gestor usuarios
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
@@ -191,7 +203,6 @@ app.post('/signup', (req, res) => {
     });
 
 });
-
 app.post('/editProfile/:id', (req, res) => {
     var body = req.body;
     var error = editProfile(req.params.id, body.nombre, body.password,
@@ -209,7 +220,6 @@ app.post('/editProfile/:id', (req, res) => {
     });
 
 });
-
 app.post('/darDeBaja', (req, res) => {
     var body = req.body;
 
@@ -228,7 +238,6 @@ app.post('/darDeBaja', (req, res) => {
     });
 
 });
-
 app.post('/login', (req, res) => {
     var body = req.body;
 
@@ -247,7 +256,6 @@ app.post('/login', (req, res) => {
     });
 
 });
-
 app.post('/logout', (req, res) => {
     var body = req.body;
 
@@ -266,9 +274,24 @@ app.post('/logout', (req, res) => {
     });
 
 });
-// acceder enlace validacion
-app.get('/validar/:id/:key', (req, res) => {
+app.get('/validar/:id/:key', (req, res) => { // acceder enlace validacion
     res.send(validar(req.params.id, req.params.key))
+
+});
+app.get('/:usuario/preferencias', (req, res) => {
+    var body = req.body;
+    var error = delimitarPreferencias(req.params.usuario, body.alergenos);
+    if (error != 'OK') {
+        return res.status(200).json({
+            ok: false,
+            mensaje: 'Se han producido errores en la delimitación de preferencias',
+            errors: error
+        });
+    }
+    res.status(200).json({
+        ok: true,
+        body: error
+    });
 
 });
 module.exports = app;

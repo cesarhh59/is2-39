@@ -36,7 +36,7 @@ app.get('/listaMensajes/:user', function(req, res) {
 })
 
 
-////////////////////// PRUEBAS Platos //////////////////////
+////////////////////// PRUEBAS Mensajes //////////////////////
 const util = require('util');
 
 console.log(

@@ -17,8 +17,6 @@ lista_platos.set('macarrones', {
     estado: true,
     valoracion: 4
 });
-
-
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
     porciones: 4,
@@ -30,8 +28,8 @@ lista_platos.set('Champiñones', {
 });
 var app = express();
 var auxiliar_arraylist = new ArrayList();
-
 auxiliar_arraylist.add('macarrones');
+auxiliar_arraylist.add('Champiñones');
 usuarios_platos.set('cesar', auxiliar_arraylist);
 
 function getUsuPlatos() {
@@ -44,7 +42,6 @@ function getUsuPlatos() {
 function setUsuPlatos(listaNueva) {
     usuarios_platos = listaNueva;
 }
-
 function getPlatos() {
     return lista_platos;
 }
@@ -151,10 +148,6 @@ function buscarPlato(plato) {
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
-
-
-const util = require('util');
-
 function valorarPlato(nombrePlato, valoracion) {
     valoracion = parseInt(valoracion,10);
     console.log("valora el plato " + nombrePlato + " con una valoracion de " + valoracion);
@@ -175,7 +168,6 @@ function valorarPlato(nombrePlato, valoracion) {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
     }
 }
-
 function comprarPlato(nombrePlato, porciones) {
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
@@ -189,6 +181,14 @@ function comprarPlato(nombrePlato, porciones) {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
 
     }
+}
+function calcularPuntos(platos){
+    var puntuacion = 0;
+    for(var j = 0; j < platos.length; j++){
+        let plato = lista_platos.get(platos[j]);
+        puntuacion += plato.valoracion;
+    }
+    return puntuacion;
 }
 /*
 ////////////////////// PRUEBAS Platos //////////////////////
@@ -215,7 +215,6 @@ console.log(
 )
 */
 // Rutas de gestor platos
-
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
@@ -243,7 +242,6 @@ app.post('/listaPlatos', (req, res) => {
     });
 
 });
-
 app.post('/listaPlatos', (req, res) => {
     var body = req.body;
 
@@ -262,8 +260,6 @@ app.post('/listaPlatos', (req, res) => {
     });
 
 });
-
-
 app.get('/listaPlatos/:id/valorar/:valoracion', (req, res) => {
     var error = valorarPlato(req.params.id, req.params.valoracion)
     if (error != 'OK') {
@@ -279,7 +275,6 @@ app.get('/listaPlatos/:id/valorar/:valoracion', (req, res) => {
     });
 
 });
-
 app.get('/listaPlatos/:id/activar/', (req, res) => {
     var error = reactivarPlato(req.params.id)
     if (error != 'OK') {
@@ -295,7 +290,6 @@ app.get('/listaPlatos/:id/activar/', (req, res) => {
     });
 
 });
-
 app.get('/listaPlatos/:id/desactivar/', (req, res) => {
     var error = concluirPlato(req.params.id)
     if (error != 'OK') {
@@ -311,7 +305,6 @@ app.get('/listaPlatos/:id/desactivar/', (req, res) => {
     });
 
 });
-
 app.get('/listaPlatos/:id', (req, res) => {
     //    res.send(buscarPlato(req.params.id));
 
@@ -346,5 +339,6 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
     });
 
 });
-
 module.exports = app;
+module.exports.getUsuPlatos = getUsuPlatos;
+module.exports.calcularPuntos = calcularPuntos;
