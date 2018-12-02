@@ -8,14 +8,14 @@ var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
 
 lista_platos.set('macarrones', {
-
     titulo: 'macarrones',
     porciones: 4,
     localizacion: 'Soria',
     disponibles: true,
     propietario: 'cesar',
     estado: true,
-    valoracion: 4
+    valoracion: 4,
+    alergenos: []
 });
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
@@ -24,7 +24,8 @@ lista_platos.set('Champiñones', {
     disponibles: true,
     propietario: 'Cesar',
     estado: true,
-    valoracion: 4
+    valoracion: 4,
+    alergenos: ['lactosa']
 });
 var app = express();
 var auxiliar_arraylist = new ArrayList();
@@ -88,12 +89,11 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String} estado 
  * @param {String[]} hiloMensajes 
  */
-function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
+function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) { //Se deberia meter alergenos, para poder filtrar
     var platos = getPlatos();
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
     } else {
-
         platos.set(titulo, {
             titulo: titulo,
             porciones: porciones,
@@ -101,7 +101,8 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
             disponibles: estado,
             propietario: propietario,
             estado: estado,
-            valoracion: valoracion
+            valoracion: valoracion,
+            alergenos: []
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
@@ -155,7 +156,7 @@ function valorarPlato(nombrePlato, valoracion) {
     if (platos.has(nombrePlato)) {
         var plato = platos.get(nombrePlato);
         var oldValoracion = plato.valoracion;
-        var vendidos = 4;/*plato.vendidos; // NECESITO SABER CUANTOS SE HAN VENDIDO*/
+        var vendidos = 4;/*plato.vendidos; // NECESITO SABER CUANTOS SE HAN VENDIDO PARA HACER LA MEDIA*/
         var dividendo = (oldValoracion * vendidos) + valoracion;
         vendidos++;
         var media = dividendo / vendidos;
@@ -188,7 +189,31 @@ function calcularPuntos(platos){
         let plato = lista_platos.get(platos[j]);
         puntuacion += plato.valoracion;
     }
-    return puntuacion;
+    return puntuacion/platos.length;
+}
+/**
+ * 
+ * @param {String} alergeno 
+ * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
+ */
+function filtrarPorAlergenos(alergeno){
+    let listaPlatos = getPlatos().values;
+    let listaFiltrada = [];
+    for(var i = 0; i < listaPlatos.length; i++){
+        var plato = listaPlatos[i];
+        if(!contiene(alergeno, plato.alergenos)){
+            listaFiltrada.push(plato);
+        }
+    }
+    return listaFiltrada;
+}
+function contiene(elemento, lista){
+    for(var i = 0; i<lista.length; i++){
+        if(elemento == lista[i]){
+            return true;
+        }
+    }
+    return false;
 }
 /*
 ////////////////////// PRUEBAS Platos //////////////////////
