@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chats',
@@ -9,29 +10,41 @@ export class ChatsComponent implements OnInit {
 public chats: String [] = [];
 public messages: IMessages [] = [];
 public msgSend: String = '';
-constructor() {
+constructor( private _router: ActivatedRoute) {
   }
 
   ngOnInit() {
+
+  // TODO recuperar todos los chats de un usuario
+
+  // Recuperamos el chat activo
+    const usuario: string = this._router.snapshot.paramMap.get('id');
+    console.log(usuario);
+
+    if (usuario && usuario !== '') {
+    // TODO cargar chats de ese usuario
+    this.messages.push({
+      user: 'me',
+       msg: 'Tienes algo para mi'
+     });
+     this.messages.push({
+       user: 'Julio',
+        msg: 'La coca'
+      }); this.messages.push({
+       user: 'me',
+        msg: 'For me'
+      }); this.messages.push({
+       user: 'me',
+        msg: 'yas'
+      });
+
+    }
     this.chats.push('Raul');
     this.chats.push('Pablo');
     this.chats.push('Romina');
     this.chats.push('Justo');
 
-    this.messages.push({
-     user: 'me',
-      msg: 'Tienes algo para mi'
-    });
-    this.messages.push({
-      user: 'Julio',
-       msg: 'La coca'
-     }); this.messages.push({
-      user: 'me',
-       msg: 'For me'
-     }); this.messages.push({
-      user: 'me',
-       msg: 'yas'
-     });
+
 
   }
   send(): void {

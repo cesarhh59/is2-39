@@ -3,7 +3,11 @@
         <app-sidebar title="Chat(s)" [items]="chats"></app-sidebar>
     </div>
     <div class="col-md-9" style="background-color: beige">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-danger" [routerLink]="['/chats']"><i class="fas fa-times-circle"></i></button>
+        </div>
         <div class="row  box">
+
             <div *ngFor="let message of messages" class="col-md-offset-12 " [ngClass]="{'msg-me': message.user == 'me', 'msg-you': message.user != 'me' }">
                 <label> {{message.user}}:</label>
                 <app-messages *ngIf="message.user === 'me'" [message]="message.msg" mode="light"> </app-messages>
