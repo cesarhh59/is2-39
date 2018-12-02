@@ -331,8 +331,6 @@ app.get('/listaPlatos/:id/desactivar/', (req, res) => {
 
 });
 app.get('/listaPlatos/:id', (req, res) => {
-    //    res.send(buscarPlato(req.params.id));
-
     return res.status(200).json({
         ok: true,
         platos: lista_platos.get(req.params.id)
@@ -340,8 +338,6 @@ app.get('/listaPlatos/:id', (req, res) => {
 
 });
 app.get('/listaPlatos/:id/propietario', (req, res) => {
-    //    res.send(buscarPlato(req.params.id));
-
     return res.status(200).json({
         ok: true,
         platos: usuarios_platos.get(req.params.id)
@@ -363,6 +359,12 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
         body: error
     });
 
+});
+app.get('/listaPlatos/:alergeno', (req, res) => {
+    return res.status(200).json({
+        ok: true,
+        platos: filtrarPorAlergenos(req.params.alergeno)
+    });
 });
 module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
