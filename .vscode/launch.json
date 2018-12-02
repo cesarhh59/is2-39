@@ -15,6 +15,12 @@
             "request": "launch",
             "name": "Gestor mensajes",
             "program": "${workspaceFolder}/backend/gestorMensajes.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Gestor platos",
+            "program": "${workspaceFolder}/backend/gestorPlatos.js"
         }
     ]
 }

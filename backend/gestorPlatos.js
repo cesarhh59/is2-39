@@ -89,7 +89,7 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String} estado 
  * @param {String[]} hiloMensajes 
  */
-function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) { //Se deberia meter alergenos, para poder filtrar
+function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
     var platos = getPlatos();
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
@@ -101,8 +101,8 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
             disponibles: estado,
             propietario: propietario,
             estado: estado,
-            valoracion: valoracion,
-            alergenos: []
+            valoracion: 0,
+            alergenos: alergeno
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
@@ -197,12 +197,12 @@ function calcularPuntos(platos){
  * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
  */
 function filtrarPorAlergenos(alergeno){
-    let listaPlatos = getPlatos().values;
+    let listaPlatos = getPlatos().values();
     let listaFiltrada = [];
     for(var i = 0; i < listaPlatos.length; i++){
         var plato = listaPlatos[i];
         if(!contiene(alergeno, plato.alergenos)){
-            listaFiltrada.push(plato);
+            listaFiltrada.push(plato.titulo);
         }
     }
     return listaFiltrada;
@@ -221,9 +221,10 @@ const util = require('util');
 
 console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
-    "\n\n publicarPlato(propietario, titulo, descripcion, ingredientes, vegetariano, gluten, lactosa, porciones, latitud, longitud) -> " 
-    + publicarPlato('felix', 'filete de ternera', false, false, false, 4, 45.6785, -3.4336) + 
+    "\n\n publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) -> " 
+    + publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) + 
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
+    "\n\n filtrarPorAlergenos('lactosa') -> " + filtrarPorAlergenos('lactosa') +
     "\n\n verListaOfertas -> " + verListaOfertas() +
     "\n\n concluirPlato('felix', 'macarrones')-> " + concluirPlato('felix', 'macarrones') +
     "\n\n verListaOfertas -> " + verListaOfertas() +
