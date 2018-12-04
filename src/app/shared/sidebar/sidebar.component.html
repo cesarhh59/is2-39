@@ -1,4 +1,9 @@
-<div class="sidenav">
+<!--<div class="sidenav">
     <h1>{{title}}</h1>
     <a *ngFor="let item of items" [routerLink]="['/chats', item ]">{{item}}</a>
+</div> -->
+
+<div class="sidenav">
+    <h1>{{title}}</h1>
+    <a *ngFor="let item of items" (click)="select(item)">{{item}}</a>
 </div>

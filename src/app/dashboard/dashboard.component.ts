@@ -12,8 +12,15 @@ import { element } from 'protractor';
 export class DashboardComponent implements OnInit {
   public anuncios: IAnuncio [] = [];
   public oAnuncios: IAnuncio [] = [];
+  public filtros: string [] = [];
   constructor(private platosService: AnunciosService) { }
   ngOnInit() {
+    this.filtros.push('Localización');
+    this.filtros.push('Valoración');
+    this.filtros.push('Preferencias');
+    this.filtros.push('Más vendidos');
+
+
     // TODO llamada a servicios que devuelve los anuncios
     this.platosService.getPlatos().subscribe((data: IResponse) => {
     data.platos.forEach((e: IAnuncio) => {
@@ -36,5 +43,9 @@ export class DashboardComponent implements OnInit {
   } else {
     this.anuncios = this.oAnuncios;
   }
+  }
+  selectedItem(event) {
+    console.log(event);
+    
   }
 }

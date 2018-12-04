@@ -10,6 +10,7 @@ export class ChatsComponent implements OnInit {
 public chats: String [] = [];
 public messages: IMessages [] = [];
 public msgSend: String = '';
+public chatActivo: string = '';
 constructor( private _router: ActivatedRoute) {
   }
 
@@ -17,28 +18,7 @@ constructor( private _router: ActivatedRoute) {
 
   // TODO recuperar todos los chats de un usuario
 
-  // Recuperamos el chat activo
-    const usuario: string = this._router.snapshot.paramMap.get('id');
-    console.log(usuario);
-
-    if (usuario && usuario !== '') {
-    // TODO cargar chats de ese usuario
-    this.messages.push({
-      user: 'me',
-       msg: 'Tienes algo para mi'
-     });
-     this.messages.push({
-       user: 'Julio',
-        msg: 'La coca'
-      }); this.messages.push({
-       user: 'me',
-        msg: 'For me'
-      }); this.messages.push({
-       user: 'me',
-        msg: 'yas'
-      });
-
-    }
+ 
     this.chats.push('Raul');
     this.chats.push('Pablo');
     this.chats.push('Romina');
@@ -54,7 +34,32 @@ constructor( private _router: ActivatedRoute) {
   });
   this.msgSend = '';
   }
+  selectedItem(event) {
+    this.chatActivo = event;
+    // TODO cargar chat seleccionado
+     // Recuperamos el chat activo
 
+     if (this.chatActivo !== '') {
+      // TODO cargar chats de ese usuario
+      this.messages.push({
+        user: 'me',
+         msg: 'Tienes algo para mi'
+       });
+       this.messages.push({
+         user: 'Julio',
+          msg: 'La coca'
+        }); this.messages.push({
+         user: 'me',
+          msg: 'For me'
+        }); this.messages.push({
+         user: 'me',
+          msg: 'yas'
+        });
+
+      } else {
+        this.messages = [];
+      }
+  }
 }
 export interface IMessages {
   user: String;
