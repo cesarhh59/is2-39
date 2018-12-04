@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   public anuncios: IAnuncio [] = [];
   public oAnuncios: IAnuncio [] = [];
   public filtros: string [] = [];
+  public filtro: string = '';
   constructor(private platosService: AnunciosService) { }
   ngOnInit() {
     this.filtros.push('Localización');
@@ -45,7 +46,7 @@ export class DashboardComponent implements OnInit {
   }
   }
   selectedItem(event) {
-    console.log(event);
-    
+   this.filtro = event;
+  
   }
 }
