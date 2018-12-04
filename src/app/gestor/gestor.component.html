@@ -34,5 +34,8 @@
                 <button type="submit" class="btn btn-success" (click)="saveAnuncio(titulo.value, porciones.value, ciudad.value)"><i class="fas fa-plus"> Añadir nuevo anuncio</i></button>
             </div>
         </form>
+        <br>
+        <br>
+        <app-messages *ngFor="let item of message" [message]="item" [mode]="typeMessage"></app-messages>
     </div>
 </div>
