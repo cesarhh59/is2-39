@@ -22,12 +22,13 @@ export class GestorComponent implements OnInit {
 saveAlergeno(alergeno: any) {
 
   }
-  saveAnuncio(titulo: string, porciones: number, localizacion: string) {
+  saveAnuncio(titulo: string, porciones: string, localizacion: string) {
     this.message = [];
     if ( this.checkCampos(titulo, porciones, localizacion)) {
       const anuncio: IAnuncio = {
         titulo: titulo,
-        porciones: porciones,
+        // tslint:disable-next-line:radix
+        porciones: parseInt(porciones),
         localizacion: localizacion,
         disponibles: true,
         propietario: localStorage.getItem('token'),
@@ -40,15 +41,23 @@ saveAlergeno(alergeno: any) {
       this.typeMessage = 'success';
     }
   }
-  checkCampos(titulo: string, porciones: number, localizacion: string): boolean {
+  checkCampos(titulo: string, porciones: string, localizacion: string): boolean {
     let result = true;
     if (titulo === '') {
       result = false;
       this.message.push('Indique el titulo del plato');
     }
-    if (porciones.toString() === '' || porciones > 0) {
+    // tslint:disable-next-line:radix
+    const porcion = parseInt(porciones);
+    if (porciones.toString() === '' ) {
+
+      result = false;
+      this.message.push('Indique el número de porciones');
+    } else if (porcion <= 0) {
+
       result = false;
       this.message.push('El número de porciones no puede ser 0');
+
     }
     if ( localizacion === '') {
       result = false;
