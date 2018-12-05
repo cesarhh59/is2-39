@@ -6,6 +6,7 @@ var existe_y_logueado = require('./gestorUsuarios.js');
 
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
+var platos_comprados_por_usuario = new HashMap(); //Usuario, Platos[]
 
 lista_platos.set('macarrones', {
     titulo: 'macarrones',
@@ -66,6 +67,19 @@ function addPlato(usuario, plato) { //add plato a usuarios_platos
         lista.set(usuario, platos_de_usuario);
         setUsuPlatos(lista);
     }
+}
+function get_platos_comprados_por_usuario(){
+    return platos_comprados_por_usuario;
+}
+function set_platos_comprados_por_usuario(hash){
+    platos_comprados_por_usuario = hash;
+}
+function addUsuario_platos_comprados_por_usuario(usuario, lista){
+    if(!platos_comprados_por_usuario.has(usuario)){
+        platos_comprados_por_usuario.set(usuario, lista);
+        return true;
+    }
+    return false;
 }
 /**
  * 
@@ -149,7 +163,7 @@ function buscarPlato(plato) {
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
-function valorarPlato(nombrePlato, valoracion) {
+function valorarPlato(nombrePlato, valoracion) { 
     valoracion = parseInt(valoracion,10);
     console.log("valora el plato " + nombrePlato + " con una valoracion de " + valoracion);
     var platos = getPlatos();
@@ -169,12 +183,13 @@ function valorarPlato(nombrePlato, valoracion) {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
     }
 }
-function comprarPlato(nombrePlato, porciones) {
+function comprarPlato(nombrePlato, porciones) { // NECESITO SABER QUE USUARIO LO HACE PARA LUEGO RECOMENDAR
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
         if (platos.get(nombrePlato).porciones >= porciones) {
             platos.get(nombrePlato).porciones -= porciones;
             setPlatos(platos);
+            // platos_comprados_por_usuario.get(usuario).push(nombrePlato); // NECESITO SABER QUE USUARIO LO HACE
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
@@ -211,6 +226,48 @@ function contiene(elemento, lista){
     for(var i = 0; i<lista.length; i++){
         if(elemento == lista[i]){
             return true;
+        }
+    }
+    return false;
+}
+/* Para recomendar platos: 
+- Tener en cuenta las compras de usuario y la valoración que ha dado
+- Recomendar usuarios que haya comprado con buena valoracion
+- Siempre filtrando por alergenos
+- Localizacion del plato igual al usuario*/
+function recomendarPlatos(usuario){ // PROBAR 
+    var recomendados = [];
+    var plato, localizacion_plato = '';
+    var alergenos_plato = [];
+    var platos = getPlatos();
+    var listaPlatos = platos.keys();
+    var usuariosPlatos = getUsuPlatos();
+    var platosDelUsuario = usuariosPlatos.get(usuario);
+    var usuarios = getUsuarios.getUsuarios();
+    var alergenos_usuario = usuarios.get(usuario).alergenos;
+    var localizacion_usuario = usuarios.get(usuario).localizacion;
+    for(var i = 0; i<listaPlatos.length; i++){
+        plato = listaPlatos[i];
+        localizacion_plato = platos.get(plato).localizacion;
+        alergenos_plato = platos.get(plato).alergenos;
+        /*  - No es plato del mismo usuario
+            - El plato esta disponible y activo
+            - Localizacion del plato igual a la del usuario
+            - Alergenos del plato no coinciden con los del usuario*/
+        if(!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true 
+        && platos.get(plato).estado == true && localizacion_plato == localizacion_usuario
+        && !hayElementosIguales(alergenos_plato, alergenos_usuario)){ 
+            recomendados.push(plato);
+        }
+    }
+    return recomendados;
+}
+function hayElementosIguales(lista1, lista2){
+    for(var i = 0; i<lista1.length; i++){
+        for(var j = 0; j<lista2.length; j++){
+            if(lista1[i] == lista2[j]){
+                return true;
+            }
         }
     }
     return false;
@@ -367,6 +424,13 @@ app.get('/listaPlatos/:alergeno', (req, res) => {
         platos: filtrarPorAlergenos(req.params.alergeno)
     });
 });
+app.get('/platosRecomendados/:usuario', (req, res) => { // PROBAR
+    return res.status(200).json({
+        ok: true,
+        platos: recomendarPlatos(req.params.usuario)
+    });
+});
 module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
 module.exports.calcularPuntos = calcularPuntos;
+module.exports.addUsuario_platos_comprados_por_usuario = addUsuario_platos_comprados_por_usuario;

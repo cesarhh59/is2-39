@@ -3,6 +3,7 @@ var HashMap = require('hashmap');
 var nodemailer = require('nodemailer');
 var getUsuPlatos = require('./gestorPlatos.js');
 var calcularPuntos = require('./gestorPlatos.js');
+var addUsuario_platos_comprados_por_usuario = require('./gestorPlatos.js');
 
 var app = express();
 var lista_usuarios = new HashMap();
@@ -41,6 +42,7 @@ function signup(username, password, mail, city, contact, alergenos) {
     if (lista_usuarios.has(username)) { //Ya existe
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
         if (lista_usuarios.search(password) == username) {
+            addUsuario_platos_comprados_por_usuario.addUsuario_platos_comprados_por_usuario(username,[]);
             return "OK";
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
