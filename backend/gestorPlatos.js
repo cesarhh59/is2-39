@@ -272,6 +272,34 @@ function hayElementosIguales(lista1, lista2){
     }
     return false;
 }
+function filtrarPorLocalizacion(localizacion){ // PROBAR
+    var recomendados = [];
+    var platos = getPlatos();
+    var listaPlatos = platos.keys();
+    var plato, localizacion_plato = '';
+    for(var i = 0; i<listaPlatos.length; i++){
+        plato = listaPlatos[i];
+        localizacion_plato = platos.get(plato).localizacion;
+        if(platos.get(plato).disponibles == true 
+        && platos.get(plato).estado == true && localizacion_plato == localizacion)   {
+            recomendados.push(plato);
+        }
+    }
+    return recomendados;
+}
+function filtrarPorAlergenoYLocalizacion(alergeno, localizacion){
+    var filtrados = [];
+    var listaPorAlergeno = filtrarPorAlergenos(alergeno);
+    var listaPorLocalizacion = filtrarPorLocalizacion(localizacion);
+    for(var i = 0; i<listaPorAlergeno.length; i++){
+        for(var j = 0; j<listaPorLocalizacion.length; j++){
+            if(listaPorAlergeno[i] == listaPorLocalizacion[j]){
+                filtrados.push(listaPorAlergeno[i]);
+            }
+        }
+    }
+    return filtrados;
+}
 /*
 ////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
@@ -418,10 +446,23 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
     });
 
 });
-app.get('/listaPlatos/:alergeno', (req, res) => {
+app.get('/listaPlatos/filtrar/:location/:alergeno', (req, res) => { // PROBAR
+    var resultado = [];
+    if(req.params.location != '' && req.params.alergeno != ''){
+        resultado = filtrarPorAlergenoYLocalizacion(req.params.alergeno, req.params.localizacion)
+    }
+    else if(req.params.alergeno != ''){
+        resultado = filtrarPorAlergenos(req.params.alergeno);
+    }
+    else if(req.params.location != ''){
+        resultado = filtrarPorLocalizacion(req.params.location);
+    }
+    else{
+        resultado = []
+    }
     return res.status(200).json({
         ok: true,
-        platos: filtrarPorAlergenos(req.params.alergeno)
+        platos: resultado
     });
 });
 app.get('/platosRecomendados/:usuario', (req, res) => { // PROBAR
