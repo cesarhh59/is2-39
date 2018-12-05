@@ -1,10 +1,10 @@
 <div class="row container-fluid">
     <div class="col-md-3">
-        <app-sidebar title="Chat(s)" [items]="chats"></app-sidebar>
+        <app-sidebar title="Chat(s)" [items]="chats" (itemSelected)="selectedItem($event)"></app-sidebar>
     </div>
     <div class="col-md-9" style="background-color: beige">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-danger" [routerLink]="['/chats']"><i class="fas fa-times-circle"></i></button>
+            <button type="button" class="btn btn-danger" *ngIf="chatActivo !== '' " (click)="selectedItem('')"><i class="fas fa-times-circle"></i></button>
         </div>
         <div class="row  box">
 

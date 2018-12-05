@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent implements OnInit {
   @Input() title: string;
   @Input() items: String[] = [];
+  @Output() itemSelected: EventEmitter < string >  = new EventEmitter();
   constructor(public _routes: Router) {
     this.items.push('prueba1');
     this.items.push('prueba2');
@@ -18,5 +19,9 @@ export class SidebarComponent implements OnInit {
   }
   navegarChat(item: string) {
   this._routes.navigate([item]);
+  }
+
+  select(item: string) {
+  this.itemSelected.emit(item);
   }
 }
