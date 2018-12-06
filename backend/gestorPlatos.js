@@ -432,25 +432,7 @@ app.post('/listaPlatos', (req, res) => {
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
-            mensaje: 'Se han producido errores en la creacion de usuarios',
-            errors: error
-        });
-    }
-    res.status(201).json({
-        ok: true,
-        body: error
-    });
-
-});
-app.post('/listaPlatos', (req, res) => {
-    var body = req.body;
-
-    console.log(body);
-    lista_platos.set(req.body.titulo)
-    if (error != 'OK') {
-        return res.status(200).json({
-            ok: false,
-            mensaje: 'Se han producido errores en la compra de un plato',
+            mensaje: 'Se han producido errores en la creacion de plato',
             errors: error
         });
     }
