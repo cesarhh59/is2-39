@@ -11,8 +11,10 @@ var lista_usuarios = new HashMap();
 let array_vacio = [];
 // Meto dos para hacer pruebas
 lista_usuarios.set('Felix', { username: 'Felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Madrid', contact: '666666666', alergenos: ['lactosa'], link: '1234', validado: true, logueado: false, preferences: [] });
-lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false, preferences: [] });
-lista_usuarios.set('Adrian', { username: 'Adrian', password: 'adrianpass', mail: 'adrian.caro@gmail.com', city: 'Madrid', contacto: '629115544', alergenos: ['gluten'], link: '', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: array_vacio, link: '1236', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Adrian', { username: 'Adrian', password: 'adrianpass', mail: 'adrian.caro@gmail.com', city: 'Madrid', contacto: '629115544', alergenos: ['gluten'], link: '1237', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Jorge', { username: 'Jorge', password: 'jorgepass', mail: 'jorge.anto@gmail.com', city: 'Boadilla', contacto: '629117544', alergenos: ['gluten','lactosa'], link: '1235', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Borja', { username: 'Borja', password: 'borjapass', mail: 'borja.mar@gmail.com', city: 'Barcelona', contacto: '609117544', alergenos: array_vacio, link: '1231', validado: true, logueado: false, preferences: [] });
 
 function getUsuarios() {
     return lista_usuarios;
