@@ -1,5 +1,6 @@
 var express = require('express');
 var HashMap = require('hashmap');
+var getPlatos = require('./gestorPlatos.js');
 
 var app = express();
 // Hashmap de usuarios, dentro de cada usuario: Hashmap de mensajes, con key: idMensaje y value: mensaje.
@@ -15,6 +16,18 @@ function verListaMensajes(usuario){
     return lista_mensajes.get(usuario).keys();
 }
 
+function verMensajesDePlato(plato){
+    var usuario = getPlatos.getPlatos().get(plato).propietario;
+    var mensajesPlato = [];
+    var lista = lista_mensajes.get(usuario);
+    var iterador = lista.keys();
+    for(var i = 0; i<iterador.length; i++){
+        if(lista.get(iterador[i]).oferta == plato){
+            mensajesPlato.push(iterador[i]);
+        }
+    }
+    return mensajesPlato;
+}
 
 
 app.get('/', function(req, res) {
@@ -26,6 +39,20 @@ app.get('/listaMensajes/:user', function(req, res) {
         return res.status(200).json({
             ok: false,
             mensaje: 'Se han producido errores listando los mensajes de ' + req.params.user,
+            errors: error
+        });
+    }
+    res.status(200).json({
+        ok: true,
+        body: error
+    });
+})
+app.get('/listaMensajes/:plato', function(req, res) {
+    var error = verMensajesDePlato(req.params.plato);
+    if (error != 'OK') {
+        return res.status(200).json({
+            ok: false,
+            mensaje: 'Se han producido errores listando los mensajes del plato ' + req.params.plato,
             errors: error
         });
     }

@@ -552,5 +552,6 @@ app.get('/platosRecomendados/:usuario', (req, res) => { // PROBAR
 });
 module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
+module.exports.getPlatos = getPlatos;
 module.exports.calcularPuntos = calcularPuntos;
 module.exports.addUsuario_platos_comprados_por_usuario = addUsuario_platos_comprados_por_usuario;
