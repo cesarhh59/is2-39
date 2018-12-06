@@ -370,14 +370,24 @@ function filtrarPorAlergenoYLocalizacion(alergeno, localizacion){
     }
     return filtrados;
 }
-/*
+function verListaOfertas(){ //Solo muestra las activas
+    var ofertasActivas = [];
+    var lista = lista_platos.keys();
+    for(var i = 0; i<lista.length; i++){
+        if(lista_platos.get(lista[i]) !== undefined && lista_platos.get(lista[i]).estado == true){
+            ofertasActivas.push(lista_platos.get(lista[i]));
+        }
+    }
+    return ofertasActivas;
+}
+
 ////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
 
 console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
-    "\n\n publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) -> " 
-    + publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) + 
+    "\n\n publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) -> " 
+    + publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) + 
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
     "\n\n recomendarPlatos('Adrian') -> " + recomendarPlatos('Adrian') +
     "\n\n recomendarPlatos('Felix') -> " + recomendarPlatos('Felix') +
@@ -389,13 +399,13 @@ console.log(
     "\n\n filtrarPorAlergenoYLocalizacion('gluten','Madrid') -> " + filtrarPorAlergenoYLocalizacion('gluten','Madrid') +
     "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Madrid') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Madrid') +
     "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Soria') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Soria') +
-    "\n\n verListaOfertas -> " + verListaOfertas() +
-    "\n\n concluirPlato('felix', 'macarrones')-> " + concluirPlato('felix', 'macarrones') +
-    "\n\n verListaOfertas -> " + verListaOfertas() +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
+    "\n\n concluirPlato('macarrones')-> " + concluirPlato('macarrones') +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
-    "\n\n reactivarPlato('felix', 'macarrones') -> " + reactivarPlato('felix', 'macarrones') +
+    "\n\n reactivarPlato(macarrones') -> " + reactivarPlato('macarrones') +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
-    "\n\n verListaOfertas -> " + verListaOfertas() +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
     "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
     "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3) +
     "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2) +
@@ -403,7 +413,7 @@ console.log(
 
     /// Hasta aqui todo funciona ///
 )
-*/
+
 // Rutas de gestor platos
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
@@ -411,7 +421,7 @@ app.get('/', function(req, res) {
 app.get('/listaPlatos', function(req, res) {
     return res.status(200).json({
         ok: true,
-        platos: lista_platos.values()
+        platos: verListaOfertas()
     });
 
 })
