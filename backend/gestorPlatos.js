@@ -13,20 +13,90 @@ lista_platos.set('macarrones', {
     porciones: 4,
     localizacion: 'Soria',
     disponibles: true,
-    propietario: 'cesar',
+    propietario: 'Cesar',
     estado: true,
     valoracion: 4,
     alergenos: []
 });
+lista_platos.set('Cocido', {
+    titulo: 'Cocido',
+    porciones: 6,
+    localizacion: 'Madrid',
+    disponibles: true,
+    propietario: 'Felix',
+    estado: true,
+    valoracion: 6,
+    alergenos: []
+});
+lista_platos.set('paella', {
+    titulo: 'paella',
+    porciones: 4,
+    localizacion: 'Madrid',
+    disponibles: true,
+    propietario: 'Felix',
+    estado: true,
+    valoracion: 7,
+    alergenos: []
+});
+lista_platos.set('espaguetis carbonara', {
+    titulo: 'espaguetis carbonara',
+    porciones: 8,
+    localizacion: 'Madrid',
+    disponibles: true,
+    propietario: 'Cesar',
+    estado: true,
+    valoracion: 6,
+    alergenos: ['lactosa','gluten']
+});
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
     porciones: 4,
-    localizacion: 'Soria',
+    localizacion: 'Madrid',
     disponibles: true,
     propietario: 'Cesar',
     estado: true,
     valoracion: 4,
     alergenos: ['lactosa']
+});
+lista_platos.set('Rabo de toro', {
+    titulo: 'Rabo de toro',
+    porciones: 12,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Felix',
+    estado: true,
+    valoracion: 4,
+    alergenos: ['lactosa']
+});
+lista_platos.set('Gazpacho', {
+    titulo: 'Gazpacho',
+    porciones: 8,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Felix',
+    estado: true,
+    valoracion: 5,
+    alergenos: ['gluten']
+});
+lista_platos.set('Pastel de carne', {
+    titulo: 'Pastel de carne',
+    porciones: 2,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Cesar',
+    estado: true,
+    valoracion: 4,
+    alergenos: ['gluten']
+});
+lista_platos.set('Sopa de ajo', {
+    titulo: 'Sopa de ajo',
+    porciones: 2,
+    localizacion: 'Madrid',
+    disponibles: true,
+    propietario: 'Cesar',
+    estado: true,
+    valoracion: 4,
+    alergenos: ['gluten']
 });
 var app = express();
 var auxiliar_arraylist = new ArrayList();
@@ -242,10 +312,10 @@ function recomendarPlatos(usuario){ // PROBAR
     var platos = getPlatos();
     var listaPlatos = platos.keys();
     var usuariosPlatos = getUsuPlatos();
-    var platosDelUsuario = usuariosPlatos.get(usuario);
+    var platosDelUsuario = usuariosPlatos.get(usuario) == undefined ? [] : usuariosPlatos.get(usuario);;
     var usuarios = getUsuarios.getUsuarios();
     var alergenos_usuario = usuarios.get(usuario).alergenos;
-    var localizacion_usuario = usuarios.get(usuario).localizacion;
+    var localizacion_usuario = usuarios.get(usuario).city;
     for(var i = 0; i<listaPlatos.length; i++){
         plato = listaPlatos[i];
         localizacion_plato = platos.get(plato).localizacion;
@@ -309,7 +379,16 @@ console.log(
     "\n\n publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) -> " 
     + publicarPlato('felix', 'filete de ternera', ['gluten'], 4, 'Madrid', true, []) + 
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
+    "\n\n recomendarPlatos('Adrian') -> " + recomendarPlatos('Adrian') +
+    "\n\n recomendarPlatos('Felix') -> " + recomendarPlatos('Felix') +
+    "\n\n recomendarPlatos('Cesar') -> " + recomendarPlatos('Cesar')+
     "\n\n filtrarPorAlergenos('lactosa') -> " + filtrarPorAlergenos('lactosa') +
+    "\n\n filtrarPorLocalizacion('Madrid') -> " + filtrarPorLocalizacion('Madrid') +
+    "\n\n filtrarPorLocalizacion('Soria') -> " + filtrarPorLocalizacion('Soria') +
+    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Soria') -> " + filtrarPorAlergenoYLocalizacion('gluten','Soria') +
+    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Madrid') -> " + filtrarPorAlergenoYLocalizacion('gluten','Madrid') +
+    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Madrid') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Madrid') +
+    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Soria') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Soria') +
     "\n\n verListaOfertas -> " + verListaOfertas() +
     "\n\n concluirPlato('felix', 'macarrones')-> " + concluirPlato('felix', 'macarrones') +
     "\n\n verListaOfertas -> " + verListaOfertas() +
