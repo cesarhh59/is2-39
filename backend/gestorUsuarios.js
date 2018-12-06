@@ -3,14 +3,16 @@ var HashMap = require('hashmap');
 var nodemailer = require('nodemailer');
 var getUsuPlatos = require('./gestorPlatos.js');
 var calcularPuntos = require('./gestorPlatos.js');
+var addUsuario_platos_comprados_por_usuario = require('./gestorPlatos.js');
 
 var app = express();
 var lista_usuarios = new HashMap();
 
 let array_vacio = [];
 // Meto dos para hacer pruebas
-lista_usuarios.set('felix', { username: 'felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Navalcarnero', contact: '666666666', alergenos: ['Celiaco'], link: '1234', validado: false, logueado: false, preferences: [] });
-lista_usuarios.set('cesar', { username: 'cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Madrid', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Felix', { username: 'Felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Madrid', contact: '666666666', alergenos: ['lactosa'], link: '1234', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: array_vacio, link: '', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Adrian', { username: 'Adrian', password: 'adrianpass', mail: 'adrian.caro@gmail.com', city: 'Madrid', contacto: '629115544', alergenos: ['gluten'], link: '', validado: true, logueado: false, preferences: [] });
 
 function getUsuarios() {
     return lista_usuarios;
@@ -41,6 +43,7 @@ function signup(username, password, mail, city, contact, alergenos) {
     if (lista_usuarios.has(username)) { //Ya existe
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
         if (lista_usuarios.search(password) == username) {
+            addUsuario_platos_comprados_por_usuario.addUsuario_platos_comprados_por_usuario(username,[]);
             return "OK";
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
