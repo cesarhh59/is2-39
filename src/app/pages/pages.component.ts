@@ -58,7 +58,6 @@ export class PagesComponent implements OnInit {
     this.showValoracion = !this.showValoracion;
     // TODO llamar a back con porciones seleccionadas y producto
     this.platosService.valorarPlato(this.anuncio.titulo, this.valoracion).subscribe((respuesta: IResponse) => {
-      console.log(respuesta);
     });
     this.routes.navigate(['dashboard']);
   }

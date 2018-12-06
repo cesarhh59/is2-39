@@ -78,7 +78,7 @@ export class GestorComponent implements OnInit {
     } else {
       this.selectedAlergenos.push(alergeno);
     }
-    console.log(this.selectedAlergenos);
+
   }
 }
 

@@ -31,13 +31,11 @@ export class PerfilComponent implements OnInit {
       alergenos: this.selectedAlergenos,
     };
     this.usuarioService.editUsuario(localStorage.getItem('token'), this.usuario).subscribe((res: IResponse) => {
-    console.log(res);
     });
   }
   darBaja() {
     // TODO llamada a servicio para dar de baja
    const idUser: string = localStorage.getItem('token');
-   console.log(idUser);
     this._authService.logout();
 
   }
@@ -49,6 +47,5 @@ export class PerfilComponent implements OnInit {
     } else {
       this.selectedAlergenos.push(alergeno);
     }
-    console.log(this.selectedAlergenos);
   }
 }
