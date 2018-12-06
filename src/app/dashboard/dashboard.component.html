@@ -5,10 +5,18 @@
             </app-sidebar>
         </div>
         <div class="col-md-9">
-            <form class="search">
+            <form class="search" *ngIf="filtro == ''">
                 <input #busc class="form-control mr-sm-2" type="search" (keyup)="buscar(busc.value)" placeholder="Buscar plato" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" (click)="buscar(busc.value)" type="submit">Buscar</button>
             </form>
+            <div class="search" *ngIf="filtro != ''">
+                <h2>
+                    Se filtraran las ofertas disponibles por: <strong>{{filtro}}</strong>
+                </h2>
+                <form class="btn-group" role="group">
+                    <button type="button" class="btn btn-danger  my-2 my-sm-0" (click)="selectedItem('')"><i class="fas fa-times-circle"></i></button>
+                </form>
+            </div>
             <app-card *ngFor="let anuncio of anuncios" [title]="anuncio.titulo" [porciones]="anuncio.porciones"></app-card>
         </div>
     </div>

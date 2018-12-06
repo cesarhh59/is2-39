@@ -33,11 +33,10 @@
                     <input #contacto class="form-control" type="number" placeholder="Contacto">
 
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleFormControlSelect2">Seleccione los alergenos</label>
-                    <select multiple class="form-control" id="exampleFormControlSelect2">
-            <option *ngFor="let alergeno of alergenos" >{{alergeno}}</option>
-          </select>
+                    <label>Seleccione los alergenos</label>
+                    <div *ngFor="let alergeno of alergenos"><input type="checkbox" (click)="selectedAlergeno(alergeno)">{{alergeno}}<br></div>
                 </div>
             </div>
         </div>

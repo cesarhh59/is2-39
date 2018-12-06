@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnunciosService } from '../services/anuncios.service';
 import { IResponse } from '../registro/registro.component';
+import { FiltrosService } from '../services/filtros.service';
 
 @Component({
   selector: 'app-gestor',
@@ -8,20 +9,22 @@ import { IResponse } from '../registro/registro.component';
   styleUrls: ['./gestor.component.css']
 })
 export class GestorComponent implements OnInit {
+  public alergenos: string [] = [];
+  public selectedAlergenos: string [] = [];
+
   public options: string[] = [];
   public activo: Boolean = false;
-  constructor(private platosService: AnunciosService) { }
+  constructor(private platosService: AnunciosService, private _filtros: FiltrosService) { }
   public message: string [] = [];
   public typeMessage = 'danger';
   ngOnInit() {
+    this.alergenos = this._filtros.getAlergenos();
+
     this.platosService.getPlatosPropietario(localStorage.getItem('token')).subscribe((res: IResponse) => {
     this.options.push(res.platos);
     });
   }
 
-saveAlergeno(alergeno: any) {
-
-  }
   saveAnuncio(titulo: string, porciones: string, localizacion: string) {
     this.message = [];
     if ( this.checkCampos(titulo, porciones, localizacion)) {
@@ -33,7 +36,8 @@ saveAlergeno(alergeno: any) {
         disponibles: true,
         propietario: localStorage.getItem('token'),
         estado: false,
-        valoracion: 0
+        valoracion: 0,
+        alergenos: this.selectedAlergenos
       };
       this.platosService.addPlato(anuncio).subscribe((res: IResponse) => {
       });
@@ -65,6 +69,15 @@ saveAlergeno(alergeno: any) {
     }
 
     return result;
+
+  }
+  selectedAlergeno(alergeno: string) {
+    if (this.selectedAlergenos.includes(alergeno)) {
+      this.selectedAlergenos.splice( this.selectedAlergenos.indexOf(alergeno), 1 );
+
+    } else {
+      this.selectedAlergenos.push(alergeno);
+    }
 
   }
 }

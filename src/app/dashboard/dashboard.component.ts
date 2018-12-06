@@ -13,11 +13,13 @@ export class DashboardComponent implements OnInit {
   public anuncios: IAnuncio [] = [];
   public oAnuncios: IAnuncio [] = [];
   public filtros: string [] = [];
+  public filtro: string = '';
   constructor(private platosService: AnunciosService) { }
   ngOnInit() {
     this.filtros.push('Localización');
     this.filtros.push('Valoración');
     this.filtros.push('Preferencias');
+    this.filtros.push('Alergenos');
     this.filtros.push('Más vendidos');
 
 
@@ -45,7 +47,7 @@ export class DashboardComponent implements OnInit {
   }
   }
   selectedItem(event) {
-    console.log(event);
-    
+   this.filtro = event;
+  
   }
 }

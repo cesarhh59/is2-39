@@ -30,7 +30,7 @@ doLogin(mail: string, pass: string): void {
         userid : mail,
         password: pass
     };
-    console.log(this.login);
+
 
     if (this.validate()) {
         this._router.navigate(['/dashboard']);
@@ -52,7 +52,6 @@ public validate(): boolean {
     // tslint:disable-next-line:no-shadowed-variable
     this.userService.checkPassword(this.login.userid, this.login.password).subscribe( (data:  IResponse) => {
         error = data.ok;
-        console.log(error);
 
     if (error) {
 
