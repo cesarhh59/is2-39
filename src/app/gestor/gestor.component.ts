@@ -19,9 +19,8 @@ export class GestorComponent implements OnInit {
   public typeMessage = 'danger';
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
-
     this.platosService.getPlatosPropietario(localStorage.getItem('token')).subscribe((res: IResponse) => {
-    this.options.push(res.platos);
+    this.options = res.platos;
     });
   }
 

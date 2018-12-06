@@ -14,6 +14,7 @@ export class PagesComponent implements OnInit {
     titulo: '',
     porciones: 0,
     localizacion: '',
+    alergenos: [],
     disponibles: false,
     propietario: '',
     estado: false,
@@ -32,11 +33,14 @@ export class PagesComponent implements OnInit {
     // TODO llamar servicio para recuperar datos de anuncio
     this.route.params.subscribe(params => {
     this.platosService.getPlato(params['id']).subscribe((respuesta: IResponse) => {
+console.log(respuesta);
+
       const auxAnuncio = respuesta.platos;
         this.anuncio = {
         titulo: auxAnuncio.titulo,
         porciones: auxAnuncio.porciones,
         localizacion: auxAnuncio.localizacion,
+        alergenos: respuesta.platos.alergenos,
         disponibles: auxAnuncio.disponibles,
         propietario: auxAnuncio.propietario,
         estado: auxAnuncio.disponibles,

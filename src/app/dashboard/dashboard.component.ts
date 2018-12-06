@@ -3,6 +3,7 @@ import { IAnuncio } from '../gestor/gestor.component';
 import { AnunciosService } from '../services/anuncios.service';
 import { IResponse } from '../registro/registro.component';
 import { element } from 'protractor';
+import { FiltrosService } from '../services/filtros.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,8 +14,8 @@ export class DashboardComponent implements OnInit {
   public anuncios: IAnuncio [] = [];
   public oAnuncios: IAnuncio [] = [];
   public filtros: string [] = [];
-  public filtro: string = '';
-  constructor(private platosService: AnunciosService) { }
+  public filtro = '';
+  constructor(private platosService: AnunciosService, private _filtros: FiltrosService) { }
   ngOnInit() {
     this.filtros.push('Localización');
     this.filtros.push('Valoración');
@@ -48,6 +49,12 @@ export class DashboardComponent implements OnInit {
   }
   selectedItem(event) {
    this.filtro = event;
-  
+    switch (this.filtro) {
+      case 'Alergenos':
+            this._filtros.getAnunciosAlergenos('lactosa');
+        break;
+      default:
+        break;
+    }
   }
 }

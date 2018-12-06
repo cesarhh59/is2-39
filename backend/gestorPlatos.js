@@ -46,7 +46,7 @@ lista_platos.set('espaguetis carbonara', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 6,
-    alergenos: ['lactosa','gluten']
+    alergenos: ['lactosa', 'gluten']
 });
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
@@ -114,6 +114,7 @@ function getUsuPlatos() {
 function setUsuPlatos(listaNueva) {
     usuarios_platos = listaNueva;
 }
+
 function getPlatos() {
     return lista_platos;
 }
@@ -138,14 +139,17 @@ function addPlato(usuario, plato) { //add plato a usuarios_platos
         setUsuPlatos(lista);
     }
 }
-function get_platos_comprados_por_usuario(){
+
+function get_platos_comprados_por_usuario() {
     return platos_comprados_por_usuario;
 }
-function set_platos_comprados_por_usuario(hash){
+
+function set_platos_comprados_por_usuario(hash) {
     platos_comprados_por_usuario = hash;
 }
-function addUsuario_platos_comprados_por_usuario(usuario, lista){
-    if(!platos_comprados_por_usuario.has(usuario)){
+
+function addUsuario_platos_comprados_por_usuario(usuario, lista) {
+    if (!platos_comprados_por_usuario.has(usuario)) {
         platos_comprados_por_usuario.set(usuario, lista);
         return true;
     }
@@ -233,14 +237,15 @@ function buscarPlato(plato) {
         return "No se ha encontrado ninguna coincidencia de \"" + plato + "\" en los platos del sistema."
     }
 }
-function valorarPlato(nombrePlato, valoracion) { 
-    valoracion = parseInt(valoracion,10);
+
+function valorarPlato(nombrePlato, valoracion) {
+    valoracion = parseInt(valoracion, 10);
     console.log("valora el plato " + nombrePlato + " con una valoracion de " + valoracion);
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
         var plato = platos.get(nombrePlato);
         var oldValoracion = plato.valoracion;
-        var vendidos = 4;/*plato.vendidos; // NECESITO SABER CUANTOS SE HAN VENDIDO PARA HACER LA MEDIA*/
+        var vendidos = 4; /*plato.vendidos; // NECESITO SABER CUANTOS SE HAN VENDIDO PARA HACER LA MEDIA*/
         var dividendo = (oldValoracion * vendidos) + valoracion;
         vendidos++;
         var media = dividendo / vendidos;
@@ -253,6 +258,7 @@ function valorarPlato(nombrePlato, valoracion) {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
     }
 }
+
 function comprarPlato(nombrePlato, porciones) { // NECESITO SABER QUE USUARIO LO HACE PARA LUEGO RECOMENDAR
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
@@ -268,33 +274,35 @@ function comprarPlato(nombrePlato, porciones) { // NECESITO SABER QUE USUARIO LO
 
     }
 }
-function calcularPuntos(platos){
+
+function calcularPuntos(platos) {
     var puntuacion = 0;
-    for(var j = 0; j < platos.length; j++){
+    for (var j = 0; j < platos.length; j++) {
         let plato = lista_platos.get(platos[j]);
         puntuacion += plato.valoracion;
     }
-    return puntuacion/platos.length;
+    return puntuacion / platos.length;
 }
 /**
  * 
  * @param {String} alergeno 
  * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
  */
-function filtrarPorAlergenos(alergeno){
+function filtrarPorAlergenos(alergeno) {
     let listaPlatos = getPlatos().values();
     let listaFiltrada = [];
-    for(var i = 0; i < listaPlatos.length; i++){
+    for (var i = 0; i < listaPlatos.length; i++) {
         var plato = listaPlatos[i];
-        if(!contiene(alergeno, plato.alergenos)){
+        if (!contiene(alergeno, plato.alergenos)) {
             listaFiltrada.push(plato.titulo);
         }
     }
     return listaFiltrada;
 }
-function contiene(elemento, lista){
-    for(var i = 0; i<lista.length; i++){
-        if(elemento == lista[i]){
+
+function contiene(elemento, lista) {
+    for (var i = 0; i < lista.length; i++) {
+        if (elemento == lista[i]) {
             return true;
         }
     }
@@ -305,7 +313,7 @@ function contiene(elemento, lista){
 - Recomendar usuarios que haya comprado con buena valoracion
 - Siempre filtrando por alergenos
 - Localizacion del plato igual al usuario*/
-function recomendarPlatos(usuario){ // PROBAR 
+function recomendarPlatos(usuario) { // PROBAR 
     var recomendados = [];
     var plato, localizacion_plato = '';
     var alergenos_plato = [];
@@ -316,7 +324,7 @@ function recomendarPlatos(usuario){ // PROBAR
     var usuarios = getUsuarios.getUsuarios();
     var alergenos_usuario = usuarios.get(usuario).alergenos;
     var localizacion_usuario = usuarios.get(usuario).city;
-    for(var i = 0; i<listaPlatos.length; i++){
+    for (var i = 0; i < listaPlatos.length; i++) {
         plato = listaPlatos[i];
         localizacion_plato = platos.get(plato).localizacion;
         alergenos_plato = platos.get(plato).alergenos;
@@ -324,46 +332,49 @@ function recomendarPlatos(usuario){ // PROBAR
             - El plato esta disponible y activo
             - Localizacion del plato igual a la del usuario
             - Alergenos del plato no coinciden con los del usuario*/
-        if(!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true 
-        && platos.get(plato).estado == true && localizacion_plato == localizacion_usuario
-        && !hayElementosIguales(alergenos_plato, alergenos_usuario)){ 
+        if (!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true &&
+            platos.get(plato).estado == true && localizacion_plato == localizacion_usuario &&
+            !hayElementosIguales(alergenos_plato, alergenos_usuario)) {
             recomendados.push(plato);
         }
     }
     return recomendados;
 }
-function hayElementosIguales(lista1, lista2){
-    for(var i = 0; i<lista1.length; i++){
-        for(var j = 0; j<lista2.length; j++){
-            if(lista1[i] == lista2[j]){
+
+function hayElementosIguales(lista1, lista2) {
+    for (var i = 0; i < lista1.length; i++) {
+        for (var j = 0; j < lista2.length; j++) {
+            if (lista1[i] == lista2[j]) {
                 return true;
             }
         }
     }
     return false;
 }
-function filtrarPorLocalizacion(localizacion){ // PROBAR
+
+function filtrarPorLocalizacion(localizacion) { // PROBAR
     var recomendados = [];
     var platos = getPlatos();
     var listaPlatos = platos.keys();
     var plato, localizacion_plato = '';
-    for(var i = 0; i<listaPlatos.length; i++){
+    for (var i = 0; i < listaPlatos.length; i++) {
         plato = listaPlatos[i];
         localizacion_plato = platos.get(plato).localizacion;
-        if(platos.get(plato).disponibles == true 
-        && platos.get(plato).estado == true && localizacion_plato == localizacion)   {
+        if (platos.get(plato).disponibles == true &&
+            platos.get(plato).estado == true && localizacion_plato == localizacion) {
             recomendados.push(plato);
         }
     }
     return recomendados;
 }
-function filtrarPorAlergenoYLocalizacion(alergeno, localizacion){
+
+function filtrarPorAlergenoYLocalizacion(alergeno, localizacion) {
     var filtrados = [];
     var listaPorAlergeno = filtrarPorAlergenos(alergeno);
     var listaPorLocalizacion = filtrarPorLocalizacion(localizacion);
-    for(var i = 0; i<listaPorAlergeno.length; i++){
-        for(var j = 0; j<listaPorLocalizacion.length; j++){
-            if(listaPorAlergeno[i] == listaPorLocalizacion[j]){
+    for (var i = 0; i < listaPorAlergeno.length; i++) {
+        for (var j = 0; j < listaPorLocalizacion.length; j++) {
+            if (listaPorAlergeno[i] == listaPorLocalizacion[j]) {
                 filtrados.push(listaPorAlergeno[i]);
             }
         }
@@ -417,6 +428,7 @@ app.get('/listaPlatos', function(req, res) {
 })
 app.post('/listaPlatos', (req, res) => {
     var body = req.body;
+    console.log(body)
     var error = publicarPlato(body.propietario, body.titulo,
         body.alergeno, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
     if (error != 'OK') {
@@ -525,18 +537,16 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
     });
 
 });
-app.get('/listaPlatos/filtrar/:location/:alergeno', (req, res) => { // PROBAR
+app.get('/listaPlatos/filtrar', (req, res) => {
+    // PROBAR
     var resultado = [];
-    if(req.params.location != '' && req.params.alergeno != ''){
+    if (req.params.location != '' && req.params.alergeno != '') {
         resultado = filtrarPorAlergenoYLocalizacion(req.params.alergeno, req.params.localizacion)
-    }
-    else if(req.params.alergeno != ''){
+    } else if (req.params.alergeno != '') {
         resultado = filtrarPorAlergenos(req.params.alergeno);
-    }
-    else if(req.params.location != ''){
+    } else if (req.params.location != '') {
         resultado = filtrarPorLocalizacion(req.params.location);
-    }
-    else{
+    } else {
         resultado = []
     }
     return res.status(200).json({

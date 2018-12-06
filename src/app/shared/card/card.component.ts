@@ -17,10 +17,13 @@ export class CardComponent implements OnInit {
   constructor(private anuncioService: AnunciosService) { }
 
   ngOnInit() {
-  this.anuncioService.getPlato(this.title).subscribe((resultado: IResponse) => {
-      this.activate = resultado.platos.estado;
-      this.changelblActivo();
-  });
+    if (this.isGestor) {
+
+      this.anuncioService.getPlato(this.title).subscribe((resultado: IResponse) => {
+        this.activate = resultado.platos.estado;
+        this.changelblActivo();
+      });
+    }
   }
   onClick(event: Event) {
 //    this.click.emit(event);

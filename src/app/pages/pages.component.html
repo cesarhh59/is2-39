@@ -4,7 +4,7 @@
         <div class="col-12">
             <h3><strong>Alergenos</strong></h3>
             <ul>
-                <li *ngIf="anuncio.alergenos?.length !== 0">No tiene productos que produzcan alergias</li>
+                <li *ngIf="anuncio.alergenos?.length == 0">No tiene productos que produzcan alergias</li>
                 <li *ngFor="let alergeno of anuncio.alergenos">{{alergeno}}</li>
             </ul>
             <h3><strong>Valoraci&oacute;n:</strong> {{anuncio.valoracion}}</h3>

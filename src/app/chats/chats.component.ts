@@ -10,15 +10,13 @@ export class ChatsComponent implements OnInit {
 public chats: String [] = [];
 public messages: IMessages [] = [];
 public msgSend: String = '';
-public chatActivo: string = '';
+public chatActivo = '';
 constructor( private _router: ActivatedRoute) {
   }
 
   ngOnInit() {
 
   // TODO recuperar todos los chats de un usuario
-
- 
     this.chats.push('Raul');
     this.chats.push('Pablo');
     this.chats.push('Romina');
