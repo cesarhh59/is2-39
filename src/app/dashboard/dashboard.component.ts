@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
     this.filtros.push('Localización');
     this.filtros.push('Valoración');
     this.filtros.push('Preferencias');
+    this.filtros.push('Alergenos');
     this.filtros.push('Más vendidos');
 
 

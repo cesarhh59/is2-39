@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
 import { IAnuncio } from '../gestor/gestor.component';
 import { UsuariosService } from '../services/usuarios.service';
+import { FiltrosService } from '../services/filtros.service';
 
 @Component({
   selector: 'app-registro',
@@ -11,13 +12,13 @@ import { UsuariosService } from '../services/usuarios.service';
 export class RegistroComponent implements OnInit {
 
   public alergenos: string [] = [];
+  public selectedAlergenos: string [] = [];
 
   public registro: IUsuario;
   public errores: string [] = [];
-  constructor (private usuarioService: UsuariosService) { }
+  constructor (private usuarioService: UsuariosService, private _filtros: FiltrosService) { }
   ngOnInit() {
-    this.alergenos.push('Lactosa');
-    this.alergenos.push('Celiaco');
+    this.alergenos = this._filtros.getAlergenos();
 
     this.registro = {
       nombre: '',
@@ -25,11 +26,10 @@ export class RegistroComponent implements OnInit {
       email: '',
       contacto: 0,
       ciudad: '',
-      alergenos: [],
+      alergenos: this.selectedAlergenos
     };
   }
   save(nombre: string, password: string, email: string, contacto: number, ciudad: string) {
-    console.log(contacto);
     if (!contacto) {
       contacto = 0;
     }
@@ -39,12 +39,11 @@ export class RegistroComponent implements OnInit {
       email: email,
       contacto: contacto,
       ciudad: ciudad,
-      alergenos: [],
+      alergenos: this.selectedAlergenos,
     };
     this.validate();
     if (this.errores.length === 0) {
       this.usuarioService.addUsuario(this.registro).subscribe((res: IResponse) => {
-        console.log(res);
 
       });
         this.errores.push('El registro se ha realizado correctamente, por favor vaya a su correo para validar el usuario');
@@ -68,6 +67,14 @@ export class RegistroComponent implements OnInit {
       if (this.registro.ciudad  === '') {
         this.errores.push('El campo ciudad no puede estar vacío');
       }
+  }
+  selectedAlergeno(alergeno: string) {
+    if (this.selectedAlergenos.includes(alergeno)) {
+      this.selectedAlergenos.splice( this.selectedAlergenos.indexOf(alergeno), 1 );
+
+    } else {
+      this.selectedAlergenos.push(alergeno);
+    }
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { UsuariosService } from '../services/usuarios.service';
 import { IUsuario, IResponse } from '../registro/registro.component';
+import { FiltrosService } from '../services/filtros.service';
 
 @Component({
   selector: 'app-perfil',
@@ -9,11 +10,15 @@ import { IUsuario, IResponse } from '../registro/registro.component';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
+  public alergenos: string [] = [];
+  public selectedAlergenos: string [] = [];
   public errores: string [] = [];
   public usuario: IUsuario;
-  constructor(private _authService: AuthService, private usuarioService: UsuariosService) { }
+  constructor(private _authService: AuthService, private usuarioService: UsuariosService, private _filtros: FiltrosService) { }
 
   ngOnInit() {
+    this.alergenos = this._filtros.getAlergenos();
+
   }
 
   editProfile(nombre: string, password: string, mail: string, ciudad: string, contacto: number) {
@@ -23,7 +28,7 @@ export class PerfilComponent implements OnInit {
       email: mail,
       contacto: contacto,
       ciudad: ciudad,
-      alergenos: [],
+      alergenos: this.selectedAlergenos,
     };
     this.usuarioService.editUsuario(localStorage.getItem('token'), this.usuario).subscribe((res: IResponse) => {
     console.log(res);
@@ -35,5 +40,15 @@ export class PerfilComponent implements OnInit {
    console.log(idUser);
     this._authService.logout();
 
+  }
+
+  selectedAlergeno(alergeno: string) {
+    if (this.selectedAlergenos.includes(alergeno)) {
+      this.selectedAlergenos.splice( this.selectedAlergenos.indexOf(alergeno), 1 );
+
+    } else {
+      this.selectedAlergenos.push(alergeno);
+    }
+    console.log(this.selectedAlergenos);
   }
 }
