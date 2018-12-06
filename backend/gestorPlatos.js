@@ -380,7 +380,7 @@ function verListaOfertas(){ //Solo muestra las activas
     }
     return ofertasActivas;
 }
-
+/*
 ////////////////////// PRUEBAS Platos //////////////////////
 const util = require('util');
 
@@ -412,7 +412,7 @@ console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
 
     /// Hasta aqui todo funciona ///
-)
+)*/
 
 // Rutas de gestor platos
 app.get('/', function(req, res) {
