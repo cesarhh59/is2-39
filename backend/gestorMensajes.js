@@ -44,7 +44,7 @@ function escribirMsg(user, txt, chat, plato){
         addLista_mensajes(comprador, nombreChat);
         lista_idMensajes.set(nombreChat, {oferta: plato, msgs:[{fecha: Date.now(), emisor: user, texto: txt}], vendedor: vendedor, comprador: user});
     }
-    else if(!susChats.include(chat)){
+    else if(!susChats.includes(chat)){
         var listaPlatos = getPlatos.getPlatos();
         var vendedor = listaPlatos.get(plato).propietario;
         lista_idMensajes.set(nombreChat, {oferta: plato, msgs:[{fecha: Date.now(), emisor: user, texto: txt}], vendedor: vendedor, comprador: user});
@@ -63,7 +63,7 @@ function addLista_mensajes(usuario, chat){
         lista_mensajes.set(usuario, [chat]);
     }
     else{
-        if(!lista_mensajes.get(usuario).include(chat)){
+        if(!lista_mensajes.get(usuario).includes(chat)){
             lista_mensajes.get(usuario).push(chat);
         }
     }
@@ -127,6 +127,6 @@ console.log(
     "\n\n escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') +
     "\n\n verMensajesDePlato('Champiñones') -> " + verMensajesDePlato("Champiñones") +
     "\n\n verMensajesDePlato('macarrones') -> " + verMensajesDePlato("macarrones") +
-    "\n\n lista_mensajes -> " + util.inspect(lista_mensajes,{showHidden: false, depth: null})
+    "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null})
     /// Hasta aqui todo funciona ///
 )
