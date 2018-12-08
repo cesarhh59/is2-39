@@ -3,6 +3,7 @@ var HashMap = require('hashmap');
 var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
 var existe_y_logueado = require('./gestorUsuarios.js');
+var escribirMsg = require('./gestorMensajes.js');
 
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
@@ -259,13 +260,17 @@ function valorarPlato(nombrePlato, valoracion) {
     }
 }
 
-function comprarPlato(nombrePlato, porciones) { // NECESITO SABER QUE USUARIO LO HACE PARA LUEGO RECOMENDAR
+function comprarPlato(nombrePlato, porciones, comprador) { // NECESITO SABER QUE USUARIO LO HACE PARA LUEGO RECOMENDAR
     var platos = getPlatos();
     if (platos.has(nombrePlato)) {
         if (platos.get(nombrePlato).porciones >= porciones) {
             platos.get(nombrePlato).porciones -= porciones;
             setPlatos(platos);
-            // platos_comprados_por_usuario.get(usuario).push(nombrePlato); // NECESITO SABER QUE USUARIO LO HACE
+            // platos_comprados_por_usuario.get(comprador).push(nombrePlato); // NECESITO SABER QUE USUARIO LO HACE
+            // CREAR CHAT
+            var primer_mensaje = "Hola! He comprado " + porciones + " porciones de tu plato " + nombrePlato + "!";
+            escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato)
+            // CREAR CHAT
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
@@ -534,9 +539,9 @@ app.get('/listaPlatos/:id/propietario', (req, res) => {
     });
 
 });
+// AQUUIII METER EL USUARIIIOO --->>
 app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
-    //    res.send(buscarPlato(req.params.id));
-    var error = comprarPlato(req.params.id, req.params.porciones)
+    var error = comprarPlato(req.params.id, req.params.porciones, req.params.usuario) // ESCRIBIR EL PARAMETRO USUARIO COMO ES
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
