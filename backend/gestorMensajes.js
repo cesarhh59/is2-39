@@ -22,7 +22,7 @@ function verListaChats(usuario) {
         for (var i = 0; i < chats.length; i++) {
             resultado.push(lista_idMensajes.get(chats[i]));
         }
-        return resultado;
+        return chats;
     }
 }
 
@@ -85,7 +85,7 @@ function leerMsg(nombre_chat) {
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
-app.get('/listaMensajes/:user', function(req, res) {
+app.get('/listaChats/:user', function(req, res) {
     var error = verListaChats(req.params.user);
     res.status(200).json({
         ok: true,
@@ -93,7 +93,7 @@ app.get('/listaMensajes/:user', function(req, res) {
     });
 })
 
-app.get('/listaMensajes/:plato', function(req, res) {
+app.get('/listaMensajesPlatos/:plato', function(req, res) {
     var error = verListaChatsPlato(req.params.plato);
     res.status(200).json({
         ok: true,
@@ -108,9 +108,8 @@ app.post('/listaMensajes/:chat', function(req, res) {
         body: error
     });
 })
-app.get('/listaMensajes/:chat', function(req, res) {
+app.get('/listaMensajes/:chat/', function(req, res) {
     var error = leerMsg(req.params.chat);
-    ++
     res.status(200).json({
         ok: true,
         body: error

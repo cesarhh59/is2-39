@@ -12,7 +12,11 @@ export class ChatsService {
   constructor(private http: HttpClient) { }
 
   getListaChats() {
-     const url = this.usersUrl + '/listaMensajes/' + localStorage.getItem('token');
+     const url = this.usersUrl + '/listaChats/' + localStorage.getItem('token');
      return this.http.get(url);
     }
+  getChat(chat: string) {
+      const url = this.usersUrl + '/listaMensajes/' + chat;
+      return this.http.get(url);
+  }
 }

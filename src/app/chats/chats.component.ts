@@ -9,7 +9,7 @@ import { IResponse } from '../registro/registro.component';
   styleUrls: ['./chats.component.css']
 })
 export class ChatsComponent implements OnInit {
-public chats;
+public chats: string[] = [];
 public messages: IMessages [] = [];
 public msgSend: String = '';
 public chatActivo = '';
@@ -17,50 +17,35 @@ constructor( private _router: ActivatedRoute, private _chats: ChatsService) {
   }
 
   ngOnInit() {
-
-  // TODO recuperar todos los chats de un usuario
-    // this.chats.push('Raul');
-    // this.chats.push('Pablo');
-    // this.chats.push('Romina');
-    // this.chats.push('Justo');
+    // Recuperar los chats activos
     this._chats.getListaChats().subscribe((response: IResponse) => {
-      this.chats = response.boody;
-      console.log(response);
+        this.chats = response.body;
     });
 
 
   }
   send(): void {
   this.messages.push({
-    user: 'me',
+    user: 'Me',
     msg: this.msgSend
   });
   this.msgSend = '';
   }
   selectedItem(event) {
     this.chatActivo = event;
-    // TODO cargar chat seleccionado
-     // Recuperamos el chat activo
-
+    // Vacia el chat
+    this.messages = [];
      if (this.chatActivo !== '') {
-      // TODO cargar chats de ese usuario
-      this.messages.push({
-        user: 'me',
-         msg: 'Tienes algo para mi'
-       });
-       this.messages.push({
-         user: 'Julio',
-          msg: 'La coca'
-        }); this.messages.push({
-         user: 'me',
-          msg: 'For me'
-        }); this.messages.push({
-         user: 'me',
-          msg: 'yas'
+      // Se carga el nuevo chat
+      this._chats.getChat(this.chatActivo).subscribe((response: IResponse) => {
+        console.log(response.body);
+      response.body.forEach(element => {
+        this.messages.push({
+          user: element.emisor,
+          msg: element.texto
         });
-
-      } else {
-        this.messages = [];
+      });
+      });
       }
   }
 }

@@ -89,6 +89,6 @@ export interface IUsuario {
 }
 export interface IResponse {
   ok: boolean;
-  boody: string;
+  body;
   platos?;
 }
