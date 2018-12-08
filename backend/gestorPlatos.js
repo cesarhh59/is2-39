@@ -294,7 +294,7 @@ function filtrarPorAlergenos(alergeno) {
     for (var i = 0; i < listaPlatos.length; i++) {
         var plato = listaPlatos[i];
         if (!contiene(alergeno, plato.alergenos)) {
-            listaFiltrada.push(plato.titulo);
+            listaFiltrada.push(plato);
         }
     }
     return listaFiltrada;
@@ -335,7 +335,7 @@ function recomendarPlatos(usuario) { // PROBAR
         if (!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true &&
             platos.get(plato).estado == true && localizacion_plato == localizacion_usuario &&
             !hayElementosIguales(alergenos_plato, alergenos_usuario)) {
-            recomendados.push(plato);
+            recomendados.push(platos.get(plato));
         }
     }
     return recomendados;
@@ -362,7 +362,7 @@ function filtrarPorLocalizacion(localizacion) { // PROBAR
         localizacion_plato = platos.get(plato).localizacion;
         if (platos.get(plato).disponibles == true &&
             platos.get(plato).estado == true && localizacion_plato == localizacion) {
-            recomendados.push(plato);
+            recomendados.push(platos.get(plato));
         }
     }
     return recomendados;
