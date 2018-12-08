@@ -50,9 +50,8 @@ function escribirMsg(user, txt, chat, plato) {
         var nombreChat = chat == "" ? vendedor + '_' + user + '_' + plato : chat;
         addLista_mensajes(user, nombreChat);
         addLista_mensajes(vendedor, nombreChat);
-        lista_idMensajes.set(nombreChat, {oferta: plato, msgs:[{fecha: Date.now(), emisor: user, texto: txt}], vendedor: vendedor, comprador: user});
-    }
-    else if(!susChats.includes(chat)){
+        lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
+    } else if (!susChats.includes(chat)) {
         var listaPlatos = getPlatos.getPlatos();
         var vendedor = listaPlatos.get(plato).propietario;
         lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
@@ -103,7 +102,7 @@ app.get('/listaMensajesPlatos/:plato', function(req, res) {
 })
 app.post('/listaMensajes/:chat', function(req, res) {
     var body = req.body
-    var error = escribirMsg(body.usuario, body.texto, req.params.chat, body.plato);
+    var error = escribirMsg(body.user, body.msg, req.params.chat, body.plato);
     res.status(201).json({
         ok: true,
         body: error
@@ -117,19 +116,4 @@ app.get('/listaMensajes/:chat/', function(req, res) {
     });
 })
 
-
-////////////////////// PRUEBAS Mensajes //////////////////////
-const util = require('util');
-
-console.log(
-    "\n\n lista_mensajes -> " + util.inspect(lista_mensajes,{showHidden: false, depth: null}) + 
-    "\n\n verListaChats('Felix') -> " + verListaChats("Felix") +
-    "\n\n escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') +
-    "\n\n escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') +
-    "\n\n escribirMsg('Adrian', 'Hola cesar, quiero comprar este plato', '', 'macarrones') -> " + escribirMsg('Adrian', 'Hola cesar, quiero comprar este plato', '', 'macarrones') +
-    "\n\n verListaChatsPlato('Champiñones') -> " + verListaChatsPlato("Champiñones") +
-    "\n\n verListaChatsPlato('macarrones') -> " + verListaChatsPlato("macarrones") +
-    "\n\n leerMsg('Felix_Cesar_Champiñones') -> " + util.inspect(leerMsg("Felix_Cesar_Champiñones"),{showHidden: false, depth: null}) +
-    "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null})
-    /// Hasta aqui todo funciona ///
-)
+module.exports = app;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {  IMessagesResponse } from '../chats/chats.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,9 @@ export class ChatsService {
       const url = this.usersUrl + '/listaMensajes/' + chat;
       return this.http.get(url);
   }
+  setChat(chat: IMessagesResponse) {
+    const url = this.usersUrl + '/listaMensajes/' + chat.idPlato;
+    const chatParse = JSON.stringify(chat);
+    return this.http.post(url, chatParse , this.httpOptions);
+}
 }

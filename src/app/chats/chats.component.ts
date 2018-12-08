@@ -13,6 +13,7 @@ public chats: string[] = [];
 public messages: IMessages [] = [];
 public msgSend: String = '';
 public chatActivo = '';
+public userName: string =  localStorage.getItem('token');
 constructor( private _router: ActivatedRoute, private _chats: ChatsService) {
   }
 
@@ -25,10 +26,16 @@ constructor( private _router: ActivatedRoute, private _chats: ChatsService) {
 
   }
   send(): void {
-  this.messages.push({
-    user: 'Me',
-    msg: this.msgSend
-  });
+    const auxMessage: IMessagesResponse = {
+      user: localStorage.getItem('token'),
+      msg: this.msgSend,
+      idPlato: this.chatActivo
+    };
+  this.messages.push(auxMessage);
+  // LLamar a la mierda escribirI
+   this._chats.setChat(auxMessage).subscribe((response: IResponse) => {
+     console.log(response);
+   });
   this.msgSend = '';
   }
   selectedItem(event) {
@@ -52,4 +59,9 @@ constructor( private _router: ActivatedRoute, private _chats: ChatsService) {
 export interface IMessages {
   user: String;
   msg: String;
+}
+export interface IMessagesResponse {
+  user: String;
+  msg: String;
+  idPlato: String;
 }

@@ -8,10 +8,10 @@
         </div>
         <div class="row  box">
 
-            <div *ngFor="let message of messages" class="col-md-offset-12 " [ngClass]="{'msg-me': message.user == 'me', 'msg-you': message.user != 'me' }">
+            <div *ngFor="let message of messages" class="col-md-offset-12 " [ngClass]="{'msg-me': message.user == userName, 'msg-you': message.user != userName }">
                 <label> {{message.user}}:</label>
-                <app-messages *ngIf="message.user === 'me'" [message]="message.msg" mode="light"> </app-messages>
-                <app-messages *ngIf="message.user !== 'me'" [message]="message.msg" mode="danger"> </app-messages>
+                <app-messages *ngIf="message.user === userName" [message]="message.msg" mode="light"> </app-messages>
+                <app-messages *ngIf="message.user !== userName" [message]="message.msg" mode="danger"> </app-messages>
 
             </div>
         </div>
