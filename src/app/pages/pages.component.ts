@@ -54,7 +54,8 @@ console.log(respuesta);
 
   comprar(): void {
     // TODO llamar a back con porciones seleccionadas y producto
-    this.platosService.comprarPlato(this.anuncio.titulo, this.porcionesSeleccionadas).subscribe(() => {
+    this.platosService.comprarPlato(this.anuncio.titulo, this.porcionesSeleccionadas).subscribe((response: IResponse) => {
+      console.log(response);
     });
     this.showValoracion = !this.showValoracion;
   }

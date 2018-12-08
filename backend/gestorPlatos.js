@@ -539,8 +539,7 @@ app.get('/listaPlatos/:id/propietario', (req, res) => {
     });
 
 });
-// AQUUIII METER EL USUARIIIOO --->>
-app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
+app.get('/listaPlatos/:id/comprar/:porciones/:usuario', (req, res) => {
     var error = comprarPlato(req.params.id, req.params.porciones, req.params.usuario) // ESCRIBIR EL PARAMETRO USUARIO COMO ES
     if (error != 'OK') {
         return res.status(200).json({

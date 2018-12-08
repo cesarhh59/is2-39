@@ -33,7 +33,7 @@ export class AnunciosService {
   }
   // Comprar plato
   comprarPlato(titulo: string, porciones: number) {
-    const url = this.usersUrl + '/listaPlatos/' + titulo + '/comprar/' + porciones;
+    const url = this.usersUrl + '/listaPlatos/' + titulo + '/comprar/' + porciones + '/' + localStorage.getItem('token');
     return this.http.get(url);
   }
   // Comprar plato
