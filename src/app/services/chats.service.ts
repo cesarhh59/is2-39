@@ -17,12 +17,16 @@ export class ChatsService {
      return this.http.get(url);
     }
   getChat(chat: string) {
-      const url = this.usersUrl + '/listaMensajes/' + chat;
-      return this.http.get(url);
+    const url = this.usersUrl + '/listaMensajes/' + chat;
+    return this.http.get(url);
   }
   setChat(chat: IMessagesResponse) {
     const url = this.usersUrl + '/listaMensajes/' + chat.idPlato;
     const chatParse = JSON.stringify(chat);
     return this.http.post(url, chatParse , this.httpOptions);
-}
+  }
+  getChatPlato(plato: string) {
+    const url = this.usersUrl + '/listaMensajesPlatos/' + plato;
+    return this.http.get(url , this.httpOptions);
+  }
 }

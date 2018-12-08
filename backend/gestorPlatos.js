@@ -103,7 +103,7 @@ var app = express();
 var auxiliar_arraylist = new ArrayList();
 auxiliar_arraylist.add('macarrones');
 auxiliar_arraylist.add('Champiñones');
-usuarios_platos.set('cesar', auxiliar_arraylist);
+usuarios_platos.set('Cesar', auxiliar_arraylist);
 
 function getUsuPlatos() {
     return usuarios_platos;
@@ -270,7 +270,7 @@ function comprarPlato(nombrePlato, porciones, comprador) { // NECESITO SABER QUE
             // CREAR CHAT
             var primer_mensaje = "Hola! He comprado " + porciones + " porciones de tu plato " + nombrePlato + "!";
             escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato)
-            // CREAR CHAT
+                // CREAR CHAT
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
@@ -556,7 +556,7 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
 
 });
 
-app.get('/platosRecomendados/:usuario', (req, res) => { // PROBAR
+app.get('/platosRecomendados/:usuario', (req, res) => {
     return res.status(200).json({
         ok: true,
         platos: recomendarPlatos(req.params.usuario)

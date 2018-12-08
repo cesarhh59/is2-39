@@ -16,6 +16,7 @@ export class AnunciosService {
      const url = this.usersUrl + '/listaPlatos';
      return this.http.get(url);
     }
+
   getPlatosPropietario(propietario: string) {
     const url = this.usersUrl + '/listaPlatos/' + propietario + '/propietario';
     return this.http.get(url);
