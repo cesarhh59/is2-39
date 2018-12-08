@@ -26,9 +26,7 @@ export class DashboardComponent implements OnInit {
 
     // TODO llamada a servicios que devuelve los anuncios
     this.platosService.getPlatos().subscribe((data: IResponse) => {
-    data.platos.forEach((e: IAnuncio) => {
-      this.anuncios.push(e);
-    });
+     this.anuncios = data.platos;
     this.oAnuncios = this.anuncios;
     });
   }
@@ -51,10 +49,31 @@ export class DashboardComponent implements OnInit {
    this.filtro = event;
     switch (this.filtro) {
       case 'Alergenos':
-            this._filtros.getAnunciosAlergenos('lactosa');
+            this._filtros.getAnunciosAlergenos(localStorage.getItem('token')).subscribe((response: IResponse) => {
+              console.log( response);
+              this.anuncios = response.platos;
+            });
+        break;
+      case 'Localizacion':
+        this._filtros.getAnunciosLocalizacion(localStorage.getItem('token')).subscribe((response: IResponse) => {
+          console.log( response);
+          this.anuncios = response.platos;
+
+        });
+        break;
+      case 'Preferencias':
+        this._filtros.getAnunciosPreferencias(localStorage.getItem('token')).subscribe((response: IResponse) => {
+        console.log( response);
+        this.anuncios = response.platos;
+
+        });
         break;
       default:
-        break;
+      this.platosService.getPlatos().subscribe((data: IResponse) => {
+          this.anuncios = data.platos;
+          this.oAnuncios = this.anuncios;
+       });
+       break;
     }
   }
 }

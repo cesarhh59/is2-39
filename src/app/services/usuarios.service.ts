@@ -21,7 +21,6 @@ export class UsuariosService {
      });
      return this.http.post(url, user, this.httpOptions);
     }
-
     // Alta usuario
     addUsuario(usuario: IUsuario) {
       const url = this.usersUrl + '/signup';

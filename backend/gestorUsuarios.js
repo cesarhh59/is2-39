@@ -11,14 +11,15 @@ var lista_usuarios = new HashMap();
 let array_vacio = [];
 // Meto dos para hacer pruebas
 lista_usuarios.set('Felix', { username: 'Felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Madrid', contact: '666666666', alergenos: ['lactosa'], link: '1234', validado: true, logueado: false, preferences: [] });
-lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: array_vacio, link: '1236', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: ['lactosa'], link: '1236', validado: true, logueado: false, preferences: [] });
 lista_usuarios.set('Adrian', { username: 'Adrian', password: 'adrianpass', mail: 'adrian.caro@gmail.com', city: 'Madrid', contacto: '629115544', alergenos: ['gluten'], link: '1237', validado: true, logueado: false, preferences: [] });
-lista_usuarios.set('Jorge', { username: 'Jorge', password: 'jorgepass', mail: 'jorge.anto@gmail.com', city: 'Boadilla', contacto: '629117544', alergenos: ['gluten','lactosa'], link: '1235', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Jorge', { username: 'Jorge', password: 'jorgepass', mail: 'jorge.anto@gmail.com', city: 'Boadilla', contacto: '629117544', alergenos: ['gluten', 'lactosa'], link: '1235', validado: true, logueado: false, preferences: [] });
 lista_usuarios.set('Borja', { username: 'Borja', password: 'borjapass', mail: 'borja.mar@gmail.com', city: 'Barcelona', contacto: '609117544', alergenos: array_vacio, link: '1231', validado: true, logueado: false, preferences: [] });
 
 function getUsuarios() {
     return lista_usuarios;
 }
+
 function existe_y_logueado(username) {
     return lista_usuarios.has(username) && lista_usuarios.get(username).logueado == true;
 }
@@ -45,7 +46,7 @@ function signup(username, password, mail, city, contact, alergenos) {
     if (lista_usuarios.has(username)) { //Ya existe
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
         if (lista_usuarios.search(password) == username) {
-            addUsuario_platos_comprados_por_usuario.addUsuario_platos_comprados_por_usuario(username,[]);
+            addUsuario_platos_comprados_por_usuario.addUsuario_platos_comprados_por_usuario(username, []);
             return "OK";
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
@@ -155,16 +156,29 @@ function darDeBaja(username, password) {
     }
     return "El usuario no existe o su contraseña no es correcta o no está logueado";
 }
-function delimitarPreferencias(user, preferencias){
-    var perfil = lista_usuarios.get(user);
-    perfil.preferences = preferencias;
-    return "OK";
+
+/**
+ * 
+ * @param {String} user 
+ * 
+ */
+function getAlergenos(user) {
+    return getUsuarios().get(user).alergenos;
 }
-function verRanking(){
+/**
+ * 
+ * @param {String} user 
+ * 
+ */
+function getLocalizacion(user) {
+    return getUsuarios().get(user).city;
+}
+
+function verRanking() {
     usu_platos = getUsuPlatos.getUsuPlatos;
     usuario_puntos = new HashMap();
     usuarios = usu_platos.keys();
-    for(var i = 0; i<usuarios.length; i++){
+    for (var i = 0; i < usuarios.length; i++) {
         var platos = usu_platos.get(usuarios[i]);
         usuario_puntos.set(usuarios[i], calcularPuntos.calcularPuntos(platos));
     }
@@ -301,4 +315,6 @@ app.get('/:usuario/preferencias', (req, res) => {
 });
 module.exports = app;
 module.exports.getUsuarios = getUsuarios;
+module.exports.getLocalizacion = getLocalizacion;
+module.exports.getAlergenos = getAlergenos;
 module.exports.existe_y_logueado = existe_y_logueado;

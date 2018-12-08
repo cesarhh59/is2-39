@@ -381,11 +381,12 @@ function filtrarPorAlergenoYLocalizacion(alergeno, localizacion) {
     }
     return filtrados;
 }
-function verListaOfertas(){ //Solo muestra las activas
+
+function verListaOfertas() { //Solo muestra las activas
     var ofertasActivas = [];
     var lista = lista_platos.keys();
-    for(var i = 0; i<lista.length; i++){
-        if(lista_platos.get(lista[i]) !== undefined && lista_platos.get(lista[i]).estado == true){
+    for (var i = 0; i < lista.length; i++) {
+        if (lista_platos.get(lista[i]) !== undefined && lista_platos.get(lista[i]).estado == true) {
             ofertasActivas.push(lista_platos.get(lista[i]));
         }
     }
@@ -430,9 +431,29 @@ app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
 app.get('/listaPlatos', function(req, res) {
+    var alergenos,
+        localizacion;
+    var resultado = verListaOfertas();
+    // Se cargan los datos del usuario logueado 
+    // Se cargan alergenos y localizacion
+    if (req.query.location && req.query.location != '') {
+        localizacion = getUsuarios.getLocalizacion(req.query.location)
+    }
+    if (req.query.alergenos && req.query.alergenos != '') {
+        alergenos = getUsuarios.getAlergenos(req.query.alergenos)
+    }
+    if (alergenos && localizacion && localizacion != '' && alergenos != '') {
+        resultado = filtrarPorAlergenoYLocalizacion(alergenos, localizacion)
+    } else if (alergenos && alergenos != '') {
+        resultado = filtrarPorAlergenos(alergenos);
+    } else if (localizacion && localizacion != '') {
+        resultado = filtrarPorLocalizacion(localizacion);
+    }
+    console.log(resultado);
+
     return res.status(200).json({
         ok: true,
-        platos: verListaOfertas()
+        platos: resultado
     });
 
 })
@@ -529,23 +550,7 @@ app.get('/listaPlatos/:id/comprar/:porciones', (req, res) => {
     });
 
 });
-app.get('/listaPlatos/filtrar', (req, res) => {
-    // PROBAR
-    var resultado = [];
-    if (req.params.location != '' && req.params.alergeno != '') {
-        resultado = filtrarPorAlergenoYLocalizacion(req.params.alergeno, req.params.localizacion)
-    } else if (req.params.alergeno != '') {
-        resultado = filtrarPorAlergenos(req.params.alergeno);
-    } else if (req.params.location != '') {
-        resultado = filtrarPorLocalizacion(req.params.location);
-    } else {
-        resultado = []
-    }
-    return res.status(200).json({
-        ok: true,
-        platos: resultado
-    });
-});
+
 app.get('/platosRecomendados/:usuario', (req, res) => { // PROBAR
     return res.status(200).json({
         ok: true,
@@ -556,4 +561,4 @@ module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
 module.exports.getPlatos = getPlatos;
 module.exports.calcularPuntos = calcularPuntos;
-module.exports.addUsuario_platos_comprados_por_usuario = addUsuario_platos_comprados_por_usuario;
+module.exports.addUsuario_platos_comprados_por_usuario = addUsuario_platos_comprados_por_usuario
