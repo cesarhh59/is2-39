@@ -118,19 +118,3 @@ app.get('/listaMensajes/:chat', function(req, res) {
 })
 
 module.exports = app;
-////////////////////// PRUEBAS Mensajes //////////////////////
-const util = require('util');
-
-console.log(
-        "\n\n lista_mensajes -> " + util.inspect(lista_mensajes, { showHidden: false, depth: null }) +
-        "\n\n verListaChats('Felix') -> " + verListaChats("Felix") +
-        "\n\n escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') +
-        "\n\n escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') +
-        "\n\n verListaChatsPlato('Champiñones') -> " + verListaChatsPlato("Champiñones") +
-        "\n\n verListaChatsPlato('macarrones') -> " + verListaChatsPlato("macarrones") +
-        "\n\n leerMsg('Felix_Cesar_Champiñones') -> " + util.inspect(leerMsg("Felix_Cesar_Champiñones"), { showHidden: false, depth: null }) +
-        "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes, { showHidden: false, depth: null })
-        /// Hasta aqui todo funciona ///
-    ) >>>
-    >>>
-    > 5 cb325195889ddbe283b0cf18fa1d32c987814c5
