@@ -1,20 +1,23 @@
-import {Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy } from '@angular/core';
 import {Router } from '@angular/router';
 import { ILogin } from '../login';
 import { AuthService } from '../auth.service';
 import { UsuariosService } from '../services/usuarios.service';
 import { IResponse } from '../registro/registro.component';
+import { AnunciosService } from '../services/anuncios.service';
 
 @Component( {
 selector: 'app-login',
 templateUrl: './login.component.html',
 styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
 public login: ILogin;
 public errores: String[] = [];
-constructor(private _router: Router, public authService: AuthService, private userService: UsuariosService) {
+public subs;
+constructor(private _router: Router, public authService: AuthService,
+    private userService: UsuariosService, private _anuncios: AnunciosService) {
 
 }
 
@@ -24,6 +27,9 @@ ngOnInit() {
         password: ''
     };
     this.authService.logout();
+}
+ngOnDestroy () {
+    //this.subs.unsubscribe();
 }
 doLogin(mail: string, pass: string): void {
     this.login = {
@@ -57,6 +63,9 @@ public validate(): boolean {
 
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('token', this.login.userid);
+        this.subs =  this._anuncios.getPlatoRecomendados(localStorage.getItem('token')).subscribe((response: IResponse) => {
+              window.alert('Alerta!! Los siguiente platos te podrían interesar: \n' + response.platos);
+            });
         this._router.navigate(['/dashboard']);
 
         }
