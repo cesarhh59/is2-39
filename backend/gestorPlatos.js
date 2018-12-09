@@ -275,7 +275,7 @@ function comprarPlato(nombrePlato, porciones, comprador) { // NECESITO SABER QUE
             var primer_mensaje = "Hola! He comprado " + porciones + " porciones de tu plato " + nombrePlato + "!";
             escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato, lista_platos)
                 // CREAR CHAT
-            console.log("El plato " + plato + "ha sido comprado por " + );
+            console.log("El plato " + plato + "ha sido comprado por " + comprador + " porciones: " + porciones);
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
