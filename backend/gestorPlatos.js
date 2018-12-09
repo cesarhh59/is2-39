@@ -305,6 +305,7 @@ function calcularPuntos(platos) {
  * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
  */
 function filtrarPorAlergenos(alergeno) {
+    alergeno = parseAlergenos(alergeno);
     console.log("El usuario pide un filtro por alergenos: " + alergeno);
     let listaPlatos = getPlatos().values();
     let listaFiltrada = [];
@@ -317,10 +318,27 @@ function filtrarPorAlergenos(alergeno) {
     return listaFiltrada;
 }
 
+function parseAlergenos(antiguos){
+    var resultado = [];
+    for(var i = 0; i<antiguos.length; i++){
+        if(antiguos[i] == "Lactosa"){
+            resultado.push("lactosa");
+        }
+        else if(antiguos[i] == "Celiaco"){
+            resultado.push("gluten");
+        }
+        else{
+            resultado.push(antiguos[i]);
+        }
+    }
+    return resultado;
+}
 function contiene(elemento, lista) {
     for (var i = 0; i < lista.length; i++) {
-        if (elemento == lista[i]) {
-            return true;
+        for(var j = 0; j < elemento.length; j++){
+            if (elemento[j] == lista[i]) {
+                return true;
+            }
         }
     }
     return false;
@@ -446,6 +464,8 @@ console.log(
 
     /// Hasta aqui todo funciona ///
 )*/
+    var alergenos = getAlergenos.getAlergenos("Jorge");
+    console.log(filtrarPorAlergenos(alergenos));
 
 // Rutas de gestor platos
 app.get('/', function(req, res) {
