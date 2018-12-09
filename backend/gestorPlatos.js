@@ -525,7 +525,7 @@ app.post('/listaPlatos', (req, res) => {
     var body = req.body;
     console.log(body)
     var error = publicarPlato(body.propietario, body.titulo,
-        body.alergenos, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes, body.preferencias)
+        body.alergenos, body.porciones, body.localizacion, body.estado, body.hiloMensajes, body.preferencias)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
