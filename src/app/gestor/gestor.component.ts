@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AnunciosService } from '../services/anuncios.service';
 import { IResponse } from '../registro/registro.component';
 import { FiltrosService } from '../services/filtros.service';
+import { UsuariosService } from '../services/usuarios.service';
 
 @Component({
   selector: 'app-gestor',
@@ -12,13 +13,18 @@ export class GestorComponent implements OnInit {
   public alergenos: string [] = [];
   public selectedAlergenos: string [] = [];
 
+  public preferencias: string [] = [];
+  public selPreferencias: string [] = [];
+
   public options: string[] = [];
   public activo: Boolean = false;
-  constructor(private platosService: AnunciosService, private _filtros: FiltrosService) { }
+  constructor(private usuarioService: UsuariosService, private platosService: AnunciosService, private _filtros: FiltrosService) { }
   public message: string [] = [];
   public typeMessage = 'danger';
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
+    this.preferencias = this.usuarioService.preferencias;
+
     this.platosService.getPlatosPropietario(localStorage.getItem('token')).subscribe((res: IResponse) => {
     this.options = res.platos;
     });
@@ -36,7 +42,8 @@ export class GestorComponent implements OnInit {
         propietario: localStorage.getItem('token'),
         estado: false,
         valoracion: 0,
-        alergenos: this.selectedAlergenos
+        alergenos: this.selectedAlergenos,
+        preferencias: this.selPreferencias
       };
       this.platosService.addPlato(anuncio).subscribe((res: IResponse) => {
       });
@@ -79,6 +86,14 @@ export class GestorComponent implements OnInit {
     }
 
   }
+  selectedPreferencias(preferencias: string) {
+    if (this.selPreferencias.includes(preferencias)) {
+      this.selPreferencias.splice( this.selPreferencias.indexOf(preferencias), 1 );
+
+    } else {
+      this.selPreferencias.push(preferencias);
+    }
+  }
 }
 
 
@@ -92,4 +107,5 @@ export interface IAnuncio {
   localizacion: string;
   hiloMensajes?: string[];
   estado: boolean;
+  preferencias?: string [];
 }

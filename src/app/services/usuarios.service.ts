@@ -6,11 +6,17 @@ import { IUsuario } from '../registro/registro.component';
   providedIn: 'root'
 })
 export class UsuariosService {
+  public preferencias: string [] = [];
 
   private usersUrl = 'usuarios';
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.preferencias.push('Americano');
+    this.preferencias.push('Vegetariano');
+    this.preferencias.push('Asiático');
+    this.preferencias.push('Tailandés');
+  }
 
   checkPassword(nombre: string, password: string) {
      // return this.http.get(this.usersUrl);

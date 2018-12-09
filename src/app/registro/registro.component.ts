@@ -12,14 +12,17 @@ import { FiltrosService } from '../services/filtros.service';
 export class RegistroComponent implements OnInit {
 
   public alergenos: string [] = [];
+  public preferencias: string [] = [];
+
   public selectedAlergenos: string [] = [];
+  public selPreferencias: string [] = [];
 
   public registro: IUsuario;
   public errores: string [] = [];
   constructor (private usuarioService: UsuariosService, private _filtros: FiltrosService) { }
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
-
+    this.preferencias = this.usuarioService.preferencias;
     this.registro = {
       nombre: '',
       password: '',
@@ -40,6 +43,7 @@ export class RegistroComponent implements OnInit {
       contacto: contacto,
       ciudad: ciudad,
       alergenos: this.selectedAlergenos,
+      preferencias: this.selPreferencias
     };
     this.validate();
     if (this.errores.length === 0) {
@@ -76,6 +80,14 @@ export class RegistroComponent implements OnInit {
       this.selectedAlergenos.push(alergeno);
     }
   }
+  selectedPreferencias(preferencias: string) {
+    if (this.selPreferencias.includes(preferencias)) {
+      this.selPreferencias.splice( this.selPreferencias.indexOf(preferencias), 1 );
+
+    } else {
+      this.selPreferencias.push(preferencias);
+    }
+  }
 
 }
 
@@ -86,6 +98,7 @@ export interface IUsuario {
   contacto: number;
   ciudad: string;
   alergenos?: string[];
+  preferencias?: string[];
 }
 export interface IResponse {
   ok: boolean;

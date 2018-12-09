@@ -29,6 +29,10 @@
                     <div *ngFor="let alergeno of alergenos"><input type="checkbox" (click)="selectedAlergeno(alergeno)">{{alergeno}}<br></div>
                     <button class="btn btn-outline-success my-2 my-sm-0" (click)="editProfile(nombre.value, password.value, email.value, ciudad.value, contacto.value)" type="submit">Guardar Cambios</button>
                 </div>
+                <div class="form-group">
+                    <label>Seleccione sus preferencias: </label>
+                    <div *ngFor="let preferencia of preferencias"><input type="checkbox" (click)="selectedPreferencias(preferencia)">{{preferencia}}<br></div>
+                </div>
             </div>
         </div>
     </form>

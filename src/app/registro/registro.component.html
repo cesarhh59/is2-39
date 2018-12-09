@@ -35,10 +35,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Seleccione los alergenos</label>
+                    <label>Seleccione los alergenos:</label>
                     <div *ngFor="let alergeno of alergenos"><input type="checkbox" (click)="selectedAlergeno(alergeno)">{{alergeno}}<br></div>
                 </div>
+
+                <div class="form-group">
+                    <label>Seleccione sus preferencias: </label>
+                    <div *ngFor="let preferencia of preferencias"><input type="checkbox" (click)="selectedPreferencias(preferencia)">{{preferencia}}<br></div>
+                </div>
             </div>
+
         </div>
         <div class="form-row">
             <button type="submit" style="margin-right: 50%;  margin-left: 50%;" class="btn btn-success" (click)="save(nombre.value, password.value, email.value , contacto.value, ciudad.value)">Registrar</button>

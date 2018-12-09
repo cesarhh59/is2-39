@@ -12,12 +12,18 @@ import { FiltrosService } from '../services/filtros.service';
 export class PerfilComponent implements OnInit {
   public alergenos: string [] = [];
   public selectedAlergenos: string [] = [];
+
+  public preferencias: string [] = [];
+  public selPreferencias: string [] = [];
+
   public errores: string [] = [];
   public usuario: IUsuario;
   constructor(private _authService: AuthService, private usuarioService: UsuariosService, private _filtros: FiltrosService) { }
 
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
+    this.preferencias = this.usuarioService.preferencias;
+
 
   }
 
@@ -29,6 +35,7 @@ export class PerfilComponent implements OnInit {
       contacto: contacto,
       ciudad: ciudad,
       alergenos: this.selectedAlergenos,
+      preferencias: this.selPreferencias
     };
     this.usuarioService.editUsuario(localStorage.getItem('token'), this.usuario).subscribe((res: IResponse) => {
     });
@@ -46,6 +53,14 @@ export class PerfilComponent implements OnInit {
 
     } else {
       this.selectedAlergenos.push(alergeno);
+    }
+  }
+  selectedPreferencias(preferencias: string) {
+    if (this.selPreferencias.includes(preferencias)) {
+      this.selPreferencias.splice( this.selPreferencias.indexOf(preferencias), 1 );
+
+    } else {
+      this.selPreferencias.push(preferencias);
     }
   }
 }
