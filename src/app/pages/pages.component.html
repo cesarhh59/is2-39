@@ -15,7 +15,9 @@
     <div class="input-group col-md-4">
         <label class="form-label-group">Seleccione las porciones:</label>
 
-        <input class="form-control" type="number" [(ngModel)]="porcionesSeleccionadas" placeholder="0" min="1" [max]="anuncio.porciones" /> El número máximo de porciones es: {{anuncio.porciones}}.
+        <input class="input-group" type="range" [(ngModel)]="porcionesSeleccionadas" list="tickmarks" min="0" [max]="anuncio.porciones" />
+        <p>El n&uacute;mero m&aacute;ximo de porciones es: {{anuncio.porciones}}.</p>
+        <p><strong>N&uacute;mero de porciones seleccionadas {{porcionesSeleccionadas}}</strong></p>
     </div>
     <div class="form-signin">
         <button type="submit" class=" btn btn-outline-success " (click)="comprar() ">Comprar</button>
@@ -27,7 +29,9 @@
     <div class="input-group col-md-4">
         <label class="form-label-group">Valoracion:</label>
 
-        <input class="form-control" type="number" [(ngModel)]="valoracion" min="1" max="10" placeholder="0" />
+        <input class="input-group" type="range" [(ngModel)]="valoracion" min="1" max="10" />
+        <p><strong>N&uacute;mero de porciones seleccionadas {{valoracion}}</strong></p>
+
     </div>
     <div class="form-signin">
         <button type="submit" class=" btn btn-outline-success " (click)="enviar() ">Enviar valoración</button>

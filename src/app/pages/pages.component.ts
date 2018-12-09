@@ -33,8 +33,6 @@ export class PagesComponent implements OnInit {
     // TODO llamar servicio para recuperar datos de anuncio
     this.route.params.subscribe(params => {
     this.platosService.getPlato(params['id']).subscribe((respuesta: IResponse) => {
-console.log(respuesta);
-
       const auxAnuncio = respuesta.platos;
         this.anuncio = {
         titulo: auxAnuncio.titulo,
