@@ -141,9 +141,7 @@ function setPlatos(nuevaListaPlatos) {
 function addPlato(usuario, plato) { //add plato a usuarios_platos
     console.log("Se añade el plato " + plato + " al usuario " + usuario)
     lista = getUsuPlatos();
-    console.log("lista -> " + util.inspect(lista,{showHidden: false, depth: null}))
     if(lista.has(usuario)){
-        console.log("IN")
         var platos_de_usuario = lista.get(usuario);
         platos_de_usuario.push(plato);
         lista.set(usuario, platos_de_usuario);
@@ -152,8 +150,6 @@ function addPlato(usuario, plato) { //add plato a usuarios_platos
     else{
         lista.set(usuario, [plato])
     }
-    
-    console.log("usuarios_platos -> " + util.inspect(usuarios_platos,{showHidden: false, depth: null}))
 }
 
 function get_platos_comprados_por_usuario() {
