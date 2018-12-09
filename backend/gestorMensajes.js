@@ -9,9 +9,11 @@ var lista_mensajes = new HashMap(); //lista de los mensajes activos de cada usua
 // Ejemplos para pruebas:
 lista_idMensajes.set("Felix_Cesar_macarrones", { oferta: "macarrones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Hola!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
 lista_idMensajes.set("Felix_Cesar_Champiñones", { oferta: "Champiñones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Ey!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
+lista_idMensajes.set('Cesar_Adrian_Champiñones', { oferta: 'Champiñones', msgs: [ { fecha: 1544346325849, emisor: 'Adrian', texto: 'Hola cesar' } ], vendedor: 'Cesar', comprador: 'Adrian' });
 
 lista_mensajes.set("Felix", ['Felix_Cesar_macarrones', 'Felix_Cesar_Champiñones']);
 lista_mensajes.set("Cesar", ['Felix_Cesar_macarrones', 'Felix_Cesar_Champiñones']);
+lista_mensajes.set("Adrian", ['Cesar_Adrian_Champiñones']);
 
 function verListaChats(usuario) {
     if (lista_mensajes.get(usuario) == undefined) {
@@ -54,8 +56,11 @@ function escribirMsg(user, txt, chat, plato, lista_platos) {
     } else if (!susChats.includes(chat)) {
         var listaPlatos = lista_platos == "" ? getPlatos.getPlatos() : lista_platos;
         var vendedor = listaPlatos.get(plato).propietario;
+        var nombreChat = chat == "" ? vendedor + '_' + user + '_' + plato : chat;
         lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
-        lista_mensajes.get(user).push(chat)
+        if(!lista_mensajes.get(user).includes(nombreChat)){
+        lista_mensajes.get(user).push(nombreChat);
+        }
     } else {
         var mensajes = lista_idMensajes.get(chat).msgs;
         mensajes.push({ fecha: Date.now(), emisor: user, texto: txt });
@@ -81,6 +86,22 @@ function leerMsg(nombre_chat) {
         return lista_idMensajes.get(nombre_chat).msgs;
     }
 }
+
+////////////////////// PRUEBAS MENSAJES //////////////////////
+var util = require('util');
+console.log(
+    "\n\n lista_mensajes -> " + util.inspect(lista_mensajes,{showHidden: false, depth: null}) + 
+    "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null}) +
+    "\n\n verListaChats('Felix') -> " + verListaChats("Felix") +
+    "\n\n escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Felix', 'Hola amigo', 'Felix_Cesar_Champiñones', 'Champiñones',"") +
+    "\n\n escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones',"") +
+    "\n\n escribirMsg('Adrian', 'Hola cesar', '', 'Champiñones','') -> " + escribirMsg('Adrian', 'Hola quiero comprar', '', 'Champiñones','') +
+    "\n\n verListaChatsPlato('Champiñones') -> " + verListaChatsPlato("Champiñones") +
+    "\n\n verListaChatsPlato('macarrones') -> " + verListaChatsPlato("macarrones") +
+    "\n\n leerMsg('Felix_Cesar_Champiñones') -> " + util.inspect(leerMsg("Felix_Cesar_Champiñones"),{showHidden: false, depth: null}) +
+    "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null})
+    /// Hasta aqui todo funciona ///
+)
 
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
