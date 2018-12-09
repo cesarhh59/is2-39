@@ -2,7 +2,6 @@ var express = require('express');
 var HashMap = require('hashmap');
 var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
-var existe_y_logueado = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
 
 var lista_platos = new HashMap(); //id_plato, Plato
@@ -269,7 +268,7 @@ function comprarPlato(nombrePlato, porciones, comprador) { // NECESITO SABER QUE
             // platos_comprados_por_usuario.get(comprador).push(nombrePlato); // NECESITO SABER QUE USUARIO LO HACE
             // CREAR CHAT
             var primer_mensaje = "Hola! He comprado " + porciones + " porciones de tu plato " + nombrePlato + "!";
-            escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato)
+            escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato, lista_platos)
                 // CREAR CHAT
             return "OK";
         }
@@ -424,8 +423,8 @@ console.log(
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
     "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
     "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
-    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3) +
-    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2) +
+    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2, 'Adrian') +
+    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3, 'Felix') +
     "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
 
     /// Hasta aqui todo funciona ///
@@ -563,6 +562,6 @@ app.get('/platosRecomendados/:usuario', (req, res) => {
 });
 module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
-module.exports.getPlatos = getPlatos;
 module.exports.calcularPuntos = calcularPuntos;
 module.exports.addUsuario_platos_comprados_por_usuario = addUsuario_platos_comprados_por_usuario
+module.exports.getPlatos = getPlatos;

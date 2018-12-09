@@ -1,6 +1,6 @@
 var express = require('express');
 var HashMap = require('hashmap');
-var getPlatos = require('./gestorPlatos.js');
+var getPlatos = require("./gestorPlatos.js");
 
 var app = express();
 // Hashmap de usuarios, dentro de cada usuario: Hashmap de mensajes, con key: idMensaje y value: mensaje.
@@ -42,17 +42,17 @@ function verListaChatsPlato(plato) {
     return mensajesPlato;
 }
 
-function escribirMsg(user, txt, chat, plato) {
+function escribirMsg(user, txt, chat, plato, lista_platos) {
     var susChats = lista_mensajes.get(user);
     if (susChats == undefined) {
-        var listaPlatos = getPlatos.getPlatos();
+        var listaPlatos = lista_platos == "" ? getPlatos.getPlatos() : lista_platos;
         var vendedor = listaPlatos.get(plato).propietario;
         var nombreChat = chat == "" ? vendedor + '_' + user + '_' + plato : chat;
         addLista_mensajes(user, nombreChat);
         addLista_mensajes(vendedor, nombreChat);
         lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
     } else if (!susChats.includes(chat)) {
-        var listaPlatos = getPlatos.getPlatos();
+        var listaPlatos = lista_platos == "" ? getPlatos.getPlatos() : lista_platos;
         var vendedor = listaPlatos.get(plato).propietario;
         lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
         lista_mensajes.get(user).push(chat)
@@ -102,7 +102,7 @@ app.get('/listaMensajesPlatos/:plato', function(req, res) {
 })
 app.post('/listaMensajes/:chat', function(req, res) {
     var body = req.body
-    var error = escribirMsg(body.user, body.msg, req.params.chat, body.plato);
+    var error = escribirMsg(body.user, body.msg, req.params.chat, body.plato, "");
     res.status(201).json({
         ok: true,
         body: error
@@ -117,3 +117,4 @@ app.get('/listaMensajes/:chat/', function(req, res) {
 })
 
 module.exports = app;
+module.exports.escribirMsg = escribirMsg;
