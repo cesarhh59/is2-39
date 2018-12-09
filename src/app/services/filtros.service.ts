@@ -10,8 +10,9 @@ export class FiltrosService {
   private httpOptions =  new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {
-    this.alergenos.push('Lactosa');
-    this.alergenos.push('Celiaco');
+    this.alergenos.push('lactosa');
+    this.alergenos.push('glucosa');
+    this.alergenos.push('fructosa');
   }
 
   getAlergenos(): string[] {
