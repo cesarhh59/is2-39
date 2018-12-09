@@ -3,6 +3,7 @@ var HashMap = require('hashmap');
 var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
+var addLista_mensajes = require('./gestorMensajes.js');
 
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
@@ -196,6 +197,7 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
+        addLista_mensajes.addLista_mensajes(propietario,"")
         console.log("El usuario " + propietario + " he creado el plato " + titulo);
         console.log(platos.get(titulo));
         return "OK"

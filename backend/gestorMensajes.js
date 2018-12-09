@@ -62,7 +62,10 @@ function escribirMsg(user, txt, chat, plato, lista_platos) {
         var nombreChat = chat == "" ? vendedor + '_' + user + '_' + plato : chat;
         lista_idMensajes.set(nombreChat, { oferta: plato, msgs: [{ fecha: Date.now(), emisor: user, texto: txt }], vendedor: vendedor, comprador: user });
         if(!lista_mensajes.get(user).includes(nombreChat)){
-        lista_mensajes.get(user).push(nombreChat);
+            lista_mensajes.get(user).push(nombreChat);
+        }
+        if(!lista_mensajes.get(vendedor).includes(nombreChat)){
+            lista_mensajes.get(vendedor).push(nombreChat);
         }
     } else {
         var mensajes = lista_idMensajes.get(chat).msgs;
@@ -74,7 +77,12 @@ function escribirMsg(user, txt, chat, plato, lista_platos) {
 
 function addLista_mensajes(usuario, chat) {
     if (lista_mensajes.get(usuario) == undefined) {
-        lista_mensajes.set(usuario, [chat]);
+        if(chat == ""){
+            lista_mensajes.set(usuario, []);
+        }
+        else{
+            lista_mensajes.set(usuario, [chat]);
+        }
     } else {
         if (!lista_mensajes.get(usuario).includes(chat)) {
             lista_mensajes.get(usuario).push(chat);
@@ -142,3 +150,4 @@ app.get('/listaMensajes/:chat/', function(req, res) {
 
 module.exports = app;
 module.exports.escribirMsg = escribirMsg;
+module.exports.addLista_mensajes = addLista_mensajes;
