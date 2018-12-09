@@ -199,7 +199,7 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
-        addLista_mensajes.addLista_mensajes(propietario,"")
+        addLista_mensajes.addLista_mensajes(propietario, "")
         console.log("El usuario " + propietario + " he creado el plato " + titulo);
         console.log(platos.get(titulo));
         return "OK"
@@ -481,7 +481,7 @@ app.post('/listaPlatos', (req, res) => {
     var body = req.body;
     console.log(body)
     var error = publicarPlato(body.propietario, body.titulo,
-        body.alergeno, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
+        body.alergenos, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
