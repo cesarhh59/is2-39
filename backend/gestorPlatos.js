@@ -6,6 +6,7 @@ var getAlergenos = require('./gestorUsuarios.js');
 var getLocalizacion = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
 var addLista_mensajes = require('./gestorMensajes.js');
+const util = require('util');
 
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
@@ -105,7 +106,11 @@ var app = express();
 var auxiliar_arraylist = new ArrayList();
 auxiliar_arraylist.add('macarrones');
 auxiliar_arraylist.add('Champiñones');
+auxiliar_arraylist.add('Sopa de ajo');
+auxiliar_arraylist.add('Pastel de carne');
+auxiliar_arraylist.add('espaguetis carbonara');
 usuarios_platos.set('Cesar', auxiliar_arraylist);
+usuarios_platos.set('Felix', ["Gazpacho","Rabo de toro","paella","Cocido"]);
 
 function getUsuPlatos() {
     return usuarios_platos;
@@ -134,13 +139,21 @@ function setPlatos(nuevaListaPlatos) {
  * @param {String} plato 
  */
 function addPlato(usuario, plato) { //add plato a usuarios_platos
+    console.log("Se añade el plato " + plato + " al usuario " + usuario)
     lista = getUsuPlatos();
-    if (lista.has(usuario)) {
+    console.log("lista -> " + util.inspect(lista,{showHidden: false, depth: null}))
+    if(lista.has(usuario)){
+        console.log("IN")
         var platos_de_usuario = lista.get(usuario);
-        platos_de_usuario.add(plato);
+        platos_de_usuario.push(plato);
         lista.set(usuario, platos_de_usuario);
         setUsuPlatos(lista);
     }
+    else{
+        lista.set(usuario, [plato])
+    }
+    
+    console.log("usuarios_platos -> " + util.inspect(usuarios_platos,{showHidden: false, depth: null}))
 }
 
 function get_platos_comprados_por_usuario() {
@@ -181,6 +194,11 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String[]} hiloMensajes 
  */
 function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
+    console.log("Se entra a publicar plato, propietario " + propietario)
+    console.log("titulo: " + titulo)
+    console.log("alergeno: " + alergeno)
+    console.log("porciones: " + porciones)
+    console.log("localizacion: " + localizacion)
     var platos = getPlatos();
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
@@ -371,7 +389,7 @@ function recomendarPlatos(usuario) {
         if (!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true &&
             platos.get(plato).estado == true && localizacion_plato == localizacion_usuario &&
             !hayElementosIguales(alergenos_plato, alergenos_usuario)) {
-            recomendados.push(platos.get(plato));
+            recomendados.push(plato);
         }
     }
     return recomendados;
@@ -464,8 +482,6 @@ console.log(
 
     /// Hasta aqui todo funciona ///
 )*/
-    var alergenos = getAlergenos.getAlergenos("Jorge");
-    console.log(filtrarPorAlergenos(alergenos));
 
 // Rutas de gestor platos
 app.get('/', function(req, res) {
