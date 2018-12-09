@@ -2,6 +2,8 @@ var express = require('express');
 var HashMap = require('hashmap');
 var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
+var getAlergenos = require('./gestorUsuarios.js');
+var getLocalizacion = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
 var addLista_mensajes = require('./gestorMensajes.js');
 
@@ -450,25 +452,24 @@ app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
 });
 app.get('/listaPlatos', function(req, res) {
-    var alergenos,
-        localizacion;
+    var alergenos = req.query.alergenos;
+    var localizacion = req.query.location;
     var resultado = verListaOfertas();
-    // Se cargan los datos del usuario logueado 
-    // Se cargan alergenos y localizacion
-    if (req.query.location && req.query.location != '') {
-        localizacion = getUsuarios.getLocalizacion(req.query.location)
-    }
-    if (req.query.alergenos && req.query.alergenos != '') {
-        alergenos = getUsuarios.getAlergenos(req.query.alergenos)
-    }
     if (alergenos && localizacion && localizacion != '' && alergenos != '') {
-        resultado = filtrarPorAlergenoYLocalizacion(alergenos, localizacion)
+        console.log("pide lista platos filtrada por alergenos y localizacion");
+        alergenos = getAlergenos.getAlergenos(alergenos);
+        localizacion = getLocalizacion.getLocalizacion(localizacion);
+        resultado = filtrarPorAlergenoYLocalizacion(alergenos, localizacion);
     } else if (alergenos && alergenos != '') {
+        console.log("pide lista platos filtrada por alergenos");
+        alergenos = getAlergenos.getAlergenos(alergenos);
         resultado = filtrarPorAlergenos(alergenos);
     } else if (localizacion && localizacion != '') {
+        console.log("pide lista platos filtrada por localizacion");
+        localizacion = getLocalizacion.getLocalizacion(localizacion);
         resultado = filtrarPorLocalizacion(localizacion);
     }
-    console.log(resultado);
+    // console.log(resultado);
 
     return res.status(200).json({
         ok: true,
