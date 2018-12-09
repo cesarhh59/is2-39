@@ -1,20 +1,25 @@
 <div class="container-fluid box" *ngIf="!showValoracion">
-    <h2>{{anuncio.titulo}}</h2>
+    <h1>{{anuncio.titulo}}</h1>
     <div class="row">
-        <div class="col-12">
-            <h3><strong>Alergenos</strong></h3>
+        <div class="col col-md-12">
+            <h3><strong>Alérgenos</strong></h3>
             <ul>
                 <li *ngIf="anuncio.alergenos?.length == 0">No tiene productos que produzcan alergias</li>
                 <li *ngFor="let alergeno of anuncio.alergenos">{{alergeno}}</li>
             </ul>
+            <h3><strong>Categoría</strong></h3>
+            <ul>
+                <li *ngIf="anuncio.categoria?.length == 0">No está asociado a ninguna categoría</li>
+                <li *ngFor="let categoria of anuncio.categoria">{{categoria}}</li>
+            </ul>
             <h3><strong>Valoraci&oacute;n:</strong> {{anuncio.valoracion}}</h3>
             <h3><strong>Ciudad:</strong> {{anuncio.localizacion}}</h3>
             <div class="input-group col-md-4">&nbsp;</div>
+            <h3><strong>Propietario:</strong> {{anuncio.propietario}}</h3>
         </div>
     </div>
     <div class="input-group col-md-4">
         <label class="form-label-group">Seleccione las porciones:</label>
-
         <input class="input-group" type="range" [(ngModel)]="porcionesSeleccionadas" list="tickmarks" min="0" [max]="anuncio.porciones" />
         <p>El n&uacute;mero m&aacute;ximo de porciones es: {{anuncio.porciones}}.</p>
         <p><strong>N&uacute;mero de porciones seleccionadas {{porcionesSeleccionadas}}</strong></p>

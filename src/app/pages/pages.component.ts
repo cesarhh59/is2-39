@@ -18,7 +18,8 @@ export class PagesComponent implements OnInit {
     disponibles: false,
     propietario: '',
     estado: false,
-    valoracion: 0
+    valoracion: 0,
+    categoria: []
   };
 
   public showValoracion: Boolean = false;
@@ -33,6 +34,7 @@ export class PagesComponent implements OnInit {
     // TODO llamar servicio para recuperar datos de anuncio
     this.route.params.subscribe(params => {
     this.platosService.getPlato(params['id']).subscribe((respuesta: IResponse) => {
+      console.log(respuesta);
       const auxAnuncio = respuesta.platos;
         this.anuncio = {
         titulo: auxAnuncio.titulo,
@@ -42,7 +44,8 @@ export class PagesComponent implements OnInit {
         disponibles: auxAnuncio.disponibles,
         propietario: auxAnuncio.propietario,
         estado: auxAnuncio.disponibles,
-        valoracion: auxAnuncio.valoracion
+        valoracion: auxAnuncio.valoracion,
+        categoria: auxAnuncio.preferencias
       };
     });
 

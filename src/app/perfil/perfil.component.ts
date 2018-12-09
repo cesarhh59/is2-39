@@ -10,6 +10,8 @@ import { FiltrosService } from '../services/filtros.service';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
+  public ciudades: string [] = [];
+
   public alergenos: string [] = [];
   public selectedAlergenos: string [] = [];
 
@@ -23,8 +25,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
     this.preferencias = this.usuarioService.preferencias;
-
-
+    this.ciudades = this.usuarioService.ciudades;
   }
 
   editProfile(nombre: string, password: string, mail: string, ciudad: string, contacto: number) {

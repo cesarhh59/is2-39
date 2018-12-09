@@ -7,15 +7,25 @@ import { IUsuario } from '../registro/registro.component';
 })
 export class UsuariosService {
   public preferencias: string [] = [];
+  public ciudades: string [] = [];
 
   private usersUrl = 'usuarios';
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
   constructor(private http: HttpClient) {
+    // Añadidadas categorias
     this.preferencias.push('Americano');
     this.preferencias.push('Vegetariano');
     this.preferencias.push('Asiático');
     this.preferencias.push('Tailandés');
+
+    // Añadidas ciudades
+    this.ciudades.push('Barcelona');
+    this.ciudades.push('Madrid');
+    this.ciudades.push('Lugo');
+    this.ciudades.push('Soria');
+    this.ciudades.push('Madrid');
+    this.ciudades.push('Zaragoza');
   }
 
   checkPassword(nombre: string, password: string) {

@@ -10,6 +10,8 @@ import { UsuariosService } from '../services/usuarios.service';
   styleUrls: ['./gestor.component.css']
 })
 export class GestorComponent implements OnInit {
+  public ciudades: string [] = [];
+
   public alergenos: string [] = [];
   public selectedAlergenos: string [] = [];
 
@@ -24,7 +26,7 @@ export class GestorComponent implements OnInit {
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
     this.preferencias = this.usuarioService.preferencias;
-
+    this.ciudades = this.usuarioService.ciudades;
     this.platosService.getPlatosPropietario(localStorage.getItem('token')).subscribe((res: IResponse) => {
     this.options = res.platos;
     });

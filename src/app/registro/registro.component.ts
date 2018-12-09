@@ -10,6 +10,7 @@ import { FiltrosService } from '../services/filtros.service';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+  public ciudades: string [] = [];
 
   public alergenos: string [] = [];
   public preferencias: string [] = [];
@@ -23,6 +24,8 @@ export class RegistroComponent implements OnInit {
   ngOnInit() {
     this.alergenos = this._filtros.getAlergenos();
     this.preferencias = this.usuarioService.preferencias;
+    this.ciudades = this.usuarioService.ciudades;
+
     this.registro = {
       nombre: '',
       password: '',

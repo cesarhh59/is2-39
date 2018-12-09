@@ -12,6 +12,9 @@ export class FiltrosService {
   constructor(private http: HttpClient) {
     this.alergenos.push('lactosa');
     this.alergenos.push('gluten');
+    this.alergenos.push('frutos secos');
+    this.alergenos.push('huevo');
+    this.alergenos.push('soja');
   }
 
   getAlergenos(): string[] {
