@@ -238,7 +238,7 @@ function activadoPlato(plato, activar) {
  * @param {String} plato 
  */
 function concluirPlato(plato) {
-    console.log("El plato " + plato + "ha sido desactivado");
+    console.log("El plato " + plato + " ha sido desactivado");
     return activadoPlato(plato, false);
 }
 /**
@@ -246,7 +246,7 @@ function concluirPlato(plato) {
  * @param {String} plato 
  */
 function reactivarPlato(plato) {
-    console.log("El plato " + plato + "ha sido activado");
+    console.log("El plato " + plato + " ha sido activado");
     return activadoPlato(plato, true);
 }
 /**
