@@ -9,7 +9,7 @@ import { AuthGuard } from '../../auth.guard';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
+  public userName: string = localStorage.getItem('token');
   constructor(private _routes: Router, private authService: AuthService, public authGuard: AuthGuard) { }
 
   ngOnInit() {
