@@ -32,6 +32,7 @@ function existe_y_logueado(username) {
 function login(username, password) {
     if (lista_usuarios.has(username) && (lista_usuarios.get(username).password == password)) {
         lista_usuarios.get(username).logueado = true;
+        console.log("El usuario " + username + " ha hecho login correctamente")
         return "OK"
     }
     return "El usuario o la contraseña es incorrecta";
@@ -47,13 +48,15 @@ function signup(username, password, mail, city, contact, alergenos) {
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
         if (lista_usuarios.search(password) == username) {
             addUsuario_platos_comprados_por_usuario.addUsuario_platos_comprados_por_usuario(username, []);
-            return "OK";
+        console.log("El usuario " + username + " se ha registrado correctamente")
+        return "OK";
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
     } else {
         var user = { username: username, password: password, mail: mail, city: city, contact: contact, alergenos: alergenos, logueado: true, preferences: [] };
         lista_usuarios.set(username, user);
         enviarLink(username, mail);
+        console.log("El usuario " + username + " se ha registrado correctamente")
         return "OK";
     }
 }
@@ -76,6 +79,7 @@ function editProfile(user, username, password, mail, city, contact, alergenos) {
     perfil.alergenos = alergenos == "" ? perfil.alergenos : alergenos;
     perfil.preferences = perfil.preferences;
     lista_usuarios.set(username, perfil);
+    console.log("El usuario " + username + " ha cambiado su perfil correctamente")
     return "OK";
 }
 /**
@@ -140,6 +144,7 @@ function sendEmail(mensaje, mail) {
 function logout(username) {
     if (lista_usuarios.has(username)) {
         lista_usuarios.get(username).logueado = false;
+        console.log("El usuario " + username + " ha cerrado sesion correctamente")
         return "OK";
     }
     return "El usuario no existe";

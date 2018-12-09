@@ -186,14 +186,16 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
             titulo: titulo,
             porciones: porciones,
             localizacion: localizacion,
-            disponibles: estado,
+            disponibles: true,
             propietario: propietario,
-            estado: estado,
+            estado: true,
             valoracion: 0,
             alergenos: alergeno
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
+        console.log("El usuario " + propietario + " he creado el plato " + titulo);
+        console.log(platos.get(titulo));
         return "OK"
     }
 
@@ -216,6 +218,7 @@ function activadoPlato(plato, activar) {
  * @param {String} plato 
  */
 function concluirPlato(plato) {
+    console.log("El plato " + plato + "ha sido desactivado");
     return activadoPlato(plato, false);
 }
 /**
@@ -223,6 +226,7 @@ function concluirPlato(plato) {
  * @param {String} plato 
  */
 function reactivarPlato(plato) {
+    console.log("El plato " + plato + "ha sido activado");
     return activadoPlato(plato, true);
 }
 /**
@@ -253,6 +257,7 @@ function valorarPlato(nombrePlato, valoracion) {
         plato.valoracion = media;
         platos.set(nombrePlato, plato);
         setPlatos(platos);
+        console.log("El plato " + plato + "ha sido valorado con " + valoracion + " puntos");
         return "OK";
     } else {
         return "Lo sentimos, el plato \"" + nombrePlato + "\" no se ha encontrado en nuestra base de datos.";
@@ -270,6 +275,7 @@ function comprarPlato(nombrePlato, porciones, comprador) { // NECESITO SABER QUE
             var primer_mensaje = "Hola! He comprado " + porciones + " porciones de tu plato " + nombrePlato + "!";
             escribirMsg.escribirMsg(comprador, primer_mensaje, '', nombrePlato, lista_platos)
                 // CREAR CHAT
+            console.log("El plato " + plato + "ha sido comprado por " + );
             return "OK";
         }
         return "Las porciones pedidas (" + porciones + ") exceden a las existentes (" + platos.get(nombrePlato).porciones + "), por favor reformule la propuesta con menos porciones."
@@ -293,6 +299,7 @@ function calcularPuntos(platos) {
  * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
  */
 function filtrarPorAlergenos(alergeno) {
+    console.log("El usuario pide un filtro por alergenos: " + alergeno);
     let listaPlatos = getPlatos().values();
     let listaFiltrada = [];
     for (var i = 0; i < listaPlatos.length; i++) {
@@ -317,7 +324,8 @@ function contiene(elemento, lista) {
 - Recomendar usuarios que haya comprado con buena valoracion
 - Siempre filtrando por alergenos
 - Localizacion del plato igual al usuario*/
-function recomendarPlatos(usuario) { // PROBAR 
+function recomendarPlatos(usuario) {
+    console.log("El usuario " + usuario + " pide un filtro por preferencias");
     var recomendados = [];
     var plato, localizacion_plato = '';
     var alergenos_plato = [];
@@ -356,7 +364,8 @@ function hayElementosIguales(lista1, lista2) {
     return false;
 }
 
-function filtrarPorLocalizacion(localizacion) { // PROBAR
+function filtrarPorLocalizacion(localizacion) {
+    console.log("El usuario pide un filtro por localizacion: " + localizacion);
     var recomendados = [];
     var platos = getPlatos();
     var listaPlatos = platos.keys();
@@ -373,6 +382,7 @@ function filtrarPorLocalizacion(localizacion) { // PROBAR
 }
 
 function filtrarPorAlergenoYLocalizacion(alergeno, localizacion) {
+    console.log("El usuario pide un filtro por alergenos y localizacion " + alergeno + "," + localizacion);
     var filtrados = [];
     var listaPorAlergeno = filtrarPorAlergenos(alergeno);
     var listaPorLocalizacion = filtrarPorLocalizacion(localizacion);
@@ -387,6 +397,7 @@ function filtrarPorAlergenoYLocalizacion(alergeno, localizacion) {
 }
 
 function verListaOfertas() { //Solo muestra las activas
+    console.log("verListaOfertas() Solo muestra las activas");
     var ofertasActivas = [];
     var lista = lista_platos.keys();
     for (var i = 0; i < lista.length; i++) {

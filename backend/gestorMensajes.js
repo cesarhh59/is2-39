@@ -7,15 +7,16 @@ var app = express();
 var lista_idMensajes = new HashMap(); //lista de los ids de mensajes activos de cada usuario (k:idMensaje, v:array de los mensajes)
 var lista_mensajes = new HashMap(); //lista de los mensajes activos de cada usuario
 // Ejemplos para pruebas:
-lista_idMensajes.set("Felix_Cesar_macarrones", { oferta: "macarrones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Hola!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
-lista_idMensajes.set("Felix_Cesar_Champiñones", { oferta: "Champiñones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Ey!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
+lista_idMensajes.set("Cesar_Felix_macarrones", { oferta: "macarrones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Hola!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
+lista_idMensajes.set("Cesar_Felix_Champiñones", { oferta: "Champiñones", msgs: [{ fecha: "1544195950732", emisor: "Felix", texto: "Ey!" }], vendedor: "Cesar", comprador: "Felix" }); // ID: emisor+receptor+oferta
 lista_idMensajes.set('Cesar_Adrian_Champiñones', { oferta: 'Champiñones', msgs: [ { fecha: 1544346325849, emisor: 'Adrian', texto: 'Hola cesar' } ], vendedor: 'Cesar', comprador: 'Adrian' });
 
-lista_mensajes.set("Felix", ['Felix_Cesar_macarrones', 'Felix_Cesar_Champiñones']);
-lista_mensajes.set("Cesar", ['Felix_Cesar_macarrones', 'Felix_Cesar_Champiñones']);
+lista_mensajes.set("Felix", ['Cesar_Felix_macarrones', 'Cesar_Felix_Champiñones']);
+lista_mensajes.set("Cesar", ['Cesar_Felix_macarrones', 'Cesar_Felix_Champiñones']);
 lista_mensajes.set("Adrian", ['Cesar_Adrian_Champiñones']);
 
 function verListaChats(usuario) {
+    console.log("ver lista de chats del usuario " + usuario);
     if (lista_mensajes.get(usuario) == undefined) {
         return [];
     } else {
@@ -29,6 +30,7 @@ function verListaChats(usuario) {
 }
 
 function verListaChatsPlato(plato) {
+    console.log("ver lista de chats del plato " + plato);
     var mensajesPlato = [];
     var usuariosConMensaje = lista_mensajes.keys();
     for (var j = 0; j < usuariosConMensaje.length; j++) {
@@ -45,6 +47,7 @@ function verListaChatsPlato(plato) {
 }
 
 function escribirMsg(user, txt, chat, plato, lista_platos) {
+    console.log("escribir mensaje " + user + ": " + txt + ", chat: " + chat + "plato" + plato);
     var susChats = lista_mensajes.get(user);
     if (susChats == undefined) {
         var listaPlatos = lista_platos == "" ? getPlatos.getPlatos() : lista_platos;
@@ -93,12 +96,12 @@ console.log(
     "\n\n lista_mensajes -> " + util.inspect(lista_mensajes,{showHidden: false, depth: null}) + 
     "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null}) +
     "\n\n verListaChats('Felix') -> " + verListaChats("Felix") +
-    "\n\n escribirMsg('Felix', 'Hola amigos', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Felix', 'Hola amigo', 'Felix_Cesar_Champiñones', 'Champiñones',"") +
-    "\n\n escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Felix_Cesar_Champiñones', 'Champiñones',"") +
+    "\n\n escribirMsg('Felix', 'Hola amigos', 'Cesar_Felix_Champiñones', 'Champiñones') -> " + escribirMsg('Felix', 'Hola amigo', 'Cesar_Felix_Champiñones', 'Champiñones',"") +
+    "\n\n escribirMsg('Cesar', 'Hola felix', 'Cesar_Felix_Champiñones', 'Champiñones') -> " + escribirMsg('Cesar', 'Hola felix', 'Cesar_Felix_Champiñones', 'Champiñones',"") +
     "\n\n escribirMsg('Adrian', 'Hola cesar', '', 'Champiñones','') -> " + escribirMsg('Adrian', 'Hola quiero comprar', '', 'Champiñones','') +
     "\n\n verListaChatsPlato('Champiñones') -> " + verListaChatsPlato("Champiñones") +
     "\n\n verListaChatsPlato('macarrones') -> " + verListaChatsPlato("macarrones") +
-    "\n\n leerMsg('Felix_Cesar_Champiñones') -> " + util.inspect(leerMsg("Felix_Cesar_Champiñones"),{showHidden: false, depth: null}) +
+    "\n\n leerMsg('Cesar_Felix_Champiñones') -> " + util.inspect(leerMsg("Cesar_Felix_Champiñones"),{showHidden: false, depth: null}) +
     "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null})
     /// Hasta aqui todo funciona ///
 )*/
