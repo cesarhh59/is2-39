@@ -15,7 +15,7 @@
     <div class="input-group col-md-4">
         <label class="form-label-group">Seleccione las porciones:</label>
 
-        <input class="form-control" type="number" [(ngModel)]="porcionesSeleccionadas" placeholder="0" min="1" [max]="anuncio.porciones" /> El número máximo de porciones es: {{anuncio.porciones}}, si indicas una cantidad más grande se mandará el máixmo.
+        <input class="form-control" type="number" [(ngModel)]="porcionesSeleccionadas" placeholder="0" min="1" [max]="anuncio.porciones" /> El número máximo de porciones es: {{anuncio.porciones}}.
     </div>
     <div class="form-signin">
         <button type="submit" class=" btn btn-outline-success " (click)="comprar() ">Comprar</button>

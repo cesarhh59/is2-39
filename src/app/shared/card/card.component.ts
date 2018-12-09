@@ -34,11 +34,13 @@ export class CardComponent implements OnInit {
   changelblActivo(): void {
     if (this.activate) {
       this.lblActivo = 'Activo';
-      this.anuncioService.activarAnuncio(this.title);
+      this.anuncioService.activarAnuncio(this.title).subscribe((response: IResponse) => {console.log(response);
+      });
 
       } else {
       this.lblActivo = 'Desactivado';
-      this.anuncioService.desactivarAnuncio(this.title);
+      this.anuncioService.desactivarAnuncio(this.title).subscribe((response: IResponse) => { console.log(response);
+      });
     }
   }
 }
