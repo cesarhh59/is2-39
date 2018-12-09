@@ -47,7 +47,7 @@ function verListaChatsPlato(plato) {
 }
 
 function escribirMsg(user, txt, chat, plato, lista_platos) {
-    console.log("escribir mensaje " + user + ": " + txt + ", chat: " + chat + "plato" + plato);
+    console.log("escribir mensaje " + user + ": " + txt + ", chat: " + chat + " , plato: " + plato);
     var susChats = lista_mensajes.get(user);
     if (susChats == undefined) {
         var listaPlatos = lista_platos == "" ? getPlatos.getPlatos() : lista_platos;
