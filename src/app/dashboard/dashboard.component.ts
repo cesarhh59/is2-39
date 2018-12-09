@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
               this.anuncios = response.platos;
             });
         break;
-      case 'Localizacion':
+      case 'Localización':
         this._filtros.getAnunciosLocalizacion(localStorage.getItem('token')).subscribe((response: IResponse) => {
           console.log( response);
           this.anuncios = response.platos;
