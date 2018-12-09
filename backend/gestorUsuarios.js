@@ -71,15 +71,17 @@ function signup(username, password, mail, city, contact, alergenos) {
  */
 function editProfile(user, username, password, mail, city, contact, alergenos) {
     var perfil = lista_usuarios.get(user);
-    perfil.nombre = username == "" ? perfil.nombre : username;
-    perfil.password = password == "" ? perfil.password : password;
-    perfil.email = mail == "" ? perfil.email : mail;
-    perfil.ciudad = city == "" ? perfil.ciudad : city;
-    perfil.contact = contact == "" ? perfil.contact : contact;
-    perfil.alergenos = alergenos == "" ? perfil.alergenos : alergenos;
+    console.log("username  " + username)
+    perfil.username = username == '' ? perfil.username : username;
+    perfil.password = password == '' ? perfil.password : password;
+    perfil.mail = mail == '' ? perfil.mail : mail;
+    perfil.city = city == '' ? perfil.city : city;
+    perfil.contacto = contact == '' ? perfil.contacto : contact;
+    perfil.alergenos = alergenos == undefined ? perfil.alergenos : alergenos;
     perfil.preferences = perfil.preferences;
     lista_usuarios.set(username, perfil);
-    console.log("El usuario " + username + " ha cambiado su perfil correctamente")
+    console.log("El usuario " + username + " ha cambiado su perfil correctamente\n su nuevo perfil es:");
+    console.log(perfil)
     return "OK";
 }
 /**
@@ -304,7 +306,7 @@ app.get('/validar/:id/:key', (req, res) => { // acceder enlace validacion
 });
 app.get('/:usuario/preferencias', (req, res) => {
     var body = req.body;
-    var error = delimitarPreferencias(req.params.usuario, body.alergenos);
+    var error = 'OK';//delimitarPreferencias(req.params.usuario, body.alergenos);
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,

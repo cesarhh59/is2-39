@@ -6,6 +6,7 @@ var getAlergenos = require('./gestorUsuarios.js');
 var getLocalizacion = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
 var addLista_mensajes = require('./gestorMensajes.js');
+const util = require('util');
 
 var lista_platos = new HashMap(); //id_plato, Plato
 var usuarios_platos = new HashMap(); //usuario, Platos[]
@@ -105,7 +106,11 @@ var app = express();
 var auxiliar_arraylist = new ArrayList();
 auxiliar_arraylist.add('macarrones');
 auxiliar_arraylist.add('Champiñones');
+auxiliar_arraylist.add('Sopa de ajo');
+auxiliar_arraylist.add('Pastel de carne');
+auxiliar_arraylist.add('espaguetis carbonara');
 usuarios_platos.set('Cesar', auxiliar_arraylist);
+usuarios_platos.set('Felix', ["Gazpacho","Rabo de toro","paella","Cocido"]);
 
 function getUsuPlatos() {
     return usuarios_platos;
@@ -134,12 +139,16 @@ function setPlatos(nuevaListaPlatos) {
  * @param {String} plato 
  */
 function addPlato(usuario, plato) { //add plato a usuarios_platos
+    console.log("Se añade el plato " + plato + " al usuario " + usuario)
     lista = getUsuPlatos();
-    if (lista.has(usuario)) {
+    if(lista.has(usuario)){
         var platos_de_usuario = lista.get(usuario);
-        platos_de_usuario.add(plato);
+        platos_de_usuario.push(plato);
         lista.set(usuario, platos_de_usuario);
         setUsuPlatos(lista);
+    }
+    else{
+        lista.set(usuario, [plato])
     }
 }
 
@@ -181,6 +190,11 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String[]} hiloMensajes 
  */
 function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
+    console.log("Se entra a publicar plato, propietario " + propietario)
+    console.log("titulo: " + titulo)
+    console.log("alergeno: " + alergeno)
+    console.log("porciones: " + porciones)
+    console.log("localizacion: " + localizacion)
     var platos = getPlatos();
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
@@ -305,6 +319,7 @@ function calcularPuntos(platos) {
  * Si nos dice el alergeno 'lactosa', significa que quiere una lista de platos que no tengan lactosa.
  */
 function filtrarPorAlergenos(alergeno) {
+    alergeno = parseAlergenos(alergeno);
     console.log("El usuario pide un filtro por alergenos: " + alergeno);
     let listaPlatos = getPlatos().values();
     let listaFiltrada = [];
@@ -317,10 +332,27 @@ function filtrarPorAlergenos(alergeno) {
     return listaFiltrada;
 }
 
+function parseAlergenos(antiguos){
+    var resultado = [];
+    for(var i = 0; i<antiguos.length; i++){
+        if(antiguos[i] == "Lactosa"){
+            resultado.push("lactosa");
+        }
+        else if(antiguos[i] == "Celiaco"){
+            resultado.push("gluten");
+        }
+        else{
+            resultado.push(antiguos[i]);
+        }
+    }
+    return resultado;
+}
 function contiene(elemento, lista) {
     for (var i = 0; i < lista.length; i++) {
-        if (elemento == lista[i]) {
-            return true;
+        for(var j = 0; j < elemento.length; j++){
+            if (elemento[j] == lista[i]) {
+                return true;
+            }
         }
     }
     return false;
@@ -353,7 +385,7 @@ function recomendarPlatos(usuario) {
         if (!platosDelUsuario.includes(plato) && platos.get(plato).disponibles == true &&
             platos.get(plato).estado == true && localizacion_plato == localizacion_usuario &&
             !hayElementosIguales(alergenos_plato, alergenos_usuario)) {
-            recomendados.push(platos.get(plato));
+            recomendados.push(plato);
         }
     }
     return recomendados;
