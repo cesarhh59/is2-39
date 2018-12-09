@@ -4,8 +4,10 @@ var ArrayList = require('arraylist');
 var getUsuarios = require('./gestorUsuarios.js');
 var getAlergenos = require('./gestorUsuarios.js');
 var getLocalizacion = require('./gestorUsuarios.js');
+var getPreferencias = require('./gestorUsuarios.js');
 var escribirMsg = require('./gestorMensajes.js');
 var addLista_mensajes = require('./gestorMensajes.js');
+
 const util = require('util');
 
 var lista_platos = new HashMap(); //id_plato, Plato
@@ -20,7 +22,8 @@ lista_platos.set('macarrones', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 4,
-    alergenos: []
+    alergenos: [],
+    preferencias: []
 });
 lista_platos.set('Cocido', {
     titulo: 'Cocido',
@@ -30,7 +33,8 @@ lista_platos.set('Cocido', {
     propietario: 'Felix',
     estado: true,
     valoracion: 6,
-    alergenos: []
+    alergenos: [],
+    preferencias: []
 });
 lista_platos.set('paella', {
     titulo: 'paella',
@@ -40,7 +44,8 @@ lista_platos.set('paella', {
     propietario: 'Felix',
     estado: true,
     valoracion: 7,
-    alergenos: []
+    alergenos: [],
+    preferencias: []
 });
 lista_platos.set('espaguetis carbonara', {
     titulo: 'espaguetis carbonara',
@@ -50,7 +55,8 @@ lista_platos.set('espaguetis carbonara', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 6,
-    alergenos: ['lactosa', 'gluten']
+    alergenos: ['lactosa', 'gluten'],
+    preferencias: ['Vegetariano']
 });
 lista_platos.set('Champiñones', {
     titulo: 'Champiñones',
@@ -60,7 +66,8 @@ lista_platos.set('Champiñones', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 4,
-    alergenos: ['lactosa']
+    alergenos: ['lactosa'],
+    preferencias: ['Vegetariano']
 });
 lista_platos.set('Rabo de toro', {
     titulo: 'Rabo de toro',
@@ -70,7 +77,8 @@ lista_platos.set('Rabo de toro', {
     propietario: 'Felix',
     estado: true,
     valoracion: 4,
-    alergenos: ['lactosa']
+    alergenos: ['lactosa'],
+    preferencias: []
 });
 lista_platos.set('Gazpacho', {
     titulo: 'Gazpacho',
@@ -80,7 +88,8 @@ lista_platos.set('Gazpacho', {
     propietario: 'Felix',
     estado: true,
     valoracion: 5,
-    alergenos: ['gluten']
+    alergenos: ['gluten'],
+    preferencias: ['Vegetariano']
 });
 lista_platos.set('Pastel de carne', {
     titulo: 'Pastel de carne',
@@ -90,7 +99,8 @@ lista_platos.set('Pastel de carne', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 4,
-    alergenos: ['gluten']
+    alergenos: ['gluten'],
+    preferencias: ['Americano']
 });
 lista_platos.set('Sopa de ajo', {
     titulo: 'Sopa de ajo',
@@ -100,7 +110,19 @@ lista_platos.set('Sopa de ajo', {
     propietario: 'Cesar',
     estado: true,
     valoracion: 4,
-    alergenos: ['gluten']
+    alergenos: ['gluten'],
+    preferencias: ['Vegetariano']
+});
+lista_platos.set('Sopa de cocido', {
+    titulo: 'Sopa de cocido',
+    porciones: 9,
+    localizacion: 'Soria',
+    disponibles: true,
+    propietario: 'Felix',
+    estado: true,
+    valoracion: 4,
+    alergenos: [],
+    preferencias: ['Vegetariano']
 });
 var app = express();
 var auxiliar_arraylist = new ArrayList();
@@ -189,12 +211,13 @@ function esPropietarioDePlato(propietario, plato) {
  * @param {String} estado 
  * @param {String[]} hiloMensajes 
  */
-function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes) {
+function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, estado, hiloMensajes, preferencias) {
     console.log("Se entra a publicar plato, propietario " + propietario)
     console.log("titulo: " + titulo)
     console.log("alergeno: " + alergeno)
     console.log("porciones: " + porciones)
     console.log("localizacion: " + localizacion)
+    console.log("preferencias: " + preferencias)
     var platos = getPlatos();
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
@@ -209,7 +232,8 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
             propietario: propietario,
             estado: true,
             valoracion: 0,
-            alergenos: alergeno
+            alergenos: alergeno,
+            preferencias: preferencias
         });
         setPlatos(platos);
         addPlato(propietario, titulo);
@@ -363,7 +387,7 @@ function contiene(elemento, lista) {
 - Siempre filtrando por alergenos
 - Localizacion del plato igual al usuario*/
 function recomendarPlatos(usuario) {
-    console.log("El usuario " + usuario + " pide un filtro por preferencias");
+    console.log("Al usuario " + usuario + " se le dan unas recomendacions");
     var recomendados = [];
     var plato, localizacion_plato = '';
     var alergenos_plato = [];
@@ -445,39 +469,25 @@ function verListaOfertas() { //Solo muestra las activas
     }
     return ofertasActivas;
 }
-/*
-////////////////////// PRUEBAS Platos //////////////////////
-const util = require('util');
 
-console.log(
-    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
-    "\n\n publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) -> " 
-    + publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) + 
-    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
-    "\n\n recomendarPlatos('Adrian') -> " + recomendarPlatos('Adrian') +
-    "\n\n recomendarPlatos('Felix') -> " + recomendarPlatos('Felix') +
-    "\n\n recomendarPlatos('Cesar') -> " + recomendarPlatos('Cesar')+
-    "\n\n filtrarPorAlergenos('lactosa') -> " + filtrarPorAlergenos('lactosa') +
-    "\n\n filtrarPorLocalizacion('Madrid') -> " + filtrarPorLocalizacion('Madrid') +
-    "\n\n filtrarPorLocalizacion('Soria') -> " + filtrarPorLocalizacion('Soria') +
-    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Soria') -> " + filtrarPorAlergenoYLocalizacion('gluten','Soria') +
-    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Madrid') -> " + filtrarPorAlergenoYLocalizacion('gluten','Madrid') +
-    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Madrid') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Madrid') +
-    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Soria') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Soria') +
-    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
-    "\n\n concluirPlato('macarrones')-> " + concluirPlato('macarrones') +
-    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
-    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
-    "\n\n reactivarPlato(macarrones') -> " + reactivarPlato('macarrones') +
-    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
-    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
-    "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
-    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2, 'Adrian') +
-    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3, 'Felix') +
-    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
-
-    /// Hasta aqui todo funciona ///
-)*/
+function filtrarPreferencias(alergenos, localizacion, preferencias){
+    var listaFiltradaAlergenosLocalizacion = filtrarPorAlergenoYLocalizacion(alergenos, localizacion);
+    console.log("Las preferencias del usuario son: " + preferencias)
+    if(preferencias.length == 0){
+        return listaFiltradaAlergenosLocalizacion;
+    }
+    var resultado = []
+    for(var i = 0; i < listaFiltradaAlergenosLocalizacion.length; i++){
+        var platoi = listaFiltradaAlergenosLocalizacion[i];
+        var preferPlato = platoi.preferencias;
+        for(var j = 0; j < preferencias.length; j++){
+            if(preferPlato.includes(preferencias[j])){
+                resultado.push(platoi);
+            }
+        }
+    }
+    return resultado;
+}
 
 // Rutas de gestor platos
 app.get('/', function(req, res) {
@@ -486,12 +496,14 @@ app.get('/', function(req, res) {
 app.get('/listaPlatos', function(req, res) {
     var alergenos = req.query.alergenos;
     var localizacion = req.query.location;
+    var preferencias = req.query.preferencias;
     var resultado = verListaOfertas();
     if (alergenos && localizacion && localizacion != '' && alergenos != '') {
-        console.log("pide lista platos filtrada por alergenos y localizacion");
+        console.log("PREFERENCIAS: pide lista platos filtrada por alergenos y localizacion Y PREFERENCIAS");
         alergenos = getAlergenos.getAlergenos(alergenos);
+        preferencias = getPreferencias.getPreferencias(localizacion);
         localizacion = getLocalizacion.getLocalizacion(localizacion);
-        resultado = filtrarPorAlergenoYLocalizacion(alergenos, localizacion);
+        resultado = filtrarPreferencias(alergenos, localizacion, preferencias);
     } else if (alergenos && alergenos != '') {
         console.log("pide lista platos filtrada por alergenos");
         alergenos = getAlergenos.getAlergenos(alergenos);
@@ -513,7 +525,7 @@ app.post('/listaPlatos', (req, res) => {
     var body = req.body;
     console.log(body)
     var error = publicarPlato(body.propietario, body.titulo,
-        body.alergenos, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes)
+        body.alergenos, body.porciones_disponibles, body.localizacion, body.estado, body.hiloMensajes, body.preferencias)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
@@ -601,13 +613,45 @@ app.get('/listaPlatos/:id/comprar/:porciones/:usuario', (req, res) => {
     });
 
 });
-
 app.get('/platosRecomendados/:usuario', (req, res) => {
     return res.status(200).json({
         ok: true,
         platos: recomendarPlatos(req.params.usuario)
     });
 });
+/*
+////////////////////// PRUEBAS Platos //////////////////////
+const util = require('util');
+
+console.log(
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
+    "\n\n publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) -> " 
+    + publicarPlato('Felix', 'filete de ternera', ['gluten'], 12, 'Madrid', true, []) + 
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) + 
+    "\n\n recomendarPlatos('Adrian') -> " + recomendarPlatos('Adrian') +
+    "\n\n recomendarPlatos('Felix') -> " + recomendarPlatos('Felix') +
+    "\n\n recomendarPlatos('Cesar') -> " + recomendarPlatos('Cesar')+
+    "\n\n filtrarPorAlergenos('lactosa') -> " + filtrarPorAlergenos('lactosa') +
+    "\n\n filtrarPorLocalizacion('Madrid') -> " + filtrarPorLocalizacion('Madrid') +
+    "\n\n filtrarPorLocalizacion('Soria') -> " + filtrarPorLocalizacion('Soria') +
+    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Soria') -> " + filtrarPorAlergenoYLocalizacion('gluten','Soria') +
+    "\n\n filtrarPorAlergenoYLocalizacion('gluten','Madrid') -> " + filtrarPorAlergenoYLocalizacion('gluten','Madrid') +
+    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Madrid') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Madrid') +
+    "\n\n filtrarPorAlergenoYLocalizacion('lactosa','Soria') -> " + filtrarPorAlergenoYLocalizacion('lactosa','Soria') +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
+    "\n\n concluirPlato('macarrones')-> " + concluirPlato('macarrones') +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
+    "\n\n reactivarPlato(macarrones') -> " + reactivarPlato('macarrones') +
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null}) +
+    "\n\n verListaOfertas -> " + util.inspect(verListaOfertas(),{showHidden: false, depth: null}) +
+    "\n\n valorarPlato('macarrones', 8) -> " + valorarPlato('macarrones', 8) +
+    "\n\n comprarPlato('macarrones', 2) -> " + comprarPlato('macarrones', 2, 'Adrian') +
+    "\n\n comprarPlato('macarrones', 3) -> " + comprarPlato('macarrones', 3, 'Felix') +
+    "\n\n lista_platos -> " + util.inspect(lista_platos,{showHidden: false, depth: null})
+
+    /// Hasta aqui todo funciona ///
+)*/
 module.exports = app;
 module.exports.getUsuPlatos = getUsuPlatos;
 module.exports.calcularPuntos = calcularPuntos;

@@ -11,7 +11,7 @@ var lista_usuarios = new HashMap();
 let array_vacio = [];
 // Meto dos para hacer pruebas
 lista_usuarios.set('Felix', { username: 'Felix', password: 'felixpass', mail: 'felix.arri@gmail.com', city: 'Madrid', contact: '666666666', alergenos: ['lactosa'], link: '1234', validado: true, logueado: false, preferences: [] });
-lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: ['lactosa'], link: '1236', validado: true, logueado: false, preferences: [] });
+lista_usuarios.set('Cesar', { username: 'Cesar', password: 'cesarpass', mail: 'cesar.herre@gmail.com', city: 'Soria', contacto: '622115544', alergenos: ['lactosa'], link: '1236', validado: true, logueado: false, preferences: ["Vegetariano"] });
 lista_usuarios.set('Adrian', { username: 'Adrian', password: 'adrianpass', mail: 'adrian.caro@gmail.com', city: 'Madrid', contacto: '629115544', alergenos: ['gluten'], link: '1237', validado: true, logueado: false, preferences: [] });
 lista_usuarios.set('Jorge', { username: 'Jorge', password: 'jorgepass', mail: 'jorge.anto@gmail.com', city: 'Boadilla', contacto: '629117544', alergenos: ['gluten', 'lactosa'], link: '1235', validado: true, logueado: false, preferences: [] });
 lista_usuarios.set('Borja', { username: 'Borja', password: 'borjapass', mail: 'borja.mar@gmail.com', city: 'Barcelona', contacto: '609117544', alergenos: array_vacio, link: '1231', validado: true, logueado: false, preferences: [] });
@@ -43,7 +43,7 @@ function login(username, password) {
  * @param {String} password 
  * @return true si se completa correctamente (o ya existe -> login), false e.o.c.
  */
-function signup(username, password, mail, city, contact, alergenos) {
+function signup(username, password, mail, city, contact, alergenos, preferencias) {
     if (lista_usuarios.has(username)) { //Ya existe
         console.log("El nombre de usuario " + username + " ya existe en el sistema.")
         if (lista_usuarios.search(password) == username) {
@@ -53,7 +53,7 @@ function signup(username, password, mail, city, contact, alergenos) {
         }
         return "El nombre de usuario ya existe en el sistema, pero la contraseña no es correcta"
     } else {
-        var user = { username: username, password: password, mail: mail, city: city, contact: contact, alergenos: alergenos, logueado: true, preferences: [] };
+        var user = { username: username, password: password, mail: mail, city: city, contact: contact, alergenos: alergenos, logueado: true, preferences: preferencias };
         lista_usuarios.set(username, user);
         enviarLink(username, mail);
         console.log("El usuario " + username + " se ha registrado correctamente")
@@ -69,7 +69,7 @@ function signup(username, password, mail, city, contact, alergenos) {
  * @param {String} contact 
  * @param {String[]} alergenos 
  */
-function editProfile(user, username, password, mail, city, contact, alergenos) {
+function editProfile(user, username, password, mail, city, contact, alergenos, preferencias) {
     var perfil = lista_usuarios.get(user);
     console.log("username  " + username)
     perfil.username = username == '' ? perfil.username : username;
@@ -78,7 +78,7 @@ function editProfile(user, username, password, mail, city, contact, alergenos) {
     perfil.city = city == '' ? perfil.city : city;
     perfil.contacto = contact == '' ? perfil.contacto : contact;
     perfil.alergenos = alergenos == undefined ? perfil.alergenos : alergenos;
-    perfil.preferences = perfil.preferences;
+    perfil.preferences = preferencias == undefined ? perfil.preferences : preferencias;
     lista_usuarios.set(username, perfil);
     console.log("El usuario " + username + " ha cambiado su perfil correctamente\n su nuevo perfil es:");
     console.log(perfil)
@@ -180,6 +180,14 @@ function getAlergenos(user) {
 function getLocalizacion(user) {
     return getUsuarios().get(user).city;
 }
+/**
+ * 
+ * @param {String} user 
+ * 
+ */
+function getPreferencias(user) {
+    return getUsuarios().get(user).preferences;
+}
 
 function verRanking() {
     usu_platos = getUsuPlatos.getUsuPlatos;
@@ -215,7 +223,7 @@ app.get('/', function(req, res) {
 app.post('/signup', (req, res) => {
     var body = req.body;
     var error = signup(body.nombre, body.password,
-        body.email, body.ciudad, body.contacto, body.alergenos)
+        body.email, body.ciudad, body.contacto, body.alergenos, body.preferencias)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
@@ -232,7 +240,7 @@ app.post('/signup', (req, res) => {
 app.post('/editProfile/:id', (req, res) => {
     var body = req.body;
     var error = editProfile(req.params.id, body.nombre, body.password,
-        body.email, body.ciudad, body.contacto, body.alergenos)
+        body.email, body.ciudad, body.contacto, body.alergenos, body.preferencias)
     if (error != 'OK') {
         return res.status(200).json({
             ok: false,
@@ -325,3 +333,4 @@ module.exports.getUsuarios = getUsuarios;
 module.exports.getLocalizacion = getLocalizacion;
 module.exports.getAlergenos = getAlergenos;
 module.exports.existe_y_logueado = existe_y_logueado;
+module.exports.getPreferencias = getPreferencias;
