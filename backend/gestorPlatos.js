@@ -182,6 +182,8 @@ function publicarPlato(propietario, titulo, alergeno, porciones, localizacion, e
     if (platos.has(titulo)) {
         return "El titulo introducido ya está en uso, por favor escriba uno distinto";
     } else {
+        porciones = porciones == undefined ? 4 : porciones;
+        alergeno = alergeno == undefined ? [] : alergeno;
         platos.set(titulo, {
             titulo: titulo,
             porciones: porciones,
