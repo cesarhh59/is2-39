@@ -86,7 +86,7 @@ function leerMsg(nombre_chat) {
         return lista_idMensajes.get(nombre_chat).msgs;
     }
 }
-
+/*
 ////////////////////// PRUEBAS MENSAJES //////////////////////
 var util = require('util');
 console.log(
@@ -101,7 +101,7 @@ console.log(
     "\n\n leerMsg('Felix_Cesar_Champiñones') -> " + util.inspect(leerMsg("Felix_Cesar_Champiñones"),{showHidden: false, depth: null}) +
     "\n\n lista_idMensajes -> " + util.inspect(lista_idMensajes,{showHidden: false, depth: null})
     /// Hasta aqui todo funciona ///
-)
+)*/
 
 app.get('/', function(req, res) {
     res.send('Bienvenido a la apliación de compra y venta de comidas desarrollada por el grupo 39 de Ingeniería del Software II!');
