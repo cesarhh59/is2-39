@@ -68,6 +68,9 @@ public validate(): boolean {
             });
         this._router.navigate(['/dashboard']);
 
+        } else {
+            this.errores.push('El usuario o contraseña no son válidos');
+
         }
 
     });
